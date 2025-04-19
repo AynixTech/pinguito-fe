@@ -1,0 +1,10 @@
+.layout {
+  display: flex;
+  .left-layout {
+    z-index: 1;
+  }
+  .right-layout {
+    flex: 1;
+    background-color: #EAECF0;
+  }
+}

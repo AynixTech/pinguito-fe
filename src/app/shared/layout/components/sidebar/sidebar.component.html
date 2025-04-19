@@ -1,0 +1,86 @@
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="Logo" />
+            <h1>Pinguito</h1>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <ul>
+            <li *ngFor="let item of menuItems" routerLinkActive="active">
+                <!-- Menu without children -->
+                <a *ngIf="!item.children" [routerLink]="item.path">
+                    <i class="{{ item.icon }}"></i>
+                    {{ item.label }}
+                </a>
+
+                <!-- Menu with children -->
+                <div *ngIf="item.children" class="parent-link" (click)="toggleItem(item.label)"
+                    [class.expanded]="isExpanded(item.label)">
+                    <i class="{{ item.icon }}"></i>
+                    {{ item.label }}
+                    <i class="fa" [ngClass]="isExpanded(item.label) ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                </div>
+
+                <ul *ngIf="item.children && isExpanded(item.label)" class="submenu">
+                    <li *ngFor="let child of item.children" routerLinkActive="active">
+                        <a [routerLink]="child.path">
+                            {{ child.label }}
+                        </a>
+                    </li>
+                </ul>
+                
+            </li>
+        </ul>
+        <div class="plan-card">
+            <div class="plan-header">
+                <h3>Your plan</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+        
+            <div class="plan-item">
+                <label>Emails sent</label>
+                <div class="progress-bar">
+                    <div class="progress" [style.width.%]="50"></div>
+                </div>
+                <span>50 of 100</span>
+            </div>
+        
+            <div class="plan-item">
+                <label>SMS sent</label>
+                <div class="progress-bar">
+                    <div class="progress" [style.width.%]="20"></div>
+                </div>
+                <span>10 of 50</span>
+            </div>
+        
+            <div class="plan-item">
+                <label>Daily requests</label>
+                <div class="progress-bar">
+                    <div class="progress" [style.width.%]="60"></div>
+                </div>
+                <span>60 of 100</span>
+            </div>
+        
+            <div class="upgrade-link">
+                <a href="#" class="upgrade">Want more? <strong>Make an upgrade</strong></a>
+            </div>
+        </div>
+
+        <ul class="bottom-menu">
+            <li routerLinkActive="active">
+            <a [routerLink]="'/support'">
+                <i class="fa fa-life-ring"></i>
+                Support
+            </a>
+            </li>
+            <li routerLinkActive="active">
+            <a [routerLink]="'/settings'">
+                <i class="fa fa-cog"></i>
+                Settings
+            </a>
+            </li>
+        </ul>
+    </nav>
+</div>

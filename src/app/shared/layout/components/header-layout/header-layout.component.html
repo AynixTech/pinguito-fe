@@ -1,0 +1,26 @@
+<header class="header">
+  <div class="left-section">
+    <span class="welcome-message">Welcome, {{ userName }}</span>
+  </div>
+
+  <div class="center-section">
+    <div class="search-box">
+      <i class="fa fa-search search-icon"></i>
+      <input type="text" placeholder="Search here" />
+    </div>
+  </div>
+
+  <div class="right-section">
+    <i class="fa fa-bell icon"></i>
+    <i class="fa fa-moon icon"></i>
+
+    <div class="profile">
+      <div class="avatar">MJ</div>
+      <div class="profile-info">
+        <span class="name">{{ userFullName }}</span>
+        <span class="email">{{ userEmail }}</span>
+      </div>
+      <i class="fa fa-caret-down dropdown-icon"></i>
+    </div>
+  </div>
+</header>
