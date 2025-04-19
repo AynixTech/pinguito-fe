@@ -1,0 +1,41 @@
+<div>
+    <div>
+        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+            style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+    </div>
+    <div class="kpi-legend mt-4">
+        <h3>KPI – Significato e valori indicativi</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>KPI</th>
+                    <th>Significato</th>
+                    <th>Buon valore (indicativo)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="dot open"></span></td>
+                    <td><strong>Open Rate</strong></td>
+                    <td>Chi apre le email</td>
+                    <td>20–30%</td>
+                </tr>
+                <tr>
+                    <td><span class="dot ctr"></span></td>
+                    <td><strong>Click-Through Rate</strong></td>
+                    <td>Chi clicca nei link</td>
+                    <td>2–5%</td>
+                </tr>
+                <tr>
+                    <td><span class="dot bounce"></span></td>
+                    <td><strong>Bounce Rate</strong></td>
+                    <td>Email non consegnate</td>
+                    <td>&lt;2% (meglio sotto l'1%)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>

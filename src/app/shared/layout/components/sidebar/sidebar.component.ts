@@ -26,7 +26,6 @@ export class SidebarComponent implements OnInit {
         { path: '/templates/create', label: 'Create Template' }
       ]
     },
-    { path: '/carts', label: 'Carts', icon: 'fa fa-shopping-cart' },
     { path: '/reports', label: 'Reports', icon: 'fa fa-chart-line' },
     { path: '/customers', label: 'Customers', icon: 'fa fa-users' }
   ];

@@ -1,0 +1,53 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="left-panel">
+            <div class="logo-container">
+                <img class="logo" src="assets/images/logo.png" alt="Logo" />
+                <span>Pinguino</span>
+            </div>
+            <h3>Ping con precisione e rapidità,<br> proprio come il nostro pinguino.</h3>
+            <img class="pinguino-img" src="assets/images/pinguino.png" alt="Logo" />
+        </div>
+        <div class="right-panel">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" formControlName="email" />
+                    <div class="error" *ngIf="submitted && f['email'].errors">
+                        <span *ngIf="f['email'].errors['required']">Email is required.</span>
+                        <span *ngIf="f['email'].errors['email']">Invalid email format.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" formControlName="password" />
+                    <div class="error" *ngIf="submitted && f['password'].errors">
+                        <span>Password is required.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="remember-me">
+                        <input type="checkbox" formControlName="rememberMe" />
+                        <label> Ricorda utente e password</label>
+                    </div>
+                </div>
+
+                <button type="submit">Login</button>
+
+                <div class="alternative-login">
+                    <div class="or-text">or</div>
+                    <div class="social-icons">
+                        <button class="social-icon google">Google</button>
+                        <button class="social-icon facebook">Facebook</button>
+                    </div>
+                </div>
+
+                <div class="create-account">
+                    <span>Don't have an account? <a href="#">Create account</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
