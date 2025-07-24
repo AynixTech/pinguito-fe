@@ -1,0 +1,59 @@
+.not-found-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(to right, #e0f7fa, #ffffff);
+  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+
+  h1 {
+    font-size: 120px;
+    font-weight: bold;
+    margin: 0;
+    color: #1999d5;
+    animation: float 2s ease-in-out infinite;
+  }
+
+  h2 {
+    font-size: 28px;
+    margin-top: 10px;
+  }
+
+  p {
+    font-size: 16px;
+    max-width: 400px;
+    margin: 15px auto 30px auto;
+    color: #666;
+  }
+
+  button {
+    background-color: #1999d5;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #157bb5;
+    }
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

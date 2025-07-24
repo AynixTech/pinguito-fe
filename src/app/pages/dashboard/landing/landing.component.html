@@ -1,0 +1,52 @@
+<div class="page-layout">
+    <div class="stats">
+        <div class="stat" *ngFor="let stat of stats">
+            <div class="icon-container" [style.backgroundColor]="stat.color">
+                <div class="icon-inner" [style.backgroundColor]="stat.colorInner">
+                    <i class="fa" [ngClass]="stat.icon"></i>
+                </div>
+            </div>
+            <h3>{{ stat.label }}</h3>
+            <p>{{ stat.value }}</p>
+        </div>
+    </div>
+
+    <div class="chart">
+        <app-chart-campaign [categories]="months" [openRate]="openRateData" [ctr]="ctrData"
+            [bounceRate]="bounceRateData"></app-chart-campaign>
+    </div>
+
+
+    <div class="campaigns">
+        <h4>Ultime Email</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Titolo</th>
+                    <th>Città</th>
+                    <th>Data Invio</th>
+                    <th>Status</th>
+                    <th>Email mandate</th>
+                    <th>Email aperte</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of campaigns">
+                    <td>{{ c.email }}</td>
+                    <td>{{ c.title }}</td>
+                    <td>{{ c.city }}</td>
+                    <td>{{ c.date }}</td>
+                    <td>
+                        <span class="status-chip" [ngClass]="c.status.toLowerCase()">
+                            {{ c.status }}
+                        </span>
+                    </td>
+                    <td>{{ c.emailsSent }}</td>
+                    <td>{{ c.emailsOpened }} %</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
