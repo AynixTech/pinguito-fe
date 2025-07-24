@@ -22,7 +22,7 @@ const routes: Routes = [
             {
                 path: '',
                 loadChildren: () =>
-                    import('./pages/homepage/homepage.module').then(m => m.HomepageModule),
+                    import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
             },
         ],
     },

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { HomepageRoutingModule } from './homepage-routing.module';
-import { HomepageComponent } from './homepage.component';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardComponent } from './dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChartCampaignComponent } from '../../components/chart-campaign/chart-campaign.component';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -10,7 +10,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
   declarations: [
 
     ChartCampaignComponent,
-    HomepageComponent],
-  imports: [HighchartsChartModule, ReactiveFormsModule, CommonModule, HomepageRoutingModule],
+    DashboardComponent],
+  imports: [HighchartsChartModule, ReactiveFormsModule, CommonModule, DashboardRoutingModule],
 })
-export class HomepageModule { }
+export class DashboardModule { }

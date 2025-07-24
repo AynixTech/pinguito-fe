@@ -29,7 +29,7 @@ export class LoginComponent {
     { delay: 9, duration: 13 },
     { delay: 10, duration: 14 },
   ];
- loginForm!: FormGroup;
+  loginForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -62,11 +62,11 @@ export class LoginComponent {
       });
     }
   }
-  
+
   get f() {
     return this.loginForm.controls;
   }
-  
+
   onSubmit() {
     this.submitted = true;
     this.errorMessage = '';

@@ -2,7 +2,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { HomepageModule } from './pages/homepage/homepage.module';
+import { DashboardModule } from './pages/dashboard/dashboard.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -40,7 +40,6 @@ registerLocaleData(localeEs);
         }),
         HttpClientModule,  // <-- aggiunto HttpClientModule
         AppRoutingModule,
-        HomepageModule,
 
     ],
 
