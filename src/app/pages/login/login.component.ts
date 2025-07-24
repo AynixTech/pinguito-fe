@@ -12,7 +12,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  loginForm: FormGroup;
   submitted = false;
   loading = false;
   errorMessage = '';
@@ -30,14 +29,23 @@ export class LoginComponent {
     { delay: 9, duration: 13 },
     { delay: 10, duration: 14 },
   ];
+ loginForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private toastr: ToastrService, // Assuming you have ToastrService injected
+    private toastr: ToastrService,
     private authStore: AuthStoreService
   ) {
+    // 👉 Se l'utente è già autenticato, reindirizza
+
+    this.authStore.user$.subscribe(user => {
+      if (user) {
+        this.router.navigate(['/']);
+      }
+    });
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -54,11 +62,11 @@ export class LoginComponent {
       });
     }
   }
-
+  
   get f() {
     return this.loginForm.controls;
   }
-
+  
   onSubmit() {
     this.submitted = true;
     this.errorMessage = '';
@@ -79,18 +87,18 @@ export class LoginComponent {
 
     this.authService.login({ email, password }).subscribe({
       next: ({ token, user }: LoginResponse) => {
-      this.authStore.setAuth(user, token);
-      // Show success toastr
-      // Assuming you have ngx-toastr installed and injected as toastr: ToastrService
-      // Add private toastr: ToastrService to the constructor
-      this.toastr.success('Login effettuato con successo!', 'Successo');
-      this.router.navigate(['/']);
+        this.authStore.setAuth(user, token);
+        // Show success toastr
+        // Assuming you have ngx-toastr installed and injected as toastr: ToastrService
+        // Add private toastr: ToastrService to the constructor
+        this.toastr.success('Login effettuato con successo!', 'Successo');
+        this.router.navigate(['/']);
       },
       error: (err: { error?: { message?: string } }) => {
-      this.errorMessage = err?.error?.message || 'Login fallito. Controlla le credenziali.';
-      // Show error toastr
-      this.toastr.error(this.errorMessage, 'Errore');
-      this.loading = false;
+        this.errorMessage = err?.error?.message || 'Login fallito. Controlla le credenziali.';
+        // Show error toastr
+        this.toastr.error(this.errorMessage, 'Errore');
+        this.loading = false;
       }
     });
   }

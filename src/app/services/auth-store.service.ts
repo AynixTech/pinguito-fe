@@ -9,6 +9,10 @@ export interface User {
     name: string;
     surname: string;
     phone?: string;
+    role: {
+        id: number;
+        name: string;
+    };
 }
 
 export interface AuthState {

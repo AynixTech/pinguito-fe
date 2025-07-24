@@ -1,6 +1,7 @@
 <header class="header">
   <div class="left-section">
-    <span class="welcome-message">Bienvenido, {{ userName }}</span>
+    <span class="welcome-message">Bienvenido, {{ userFullName }}</span> <br>
+    <span class="user-role">{{ currentUser?.role?.name | titlecase }}</span>
   </div>
 
   <div class="center-section">
@@ -14,13 +15,19 @@
     <i class="fa fa-bell icon"></i>
     <i class="fa fa-moon icon"></i>
 
-    <div class="profile">
+    <div class="profile" (click)="toggleDropdown()" [class.open]="isDropdownOpen">
       <div class="avatar">MJ</div>
       <div class="profile-info">
         <span class="name">{{ userFullName }}</span>
         <span class="email">{{ userEmail }}</span>
       </div>
       <i class="fa fa-caret-down dropdown-icon"></i>
+    
+      <!-- Dropdown menu -->
+      <ul class="dropdown-menu" *ngIf="isDropdownOpen">
+        <li (click)="logout()">Logout</li>
+      </ul>
     </div>
+    
   </div>
 </header>
