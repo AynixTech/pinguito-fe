@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -8,11 +8,30 @@ export class AuthGuard implements CanActivate {
 
     constructor(private router: Router) { }
 
-    canActivate(): boolean | UrlTree {
+    canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
         const token = localStorage.getItem('token');
-        if (token) {
+        const userString = localStorage.getItem('user');
+
+        if (!token || !userString) {
+            return this.router.parseUrl('/login');
+        }
+
+        const user = JSON.parse(userString);
+        const userRole = user?.role?.name;
+        console.log('User:', user);
+
+        console.log('User Role:', userRole);
+
+        const rolesAllowed = route.data['roles'] as Array<string>;
+        if (!rolesAllowed || rolesAllowed.length === 0) {
             return true;
         }
-        return this.router.parseUrl('/login');
+
+        if (userRole && rolesAllowed.includes(userRole)) {
+            return true;
+        }
+
+        return this.router.parseUrl('/access-denied');
     }
+    
 }

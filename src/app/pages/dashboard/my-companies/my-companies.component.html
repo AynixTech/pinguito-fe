@@ -1,0 +1,56 @@
+<div class="my-companies">
+    <div class="filters">
+        <input type="text" placeholder="Cerca per nome, partita IVA, indirizzo..." [(ngModel)]="searchTerm"
+            (input)="onSearchChange()" />
+
+        <select [(ngModel)]="filterIndustry" (change)="onFilterIndustryChange()">
+            <option value="">Tutte le industry</option>
+            <option *ngFor="let industry of industries" [value]="industry">{{ industry }}</option>
+        </select>
+
+        <select [(ngModel)]="filterCustomerSegment" (change)="onFilterCustomerSegmentChange()">
+            <option value="">Tutti i segmenti clienti</option>
+            <option *ngFor="let segment of customerSegments" [value]="segment">{{ segment }}</option>
+        </select>
+    </div>
+
+    <table class="companies-table" border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th (click)="toggleSort('name')">
+                    Nome
+                    <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('industry')">
+                    Industry
+                    <span *ngIf="sortColumn === 'industry'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('customerSegment')">
+                    Segmento Cliente
+                    <span *ngIf="sortColumn === 'customerSegment'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th>Partita IVA</th>
+                <th>Indirizzo Legale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let company of paginatedCompanies">
+                <td>{{ company.name }}</td>
+                <td>{{ company.industry || '-' }}</td>
+                <td>{{ company.customerSegment || '-' }}</td>
+                <td>{{ company.vatNumber || '-' }}</td>
+                <td>{{ company.legalAddress || '-' }}</td>
+            </tr>
+            <tr *ngIf="filteredCompanies.length === 0">
+                <td colspan="5" style="text-align:center;">Nessuna azienda trovata.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Precedente</button>
+        <span>Pagina {{ currentPage }} di {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Successiva</button>
+    </div>
+</div>
+  

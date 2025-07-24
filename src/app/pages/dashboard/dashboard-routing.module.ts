@@ -1,38 +1,48 @@
-  import { NgModule } from '@angular/core';
-  import { RouterModule, Routes } from '@angular/router';
-  import { DashboardComponent } from './dashboard.component';
-  import { CompaniesComponent } from './companies/companies.component';
-  import { LandingComponent } from './landing/landing.component';
-  import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from './dashboard.component';
+import { CompaniesComponent } from './companies/companies.component';
+import { LandingComponent } from './landing/landing.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { MyCompaniesComponent } from './my-companies/my-companies.component';
+import { AuthGuard } from '../../guard/auth.guard';
 
-  const routes: Routes = [
-    {
-      path: '',
-      component: DashboardComponent,
-      children: [
-        {
-          path: '',
-          component: LandingComponent,
-        },
-        {
-          path: 'dashboard',
-          redirectTo: '',
-          pathMatch: 'full',
-        },
-        {
-          path: 'companies',
-          component: CompaniesComponent, // Replace with actual analytics component
-        },
-        {
-          path: '**',
-          component: PageNotFoundComponent
-        }
-      ],
-    },
-  ];
+const routes: Routes = [
+  {
+    path: '',
+    component: DashboardComponent,
+    children: [
+      {
+        path: '',
+        component: LandingComponent,
+      },
+      {
+        path: 'dashboard',
+        redirectTo: '',
+        pathMatch: 'full',
+      },
+      {
+        path: 'companies',
+        component: CompaniesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['admin'] }
+      },
+      {
+        path: 'my-companies',
+        component: MyCompaniesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['monitoring'] }
+      },
+      {
+        path: '**',
+        component: PageNotFoundComponent
+      }
+    ],
+  },
+];
 
-  @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
-  })
-  export class DashboardRoutingModule { }
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class DashboardRoutingModule { }
