@@ -1,8 +1,15 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { User } from '../models/user.model';
 import { map } from 'rxjs/operators';
+
+export interface User {
+    uuid: string;
+    email: string;
+    name: string;
+    surname: string;
+    phone?: string;
+}
 
 export interface AuthState {
     user: User | null;

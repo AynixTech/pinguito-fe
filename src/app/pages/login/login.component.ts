@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { AuthStoreService } from '../../services/auth-store.service';
+import { LoginResponse } from '../../models/auth.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +14,8 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
   submitted = false;
+  loading = false;
+  errorMessage = '';
 
   icons = [
     { delay: 0, duration: 4 },
@@ -25,15 +31,19 @@ export class LoginComponent {
     { delay: 10, duration: 14 },
   ];
 
-
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService, // Assuming you have ToastrService injected
+    private authStore: AuthStoreService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       rememberMe: [false]
     });
 
-    // Check if credentials exist in localStorage and populate form fields
     const savedEmail = localStorage.getItem('email');
     const savedPassword = localStorage.getItem('password');
     if (savedEmail && savedPassword) {
@@ -45,15 +55,14 @@ export class LoginComponent {
     }
   }
 
-  ngOnInit(): void {
-  }
-
   get f() {
     return this.loginForm.controls;
   }
 
   onSubmit() {
     this.submitted = true;
+    this.errorMessage = '';
+
     if (this.loginForm.invalid) return;
 
     const { email, password, rememberMe } = this.loginForm.value;
@@ -66,11 +75,23 @@ export class LoginComponent {
       localStorage.removeItem('password');
     }
 
-    console.log('Login Data:', this.loginForm.value);
+    this.loading = true;
 
-    this.router.navigate(['/']);
-
-    // TODO: Call login API
+    this.authService.login({ email, password }).subscribe({
+      next: ({ token, user }: LoginResponse) => {
+      this.authStore.setAuth(user, token);
+      // Show success toastr
+      // Assuming you have ngx-toastr installed and injected as toastr: ToastrService
+      // Add private toastr: ToastrService to the constructor
+      this.toastr.success('Login effettuato con successo!', 'Successo');
+      this.router.navigate(['/']);
+      },
+      error: (err: { error?: { message?: string } }) => {
+      this.errorMessage = err?.error?.message || 'Login fallito. Controlla le credenziali.';
+      // Show error toastr
+      this.toastr.error(this.errorMessage, 'Errore');
+      this.loading = false;
+      }
+    });
   }
-
 }

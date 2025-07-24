@@ -18,6 +18,7 @@ import localeEs from '@angular/common/locales/es';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { ToastrModule } from 'ngx-toastr';
 
 registerLocaleData(localeEs);
 
@@ -31,7 +32,13 @@ registerLocaleData(localeEs);
         CommonModule,
         BrowserModule,
         ReactiveFormsModule,
-        HttpClientModule,
+        ToastrModule,
+        ToastrModule.forRoot({
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+            timeOut: 3000,
+        }),
+        HttpClientModule,  // <-- aggiunto HttpClientModule
         AppRoutingModule,
         HomepageModule,
 

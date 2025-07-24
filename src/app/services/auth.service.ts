@@ -2,16 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-
-interface RegisterResponse {
-    token: string;
-    user: any;
-}
-
-interface LoginResponse {
-    token: string;
-    user: any;
-}
+import { RegisterResponse, LoginResponse } from '../models/auth.model';
 
 @Injectable({
     providedIn: 'root'
