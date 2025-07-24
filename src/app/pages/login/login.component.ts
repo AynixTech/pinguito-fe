@@ -11,6 +11,21 @@ export class LoginComponent {
   loginForm: FormGroup;
   submitted = false;
 
+  icons = [
+    { delay: 0, duration: 4 },
+    { delay: 1, duration: 5 },
+    { delay: 2, duration: 6 },
+    { delay: 3, duration: 7 },
+    { delay: 4, duration: 8 },
+    { delay: 5, duration: 9 },
+    { delay: 6, duration: 10 },
+    { delay: 7, duration: 11 },
+    { delay: 8, duration: 12 },
+    { delay: 9, duration: 13 },
+    { delay: 10, duration: 14 },
+  ];
+
+
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -28,6 +43,9 @@ export class LoginComponent {
         rememberMe: true
       });
     }
+  }
+
+  ngOnInit(): void {
   }
 
   get f() {
@@ -54,4 +72,5 @@ export class LoginComponent {
 
     // TODO: Call login API
   }
+
 }

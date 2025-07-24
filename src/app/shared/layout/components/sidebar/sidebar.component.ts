@@ -11,11 +11,11 @@ export class SidebarComponent implements OnInit {
   menuItems = [
     { path: '/dashboard', label: 'Dashboard', icon: 'fa fa-home' },
     {
-      label: 'Campaigns',
+      label: 'Campañas publicitarias',
       icon: 'fa fa-bullhorn',
       children: [
-        { path: '/campaigns/all', label: 'All Campaigns' },
-        { path: '/campaigns/create', label: 'Create Campaign' }
+        { path: '/campaigns/all', label: 'Todas las Campañas' },
+        { path: '/campaigns/create', label: 'Crea Campaña' }
       ]
     },
     {

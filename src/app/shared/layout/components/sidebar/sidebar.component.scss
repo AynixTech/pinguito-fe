@@ -77,16 +77,13 @@
         }
 
         .parent-link {
-          i:last-child {
-            margin-left: auto;
-            transition: transform 0.3s ease;
-          }
-
-          &.expanded i:last-child {
-            transform: rotate(90deg);
-          }
           svg:last-child {
             margin-left: auto;
+            transition: transform 0.3s ease-in-out; /* Ensure smooth rotation */
+          }
+
+          &.expanded svg:last-child {
+            transform: rotate(90deg); /* Rotate 180 degrees */
           }
         }
 

@@ -20,7 +20,7 @@
                     [class.expanded]="isExpanded(item.label)">
                     <i class="{{ item.icon }}"></i>
                     {{ item.label }}
-                    <i class="fa" [ngClass]="isExpanded(item.label) ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                    <i class="fa fa-chevron-right"></i>
                 </div>
 
                 <ul *ngIf="item.children && isExpanded(item.label)" class="submenu">
@@ -30,7 +30,7 @@
                         </a>
                     </li>
                 </ul>
-                
+
             </li>
         </ul>
         <div class="plan-card">
@@ -38,7 +38,7 @@
                 <h3>Your plan</h3>
                 <button class="close-btn">&times;</button>
             </div>
-        
+
             <div class="plan-item">
                 <label>Emails sent</label>
                 <div class="progress-bar">
@@ -46,7 +46,7 @@
                 </div>
                 <span>50 of 100</span>
             </div>
-        
+
             <div class="plan-item">
                 <label>SMS sent</label>
                 <div class="progress-bar">
@@ -54,7 +54,7 @@
                 </div>
                 <span>10 of 50</span>
             </div>
-        
+
             <div class="plan-item">
                 <label>Daily requests</label>
                 <div class="progress-bar">
@@ -62,7 +62,7 @@
                 </div>
                 <span>60 of 100</span>
             </div>
-        
+
             <div class="upgrade-link">
                 <a href="#" class="upgrade">Want more? <strong>Make an upgrade</strong></a>
             </div>
@@ -70,16 +70,16 @@
 
         <ul class="bottom-menu">
             <li routerLinkActive="active">
-            <a [routerLink]="'/support'">
-                <i class="fa fa-life-ring"></i>
-                Support
-            </a>
+                <a [routerLink]="'/support'">
+                    <i class="fa fa-life-ring"></i>
+                    Support
+                </a>
             </li>
             <li routerLinkActive="active">
-            <a [routerLink]="'/settings'">
-                <i class="fa fa-cog"></i>
-                Settings
-            </a>
+                <a [routerLink]="'/settings'">
+                    <i class="fa fa-cog"></i>
+                    Settings
+                </a>
             </li>
         </ul>
     </nav>
