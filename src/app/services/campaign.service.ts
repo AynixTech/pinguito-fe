@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Company } from './company.service';
 
 export interface Campaign {
     uuid: string;
@@ -12,6 +13,7 @@ export interface Campaign {
     endDate?: Date;
     budget?: number;
     status?: 'active' | 'planned' | 'inactive' | 'completed' | 'cancelled';
+    company?: Company;
     createdAt?: Date;
     updatedAt?: Date;
 }

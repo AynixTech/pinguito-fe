@@ -14,6 +14,8 @@
             <tr>
                 <th (click)="toggleSort('name')">Nome <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ?
                         '▲' : '▼' }}</span></th>
+                <th (click)="toggleSort('company')">Azienda <span *ngIf="sortColumn === 'company'">{{ sortDirection === 'asc' ?
+                        '▲' : '▼' }}</span></th>
                 <th (click)="toggleSort('startDate')">Data Inizio <span *ngIf="sortColumn === 'startDate'">{{
                         sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
                 <th (click)="toggleSort('endDate')">Data Fine <span *ngIf="sortColumn === 'endDate'">{{ sortDirection
@@ -29,6 +31,7 @@
             <ng-container *ngFor="let campaign of paginatedCampaigns">
                 <tr>
                     <td>{{ campaign.name }}</td>
+                    <td>{{ campaign.company?.name }}</td>
                     <td>{{ campaign.startDate | date:'shortDate' }}</td>
                     <td>{{ campaign.endDate | date:'shortDate' }}</td>
                     <td>{{ campaign.budget | currency:'EUR' }}</td>
@@ -56,4 +59,3 @@
         <button (click)="nextPage()" [disabled]="currentPage === totalPages">Successiva</button>
     </div>
 </div>
-  

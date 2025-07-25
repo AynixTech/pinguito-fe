@@ -68,9 +68,13 @@ export class HeaderLayoutComponent implements OnInit {
     if (this.currentCompany) {
       this.companyStore.setCompany(this.currentCompany);
       console.log('Company changed to:', this.currentCompany);
+    } else {
+      // Caso "Tutte" selezionato
+      this.companyStore.clearCompany();  // o altra logica per "tutte"
+      console.log('Company changed to: tutte');
     }
   }
-
+  
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;

@@ -6,6 +6,7 @@
 
   <div class="center-section">
     <select class="company-select" [(ngModel)]="currentCompany" (change)="onCompanyChange()">
+      <option [ngValue]="null">Tutte</option> <!-- qui aggiungi l'opzione "Tutte" -->
       <option *ngFor="let company of companies; trackBy: trackByCompanyUuid" [ngValue]="company">
         {{ company.name }}
       </option>

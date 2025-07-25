@@ -69,7 +69,7 @@ export class SidebarComponent implements OnInit {
             ]
           },
           {
-            label: 'Campagne Email',
+            label: 'Campagne',
             icon: 'fa fa-envelope',
             children: [
               { path: '/campaigns', label: 'Tutte le campagne' },
@@ -128,10 +128,11 @@ export class SidebarComponent implements OnInit {
           { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
           { path: '/my-companies', label: 'Le mie Aziende', icon: 'fa fa-building' },
           {
-            label: 'Campagne Email',
+            label: 'Campagne',
             icon: 'fa fa-envelope',
             children: [
-              { path: '/my-campaigns', label: 'Campagne' }
+              { path: '/my-campaigns', label: 'Tutte le campagne' },
+              { path: '/create', label: 'Crea campagna' }
             ]
           },
           {
