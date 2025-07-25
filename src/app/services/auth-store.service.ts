@@ -68,7 +68,7 @@ export class AuthStoreService {
         });
     }
 
-    logout() {
+    clearUser() {
         if (this.isBrowser) {
             localStorage.removeItem('user');
             localStorage.removeItem('token');

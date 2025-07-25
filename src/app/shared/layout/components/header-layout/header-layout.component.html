@@ -5,7 +5,13 @@
   </div>
 
   <div class="center-section">
-   <div>{{currentCompany?.name}}</div>
+    <select class="company-select" [(ngModel)]="currentCompany" (change)="onCompanyChange()">
+      <option *ngFor="let company of companies; trackBy: trackByCompanyUuid" [ngValue]="company">
+        {{ company.name }}
+      </option>
+      
+    </select>
+    
   </div>
 
   <div class="right-section">

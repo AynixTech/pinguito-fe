@@ -47,7 +47,6 @@ export class MyCompaniesComponent implements OnInit, OnDestroy {
       if (user?.uuid) {
         this.currentUserUuid = user.uuid;
         this.loadCompanies();
-        this.loadPlans();
       }
     });
   }
