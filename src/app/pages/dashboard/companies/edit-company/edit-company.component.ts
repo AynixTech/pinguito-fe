@@ -12,7 +12,7 @@ import { PlanService, Plan } from '../../../../services/plan.service';
 })
 export class EditCompanyComponent implements OnInit {
   companyForm!: FormGroup;
-  companyId!: string;
+  companyUuid!: string;
   users: User[] = [];
   plans: Plan[] = [];
   isLoading = true;
@@ -27,7 +27,7 @@ export class EditCompanyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.companyId = this.route.snapshot.paramMap.get('id') || '';
+    this.companyUuid = this.route.snapshot.paramMap.get('uuid') || '';
 
     this.companyForm = this.fb.group({
       name: ['', Validators.required],
@@ -47,14 +47,13 @@ export class EditCompanyComponent implements OnInit {
       campaignBudget: [''],
       notes: [''],
       planId: [''],
-      assignedUserId: [null]
     });
 
     this.loadUsers();
     this.loadPlans();
 
-    if (this.companyId) {
-      this.loadCompany(this.companyId);
+    if (this.companyUuid) {
+      this.loadCompany(this.companyUuid);
     } else {
       this.isLoading = false;
     }
@@ -62,14 +61,21 @@ export class EditCompanyComponent implements OnInit {
 
   loadCompany(uuid: string) {
     this.companyService.getCompanyByUuid(uuid).subscribe(company => {
+      console.log('Company data:', company);
       this.companyForm.patchValue(company);
       this.isLoading = false;
     });
   }
 
   loadUsers() {
-    this.userService.getMonitoringUsers().subscribe(users => {
-      this.users = users;
+    this.userService.getMonitoringUsers().subscribe({
+      next: users => {
+        console.log('Users loaded:', users);
+        this.users = users;
+      },
+      error: err => {
+        console.error('Error loading users:', err);
+      }
     });
   }
 
@@ -79,19 +85,20 @@ export class EditCompanyComponent implements OnInit {
     });
   }
 
+  selectPlan(planId: number) {
+    this.companyForm.patchValue({ planId });
+  }
+  
+
   save() {
     if (this.companyForm.invalid) return;
 
     const company: Company = this.companyForm.value;
-    company.uuid = this.companyId;
+    company.uuid = this.companyUuid;
 
     this.companyService.saveCompany(company).subscribe(() => {
       alert('Azienda salvata con successo!');
       this.router.navigate(['/companies']);
     });
-  }
-
-  removeAssignment() {
-    this.companyForm.patchValue({ assignedUserId: null });
   }
 }

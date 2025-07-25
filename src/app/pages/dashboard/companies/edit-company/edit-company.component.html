@@ -42,13 +42,32 @@
                 <input type="email" formControlName="marketingContactEmail" />
             </div>
 
-            <div class="form-group col-50">
-                <label>Piano</label>
-                <select formControlName="planId">
-                    <option *ngFor="let plan of plans" [value]="plan.id">{{ plan.name }}</option>
-                </select>
+            <div class="form-group col-100">
+                <label>Piano Attivo</label>
+                <div class="plan-cards">
+                    <div *ngFor="let plan of plans" class="plan-card" [class.selected]="plan.id === companyForm.value.planId"
+                        (click)="selectPlan(plan.id)">
+                        <h4>{{ plan.name }}</h4>
+                        <p class="description">{{ plan.description || 'Nessuna descrizione' }}</p>
+                        <p><strong>Prezzo:</strong> {{ plan.price | currency:'EUR':'symbol' }} / {{ plan.billingCycle }}</p>
+                        <p><strong>Email mensili:</strong> {{ plan.monthlyEmailLimit | number }}</p>
+                        <p><strong>Utenti max:</strong> {{ plan.maxUsers }}</p>
+                        <p *ngIf="plan.supportLevel"><strong>Supporto:</strong> {{ plan.supportLevel }}</p>
+                        <p *ngIf="plan.storageLimitMB"><strong>Storage:</strong> {{ plan.storageLimitMB }} MB</p>
+                        <p *ngIf="plan.socialMediaAccountsLimit"><strong>Account social:</strong> {{ plan.socialMediaAccountsLimit
+                            }}</p>
+                        <p *ngIf="plan.googleAdsBudgetLimit"><strong>Budget Google Ads:</strong> {{ plan.googleAdsBudgetLimit |
+                            currency:'EUR' }}</p>
+                        <p *ngIf="plan.googleAdsCampaignLimit"><strong>Campagne Google Ads:</strong> {{ plan.googleAdsCampaignLimit
+                            }}</p>
+                        <!-- <p *ngIf="plan.features"><strong>Features:</strong> {{ plan.features }}</p> -->
+                        <p><strong>Prova gratuita:</strong> {{ plan.trialDays }} giorni</p>
+                        <p><strong>Stato:</strong> <span [class.active]="plan.active" [class.inactive]="!plan.active">{{ plan.active
+                                ? 'Attivo' : 'Non attivo' }}</span></p>
+                    </div>
+                </div>
             </div>
-
+              
             <div class="form-group col-50">
                 <label>Assegna a Utente</label>
                 <select formControlName="assignedUserId">
@@ -65,7 +84,6 @@
 
         <div class="buttons">
             <button type="submit" class="btn-save" [disabled]="companyForm.invalid">Salva</button>
-            <button type="button" class="btn-unassign" (click)="removeAssignment()">Rimuovi Assegnazione</button>
         </div>
     </form>
 </div>

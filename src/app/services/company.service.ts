@@ -47,7 +47,7 @@ export class CompanyService {
         return this.http.get<Company[]>(`${this.baseUrl}/all`);
     }
     getCompanyByUuid(uuid: string): Observable<Company> {
-        return this.http.get<Company>(`${this.baseUrl}/${uuid}`);
+        return this.http.get<Company>(`${this.baseUrl}/${uuid}/company`);
     }
     saveCompany(company: Company): Observable<Company> {
         if (company.uuid) {
