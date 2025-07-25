@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { AuthStoreService } from '../../../../services/auth-store.service';
 import { User } from '../../../../services/user.service';
 
@@ -21,7 +22,25 @@ export class SidebarComponent implements OnInit {
       this.currentUser = user;
       this.roleId = this.currentUser?.role?.id || 0;
       this.setMenuItemsByRole(this.roleId);
+
+      this.setExpandedItemBasedOnRoute(this.router.url);
     });
+    // Aggiorna expandedItem ad ogni navigazione
+    this.router.events.pipe(
+      filter((event: any) => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.setExpandedItemBasedOnRoute(event.urlAfterRedirects);
+    });
+    
+  }
+
+  setExpandedItemBasedOnRoute(currentPath: string) {
+    // Cerca menu con children che ha un child attivo
+    const expanded = this.menuItems.find(item =>
+      item.children && item.children.some((child: any) => this.router.isActive(child.path, true))
+    );
+
+    this.expandedItem = expanded ? expanded.label : null;
   }
 
   toggleItem(label: string): void {
@@ -34,17 +53,8 @@ export class SidebarComponent implements OnInit {
 
   isChildActive(item: any): boolean {
     if (!item.children) return false;
-
-    return item.children.some((child: any) =>
-      this.router.isActive(child.path, {
-        paths: 'subset',
-        queryParams: 'ignored',
-        fragment: 'ignored',
-        matrixParams: 'ignored'
-      })
-    );
+    return item.children.some((child: any) => this.router.isActive(child.path, true));
   }
-
   setMenuItemsByRole(roleId: number): void {
     switch (roleId) {
       case 1: // Admin
