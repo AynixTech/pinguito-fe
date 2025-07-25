@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
     ).subscribe((event: NavigationEnd) => {
       this.setExpandedItemBasedOnRoute(event.urlAfterRedirects);
     });
-    
+
   }
 
   setExpandedItemBasedOnRoute(currentPath: string) {
@@ -131,7 +131,7 @@ export class SidebarComponent implements OnInit {
             label: 'Campagne Email',
             icon: 'fa fa-envelope',
             children: [
-              { path: '/campaigns/email/assigned', label: 'Aziende assegnate' }
+              { path: '/my-campaigns', label: 'Campagne' }
             ]
           },
           {

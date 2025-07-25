@@ -1,1 +1,69 @@
-<p>list-campaigns works!</p>
+<div class="campaigns table-page-layout">
+    <div class="filters">
+        <input type="text" placeholder="Cerca per nome, descrizione..." [(ngModel)]="searchTerm"
+            (input)="onSearchChange()" />
+
+        <select [(ngModel)]="filterStatus" (change)="onFilterStatusChange()">
+            <option value="">Tutti gli stati</option>
+            <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+        </select>
+    </div>
+
+    <table class="elements-table" border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th (click)="toggleSort('name')">
+                    Nome
+                    <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('description')">
+                    Descrizione
+                    <span *ngIf="sortColumn === 'description'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('startDate')">
+                    Data Inizio
+                    <span *ngIf="sortColumn === 'startDate'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('endDate')">
+                    Data Fine
+                    <span *ngIf="sortColumn === 'endDate'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('budget')">
+                    Budget
+                    <span *ngIf="sortColumn === 'budget'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('status')">
+                    Stato
+                    <span *ngIf="sortColumn === 'status'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let campaign of paginatedCampaigns">
+                <td>{{ campaign.name }}</td>
+                <td>{{ campaign.description || '-' }}</td>
+                <td>{{ campaign.startDate ? (campaign.startDate | date:'shortDate') : '-' }}</td>
+                <td>{{ campaign.endDate ? (campaign.endDate | date:'shortDate') : '-' }}</td>
+                <td>{{ campaign.budget !== undefined ? ('€' + campaign.budget) : '-' }}</td>
+                <td>{{ campaign.status || '-' }}</td>
+                <td>
+                    <a href="#" (click)="editCampaign(campaign)" title="Modifica"><i class="fa fa-edit"></i></a>
+                    <a href="#" (click)="viewDetails(campaign)" title="Vedi dettagli"><i class="fa fa-eye"></i></a>
+                    <a href="#" (click)="deleteCampaign(campaign)" title="Elimina"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+
+            <tr *ngIf="filteredCampaigns.length === 0">
+                <td colspan="7" style="text-align:center;">Nessuna campagna trovata.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Precedente</button>
+        <span>Pagina {{ currentPage }} di {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Successiva</button>
+    </div>
+</div>
+  

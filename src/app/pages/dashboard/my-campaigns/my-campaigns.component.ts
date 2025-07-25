@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { Campaign, CampaignService } from '../../../../services/campaign.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { CampaignService, Campaign } from '../../../services/campaign.service';
+import { AuthStoreService } from '../../../services/auth-store.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { CompanyStoreService } from '../../../services/company-store.service';
+import { Company } from '../../../services/company.service';
 
 @Component({
-  selector: 'app-list-campaigns',
-  templateUrl: './list-campaigns.component.html',
-  styleUrls: ['./list-campaigns.component.scss']
+  selector: 'app-my-campaigns',
+  templateUrl: './my-campaigns.component.html',
+  styleUrls: ['./my-campaigns.component.scss']
 })
-export class ListCampaignsComponent implements OnInit {
+export class MyCampaignsComponent implements OnInit, OnDestroy {
   campaigns: Campaign[] = [];
   filteredCampaigns: Campaign[] = [];
 
-  searchTerm: string = '';
-  filterStatus: string = '';
+  currentUserUuid?: string;
+  searchTerm = '';
+  filterStatus = '';
+  statuses: string[] = ['planned', 'active', 'inactive', 'completed', 'cancelled'];
 
   sortColumn: keyof Campaign = 'name';
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -22,35 +27,54 @@ export class ListCampaignsComponent implements OnInit {
   currentPage = 1;
   totalPages = 1;
 
-  statuses: string[] = ['active', 'planned', 'inactive', 'completed', 'cancelled'];
+  private subscription?: Subscription;
+  currentCompany: Company | null = null;
 
   constructor(
     private campaignService: CampaignService,
-    private router: Router,
-    private toast: ToastrService
+    private authStore: AuthStoreService,
+    private toast: ToastrService,
+    private companyStoreService: CompanyStoreService
   ) { }
 
-  ngOnInit(): void {
-    this.loadCampaigns();
+  ngOnInit() {
+    this.subscription = this.authStore.user$.subscribe(user => {
+      if (user?.uuid) {
+        this.currentUserUuid = user.uuid;
+        this.loadCampaigns(); // Prima chiamata
+      }
+    });
+
+    this.companyStoreService.company$.subscribe(companyStore => {
+      this.currentCompany = companyStore.company || null;
+      this.loadCampaigns(); // Ricarica campagne al cambio azienda
+    });
+  }
+  
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 
   loadCampaigns() {
-    this.campaignService.getAllCampaigns().subscribe({
-      next: (data: Campaign[]) => {
+    if (!this.currentUserUuid) return;
+
+    const companyUuid = this.currentCompany?.uuid;
+
+    this.campaignService
+      .getCampaignsByUserUuid(this.currentUserUuid, companyUuid)
+      .subscribe(data => {
         this.campaigns = data;
         this.applyFiltersAndSort();
-      },
-      error: () => {
-        this.toast.error('Errore durante il caricamento delle campagne', 'Errore');
-      }
-    });
+      });
   }
-
+  
   applyFiltersAndSort() {
     let temp = this.campaigns.filter(c =>
-      !this.searchTerm ||
+    (!this.searchTerm ||
       c.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       (c.description && c.description.toLowerCase().includes(this.searchTerm.toLowerCase()))
+    )
     );
 
     if (this.filterStatus) {
@@ -60,10 +84,9 @@ export class ListCampaignsComponent implements OnInit {
     temp.sort((a, b) => {
       let valA = a[this.sortColumn] || '';
       let valB = b[this.sortColumn] || '';
-      if (valA instanceof Date) valA = valA.getTime();
-      if (valB instanceof Date) valB = valB.getTime();
       if (typeof valA === 'string') valA = valA.toLowerCase();
       if (typeof valB === 'string') valB = valB.toLowerCase();
+
       if (valA < valB) return this.sortDirection === 'asc' ? -1 : 1;
       if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
       return 0;
@@ -106,11 +129,13 @@ export class ListCampaignsComponent implements OnInit {
   }
 
   editCampaign(campaign: Campaign) {
-    this.router.navigate(['/dashboard/campaigns/edit', campaign.uuid]);
+    console.log('Modifica:', campaign);
+    // this.router.navigate(['/campaigns/edit', campaign.uuid]);
   }
 
   viewDetails(campaign: Campaign) {
-    this.router.navigate(['/dashboard/campaigns/view', campaign.uuid]);
+    console.log('Dettagli:', campaign);
+    // this.router.navigate(['/campaigns/details', campaign.uuid]);
   }
 
   deleteCampaign(campaign: Campaign) {

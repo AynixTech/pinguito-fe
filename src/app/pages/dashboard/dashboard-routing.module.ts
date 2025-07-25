@@ -6,6 +6,7 @@ import { LandingComponent } from './landing/landing.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MyCompaniesComponent } from './my-companies/my-companies.component';
 import { AuthGuard } from '../../guard/auth.guard';
+import { MyCampaignsComponent } from './my-campaigns/my-campaigns.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,12 @@ const routes: Routes = [
       {
         path: 'my-companies',
         component: MyCompaniesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['monitoring'] }
+      },
+      {
+        path: 'my-campaigns',
+        component: MyCampaignsComponent,
         canActivate: [AuthGuard],
         data: { roles: ['monitoring'] }
       },

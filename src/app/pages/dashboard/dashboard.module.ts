@@ -10,6 +10,7 @@ import { LandingComponent } from './landing/landing.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CompaniesModule } from './companies/companies.module';
 import { MyCompaniesComponent } from './my-companies/my-companies.component';
+import { MyCampaignsComponent } from './my-campaigns/my-campaigns.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MyCompaniesComponent } from './my-companies/my-companies.component';
     DashboardComponent,
     LandingComponent,
     MyCompaniesComponent,
+    MyCampaignsComponent,
     PageNotFoundComponent,
   ],
   imports: [

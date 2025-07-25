@@ -33,7 +33,7 @@ export class PlanService {
 
     // Admin: recupera tutti i piani
     getAllPlans(): Observable<Plan[]> {
-        return this.http.get<Plan[]>(`${this.baseUrl}/all`);
+        return this.http.get<Plan[]>(`${this.baseUrl}/allPlans`);
     }
 
     // Admin: recupera un piano specifico

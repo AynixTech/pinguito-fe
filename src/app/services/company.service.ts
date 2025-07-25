@@ -47,7 +47,7 @@ export class CompanyService {
     }
     //Admin recupera la lista di tutte le companies
     getAllCompanies(): Observable<Company[]> {
-        return this.http.get<Company[]>(`${this.baseUrl}/all`);
+        return this.http.get<Company[]>(`${this.baseUrl}/allCompanies`);
     }
     getCompanyByUuid(uuid: string): Observable<Company> {
         return this.http.get<Company>(`${this.baseUrl}/${uuid}/getCompany`);

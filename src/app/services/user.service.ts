@@ -26,7 +26,7 @@ export class UserService {
 
     // Recupera tutti gli utenti
     getAllUsers(): Observable<User[]> {
-        return this.http.get<User[]>(`${this.baseUrl}/all`);
+        return this.http.get<User[]>(`${this.baseUrl}/allUsers`);
     }
 
     //Elimina un utente per UUID
