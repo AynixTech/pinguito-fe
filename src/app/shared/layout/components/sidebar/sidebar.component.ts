@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
   menuItems: any[] = [];
   currentUser!: User | null;
 
-  constructor(private authStore: AuthStoreService, private router: Router) { }
+  constructor(private authStore: AuthStoreService, public router: Router) { }
 
   ngOnInit(): void {
     this.authStore.user$.subscribe((user: User | null) => {
