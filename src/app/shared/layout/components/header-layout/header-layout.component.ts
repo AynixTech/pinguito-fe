@@ -2,6 +2,8 @@ import { Component, HostListener, OnInit } from "@angular/core";
 import { AuthStoreService } from "../../../../services/auth-store.service";
 import { Router } from "@angular/router";
 import { User } from "../../../../services/user.service";
+import { CompanyStoreService } from "../../../../services/company-store.service";
+import { Company } from "../../../../services/company.service";
 
 @Component({
   selector: 'app-header',
@@ -10,13 +12,14 @@ import { User } from "../../../../services/user.service";
 })
 export class HeaderLayoutComponent implements OnInit {
   currentUser!: User | null;
+  currentCompany!: Company | null;
   userName = '';
   userFullName = '';
   userEmail = '';
 
   isDropdownOpen = false;
 
-  constructor(private authStore: AuthStoreService, private router: Router) { }
+  constructor(private authStore: AuthStoreService, private companyStore: CompanyStoreService, private router: Router) { }
 
   ngOnInit(): void {
     this.authStore.user$.subscribe((user: any) => {
@@ -24,6 +27,9 @@ export class HeaderLayoutComponent implements OnInit {
       this.userName = this.currentUser?.name || '';
       this.userFullName = this.currentUser?.name + " " + this.currentUser?.surname || '';
       this.userEmail = this.currentUser?.email || '';
+    });
+    this.companyStore.company$.subscribe(companyStore => {
+      this.currentCompany = companyStore.company || null;
     });
   }
 
