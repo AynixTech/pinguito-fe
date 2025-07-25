@@ -40,6 +40,13 @@ const routes: Routes = [
         data: { roles: ['admin'] }
       },
       {
+        path: 'campaigns',
+        loadChildren: () =>
+          import('./campaigns/campaigns.module').then(m => m.CampaignsModule),
+        canActivate: [AuthGuard],
+        data: { roles: ['admin','monitoring'] }
+      },
+      {
         path: '**',
         component: PageNotFoundComponent
       }
