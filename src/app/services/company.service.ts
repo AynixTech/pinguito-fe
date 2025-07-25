@@ -7,12 +7,21 @@ import { environment } from '../../environments/environment';
     providedIn: 'root'
 })
 export class CompanyService {
-    private baseUrl = environment.apiUrl;
+    private baseUrl = environment.apiUrl + '/companies';
 
     constructor(private http: HttpClient) { }
 
-    // Recupera la lista delle companies assegnate a un user tramite userUuid
+    //Monitoring: Recupera la lista delle companies associate all'utente
     getCompaniesByUserUuid(userUuid: string): Observable<any[]> {
-        return this.http.get<any[]>(`${this.baseUrl}/users/${userUuid}/companies`);
+        return this.http.get<any[]>(`${this.baseUrl}/${userUuid}/my-companies`);
+    }
+
+    //Admin: canella una company
+    deleteCompany(companyUuid: string): Observable<any> {
+        return this.http.delete<any>(`${this.baseUrl}/${companyUuid}/delete`);
+    }
+    //Admin recupera la lista di tutte le companies
+    getAllCompanies(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.baseUrl}/all`);
     }
 }

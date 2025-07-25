@@ -31,6 +31,7 @@
                 </th>
                 <th>Partita IVA</th>
                 <th>Indirizzo Legale</th>
+                <th>Actions</th> <!-- nuova colonna -->
             </tr>
         </thead>
         <tbody>
@@ -40,17 +41,20 @@
                 <td>{{ company.customerSegment || '-' }}</td>
                 <td>{{ company.vatNumber || '-' }}</td>
                 <td>{{ company.legalAddress || '-' }}</td>
+                <td>
+                    <a href="#" (click)="editCompany(company)">Modifica</a> |
+                    <a href="#" (click)="viewDetails(company)">Vedi dettagli</a> |
+                    <a href="#" (click)="deleteCompany(company)">Elimina</a>
+                </td>
             </tr>
             <tr *ngIf="filteredCompanies.length === 0">
-                <td colspan="5" style="text-align:center;">Nessuna azienda trovata.</td>
+                <td colspan="6" style="text-align:center;">Nessuna azienda trovata.</td>
             </tr>
         </tbody>
     </table>
-
     <div class="pagination">
         <button (click)="prevPage()" [disabled]="currentPage === 1">Precedente</button>
         <span>Pagina {{ currentPage }} di {{ totalPages }}</span>
         <button (click)="nextPage()" [disabled]="currentPage === totalPages">Successiva</button>
     </div>
 </div>
-  

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CompanyService } from '../../../services/company.service';
 import { AuthStoreService } from '../../../services/auth-store.service';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 interface Company {
   uuid: string;
@@ -41,7 +42,8 @@ export class MyCompaniesComponent implements OnInit, OnDestroy {
 
   constructor(
     private companyService: CompanyService,
-    private authStore: AuthStoreService
+    private authStore: AuthStoreService,
+    private toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -137,5 +139,38 @@ export class MyCompaniesComponent implements OnInit, OnDestroy {
 
   nextPage() {
     if (this.currentPage < this.totalPages) this.currentPage++;
+  }
+
+  editCompany(company: Company) {
+    // Logica per modificare l'azienda (ad esempio, navigare a una pagina di modifica)
+    console.log('Modifica:', company);
+    // Esempio: this.router.navigate(['/companies/edit', company.uuid]);
+  }
+
+  viewDetails(company: Company) {
+    // Logica per mostrare i dettagli dell'azienda (ad esempio, aprire un modal o navigare)
+    console.log('Vedi dettagli:', company);
+    // Esempio: this.router.navigate(['/companies/details', company.uuid]);
+  }
+
+  deleteCompany(company: Company) {
+    // Logica per eliminare l'azienda (puoi confermare con un alert prima)
+    console.log('Elimina:', company);
+    // Esempio:
+    this.companyService.deleteCompany(company.uuid).subscribe({
+      next: () => {
+        this.loadCompanies();
+        // Mostra un toast di successo
+        // Sostituisci con il tuo servizio di toast, ad esempio ToastrService
+        // this.toastr.success('Azienda eliminata con successo');
+        this.toast.success('Azienda eliminata con successo', 'Successo');
+      },
+      error: () => {
+        // Mostra un toast di errore
+        // this.toastr.error('Errore durante l\'eliminazione dell\'azienda');
+        this.toast.error('Errore durante l\'eliminazione dell\'azienda', 'Errore');
+      }
+    });
+
   }
 }
