@@ -22,6 +22,16 @@ export class UserService {
 
     constructor(private http: HttpClient) { }
 
+    // Recupera tutti gli utenti
+    getAllUsers(): Observable<User[]> {
+        return this.http.get<User[]>(`${this.baseUrl}/all`);
+    }
+
+    //Elimina un utente per UUID
+    deleteUser(uuid: string): Observable<any> {
+        return this.http.delete<any>(`${this.baseUrl}/${uuid}`);
+    }
+    
     // recupera utenti monitoraggio
     getMonitoringUsers(): Observable<User[]> {
         return this.http.get<User[]>(`${this.baseUrl}/monitoring`);
@@ -30,6 +40,8 @@ export class UserService {
     getUserByUuid(uuid: string): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/${uuid}`);
     }
+
+   
 
     // ✅ Aggiorna un utente
     updateUser(id: string, data: any): Observable<any> {

@@ -1,1 +1,65 @@
-<p>list-users works!</p>
+<div class="users table-page-layout">
+    <div class="filters">
+        <input type="text" placeholder="Cerca per nome, email, ruolo..." [(ngModel)]="searchTerm"
+            (input)="onSearchChange()" />
+
+        <select [(ngModel)]="filterRole" (change)="onFilterRoleChange()">
+            <option value="">Tutti i ruoli</option>
+            <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+        </select>
+    </div>
+
+    <table class="elements-table" border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th (click)="toggleSort('name')">
+                    Nome
+                    <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('surname')">
+                    Cognome
+                    <span *ngIf="sortColumn === 'surname'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('email')">
+                    Email
+                    <span *ngIf="sortColumn === 'email'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th (click)="toggleSort('role')">
+                    Ruolo
+                    <span *ngIf="sortColumn === 'role'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of paginatedUsers">
+                <td>{{ user.name }}</td>
+                <td>{{ user.surname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role?.name | titlecase }}</td>
+                <td>
+                    <a  routerLink="edit/{{ user.uuid }}" title="Modifica">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a  routerLink="view/{{ user.uuid }}" title="Vedi dettagli">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                    <a href="#" (click)="deleteUser(user)" title="Elimina">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr *ngIf="filteredUsers.length === 0">
+                <td colspan="4" style="text-align:center;">Nessun utente trovato.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Precedente</button>
+        <span>Pagina {{ currentPage }} di {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Successiva</button>
+    </div>
+</div>
+  

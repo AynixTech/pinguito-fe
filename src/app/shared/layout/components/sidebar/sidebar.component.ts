@@ -54,7 +54,7 @@ export class SidebarComponent implements OnInit {
             label: 'Gestione',
             icon: 'fa fa-users',
             children: [
-              { path: '/users', label: 'Monitoraggio' },
+              { path: '/users', label: 'Utenti' },
               { path: '/companies', label: 'Aziende', icon: 'fa fa-building' },
             ]
           },
