@@ -8,52 +8,67 @@
     </nav>
 
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-
         <!-- Info Tab -->
         <div *ngIf="activeTab === 'info'" class="tab-content">
             <div class="form-grid">
                 <div class="form-group col-50">
-                    <label>Nome</label>
-                    <input type="text" formControlName="name" />
+                    <label for="name">Nome</label>
+                    <input id="name" type="text" formControlName="name" />
                 </div>
                 <div class="form-group col-50">
-                    <label>Cognome</label>
-                    <input type="text" formControlName="surname" />
+                    <label for="surname">Cognome</label>
+                    <input id="surname" type="text" formControlName="surname" />
                 </div>
                 <div class="form-group col-100">
-                    <label>Email</label>
-                    <input type="email" formControlName="email" />
+                    <label for="email">Email</label>
+                    <input id="email" type="email" formControlName="email" />
                 </div>
                 <div class="form-group col-50">
-                    <label>Telefono</label>
-                    <input type="text" formControlName="phone" />
+                    <label for="phone">Telefono</label>
+                    <input id="phone" type="text" formControlName="phone" />
                 </div>
             </div>
         </div>
 
-        <!-- Cambio Password Tab -->
+        <!-- Password Tab -->
         <div *ngIf="activeTab === 'password'" class="tab-content">
             <div class="form-grid">
-                <div class="form-group col-100">
+                <div class="form-group col-50">
                     <label>Nuova Password</label>
-                    <input type="password" formControlName="newPassword" />
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="newPassword"
+                        (input)="checkPasswordStrength()" />
+                    <div class="password-wrapper">
+                        <div class="password-strength-bar">
+                            <div class="strength-indicator"
+                                [ngStyle]="{ width: passwordStrength + '%', backgroundColor: passwordStrengthColor }">
+                            </div>
+                        </div>
+                        <div class="strength-text">{{ passwordStrengthText}}</div>
+                    </div>
+                </div>
+
+                <div class="form-group col-50">
+                    <label>Conferma Password</label>
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword" />
+                    <div *ngIf="passwordMismatch" class="error" style="color: red;">Le password non corrispondono.</div>
                 </div>
                 <div class="form-group col-100">
-                    <label>Conferma Password</label>
-                    <input type="password" formControlName="confirmPassword" />
-                </div>
-                <div *ngIf="passwordMismatch" class="error">
-                    Le password non corrispondono.
+                    <div style="display: flex; gap:1rem; align-items: center;">
+                        <button type="button" class="btn-action"
+                            (click)="togglePasswordVisibility()">{{showPassword?'Nascondi
+                            password':'Mostra password'}}</button>
+                        <button type="button" class="btn-action" (click)="generatePassword()">Genera</button>
+                    </div>
+
                 </div>
             </div>
         </div>
 
         <div class="buttons">
-            <button type="submit" class="btn-primary" *ngIf="activeTab === 'info'" [disabled]="userForm.invalid">
-                Salva modifiche
-            </button>
-            <button class="btn-primary" *ngIf="activeTab === 'password'" (click)="updatePassword()">Aggiorna
-                Password</button>
+            <button type="submit" class="btn-primary" *ngIf="activeTab === 'info'" [disabled]="userForm.invalid">Salva
+                modifiche</button>
+            <button type="button" class="btn-primary" *ngIf="activeTab === 'password'"
+                (click)="updatePassword()">Aggiorna Password</button>
         </div>
     </form>
 </div>

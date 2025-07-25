@@ -15,6 +15,12 @@ export class EditUserComponent implements OnInit {
   isLoading = true;
   activeTab: 'info' | 'password' = 'info';
 
+  passwordStrength = 0;
+  passwordStrengthText = '';
+  passwordStrengthColor = '#ccc';
+  showPassword = false;
+
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -84,6 +90,65 @@ export class EditUserComponent implements OnInit {
     });
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  generatePassword() {
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]';
+    let password = '';
+    for (let i = 0; i < 12; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
+    }
+
+    this.userForm.get('newPassword')?.setValue(password);
+    this.userForm.get('confirmPassword')?.setValue(password);
+    this.checkPasswordStrength();
+    this.toast.success('Password generata automaticamente');
+  }
+  
+
+  checkPasswordStrength() {
+    const password = this.userForm.get('newPassword')?.value || '';
+    let strength = 0;
+
+    if (password.length >= 8) strength += 1;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/[a-z]/.test(password)) strength += 1;
+    if (/[0-9]/.test(password)) strength += 1;
+    if (/[\W_]/.test(password)) strength += 1;
+
+    switch (strength) {
+      case 0:
+      case 1:
+        this.passwordStrength = 20;
+        this.passwordStrengthText = 'Molto debole';
+        this.passwordStrengthColor = '#e74c3c'; // rosso
+        break;
+      case 2:
+        this.passwordStrength = 40;
+        this.passwordStrengthText = 'Debole';
+        this.passwordStrengthColor = '#e67e22'; // arancio
+        break;
+      case 3:
+        this.passwordStrength = 60;
+        this.passwordStrengthText = 'Media';
+        this.passwordStrengthColor = '#f1c40f'; // giallo
+        break;
+      case 4:
+        this.passwordStrength = 80;
+        this.passwordStrengthText = 'Forte';
+        this.passwordStrengthColor = '#2ecc71'; // verde chiaro
+        break;
+      case 5:
+        this.passwordStrength = 100;
+        this.passwordStrengthText = 'Molto forte';
+        this.passwordStrengthColor = '#27ae60'; // verde scuro
+        break;
+    }
+  }
+  
   onSubmit() {
     if (this.userForm.invalid) return;
 
