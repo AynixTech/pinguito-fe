@@ -1,4 +1,4 @@
-<div class="my-companies table-page-layout">
+<div class="companies table-page-layout">
     <div class="filters">
         <input type="text" placeholder="Cerca per nome, partita IVA, indirizzo..." [(ngModel)]="searchTerm"
             (input)="onSearchChange()" />
@@ -31,31 +31,49 @@
                 </th>
                 <th>Partita IVA</th>
                 <th>Indirizzo Legale</th>
-                <th>Actions</th> <!-- nuova colonna -->
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let company of paginatedCompanies">
-                <td>{{ company.name }}</td>
-                <td>{{ company.industry || '-' }}</td>
-                <td>{{ company.customerSegment || '-' }}</td>
-                <td>{{ company.vatNumber || '-' }}</td>
-                <td>{{ company.legalAddress || '-' }}</td>
-                <td>
-                    <a href="#" (click)="editCompany(company)" title="Modifica">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    |
-                    <a href="#" (click)="viewDetails(company)" title="Vedi dettagli">
-                        <i class="fa fa-eye"></i>
-                    </a>
-                </td>
-            </tr>
+            <ng-container *ngFor="let company of paginatedCompanies">
+                <tr>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.industry || '-' }}</td>
+                    <td>{{ company.customerSegment || '-' }}</td>
+                    <td>{{ company.vatNumber || '-' }}</td>
+                    <td>{{ company.legalAddress || '-' }}</td>
+                    <td>
+                        <a href="#" (click)="editCompany(company)" title="Modifica">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a href="#" (click)="viewDetails(company)" title="Vedi dettagli">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a href="#" (click)="deleteCompany(company)" title="Elimina">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                <!-- Riga aggiuntiva per utenti assegnati -->
+                <tr *ngIf="company.monitorUsers?.length">
+                    <td colspan="6" class="second-row">
+                        <div class="assigned-title">Utenti assegnati:</div>
+                        <ul style="margin: 5px 0; padding-left: 20px;">
+                            <li *ngFor="let user of company.monitorUsers">
+                                {{ user.name }} ({{ user.email }})
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </ng-container>
+
             <tr *ngIf="filteredCompanies.length === 0">
                 <td colspan="6" style="text-align:center;">Nessuna azienda trovata.</td>
             </tr>
         </tbody>
     </table>
+
     <div class="pagination">
         <button (click)="prevPage()" [disabled]="currentPage === 1">Precedente</button>
         <span>Pagina {{ currentPage }} di {{ totalPages }}</span>

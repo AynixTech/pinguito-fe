@@ -1,4 +1,5 @@
 @import "colors.scss";
+
 .table-page-layout {
   max-width: $table-page-layout-max-width;
   margin: $table-page-layout-padding auto;
@@ -63,9 +64,31 @@
       }
     }
 
-    tbody tr {
-      &:hover {
-        background-color: lighten($primary-color, 90%);
+    tbody {
+      tr {
+        &:hover {
+          background-color: lighten($primary-color, 90%);
+        }
+      }
+
+      .second-row {
+        background-color: lighten($primary-color, 94%);
+        font-size: 13px;
+        color: darken($text-color, 20%);
+        padding: 8px 15px;
+        .assigned-title {
+          font-weight: 600;
+          margin-bottom: 5px;
+        }
+        ul {
+          padding-left: 20px;
+          margin: 5px 0;
+
+          li {
+            list-style-type: disc;
+            margin-bottom: 3px;
+          }
+        }
       }
     }
 
@@ -135,6 +158,17 @@
       td {
         padding: 10px 8px;
         font-size: 13px;
+      }
+
+      .second-row {
+        font-size: 12px;
+        .assigned-title {
+          font-weight: 600;
+          margin-bottom: 5px;
+        }
+        ul {
+          padding-left: 16px;
+        }
       }
     }
   }

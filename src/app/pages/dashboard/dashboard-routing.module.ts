@@ -18,7 +18,9 @@ const routes: Routes = [
       },
       {
         path: 'companies',
-        component: CompaniesComponent,
+        loadChildren: () =>
+          import('./companies/companies.module').then(m => m.CompaniesModule),
+
         canActivate: [AuthGuard],
         data: { roles: ['admin'] }
       },
