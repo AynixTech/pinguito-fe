@@ -14,7 +14,8 @@
             <tr>
                 <th (click)="toggleSort('name')">Nome <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ?
                         '▲' : '▼' }}</span></th>
-                <th (click)="toggleSort('company')">Azienda <span *ngIf="sortColumn === 'company'">{{ sortDirection === 'asc' ?
+                <th (click)="toggleSort('company')">Azienda <span *ngIf="sortColumn === 'company'">{{ sortDirection ===
+                        'asc' ?
                         '▲' : '▼' }}</span></th>
                 <th (click)="toggleSort('startDate')">Data Inizio <span *ngIf="sortColumn === 'startDate'">{{
                         sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
@@ -37,13 +38,66 @@
                     <td>{{ campaign.budget | currency:'EUR' }}</td>
                     <td>{{ campaign.status }}</td>
                     <td>
-                        <a href="#" (click)="editCampaign(campaign)" title="Modifica">
+                        <button type="button" (click)="toggleExpanded(campaign.uuid)"
+                            title="Mostra/Nascondi post social" class="action-btn">
+                            <i class="fa"
+                                [ngClass]="expandedCampaigns.has(campaign.uuid) ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"></i>
+                        </button>
+
+                        <button type="button" (click)="editCampaign(campaign)" title="Modifica" class="action-btn">
                             <i class="fa fa-edit"></i>
-                        </a>
-                        |
-                        <a href="#" (click)="viewDetails(campaign)" title="Vedi dettagli">
+                        </button>
+
+                        <button type="button" (click)="viewDetails(campaign)" title="Vedi dettagli" class="action-btn">
                             <i class="fa fa-eye"></i>
-                        </a>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="expandedCampaigns.has(campaign.uuid)">
+                    <td colspan="7" class="second-row">
+                        <strong>Social Media Posts:</strong>
+
+                        <!-- Facebook -->
+                        <div *ngIf="campaign.facebookPosts?.length">
+                            <strong>Facebook:</strong> {{ campaign.facebookPosts?.length }} post
+                            <ul class="post-list">
+                                <li *ngFor="let post of campaign.facebookPosts">
+                                    <span class="post-status">[{{ post.status }}]</span>
+                                    <span class="post-message">{{ post.message || '(nessun messaggio)' }}</span>
+                                    <span class="post-date">{{ post.publishedAt || post.scheduledAt | date:'short'
+                                        }}</span>
+                                    <a *ngIf="post.mediaUrl" [href]="post.mediaUrl" target="_blank">📷 Visualizza</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Instagram -->
+                        <div *ngIf="campaign.instagramPosts?.length">
+                            <strong>Instagram:</strong> {{ campaign.instagramPosts?.length }} post
+                            <ul class="post-list">
+                                <li *ngFor="let post of campaign.instagramPosts">
+                                    <span class="post-status">[{{ post.status }}]</span>
+                                    <span class="post-message">{{ post.caption || '(nessuna descrizione)' }}</span>
+                                    <span class="post-date">{{ post.publishedAt || post.scheduledAt | date:'short'
+                                        }}</span>
+                                    <a *ngIf="post.mediaUrl" [href]="post.mediaUrl" target="_blank">📷 Visualizza</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- TikTok -->
+                        <div *ngIf="campaign.tiktokVideos?.length">
+                            <strong>TikTok:</strong> {{ campaign.tiktokVideos?.length }} video
+                            <ul class="post-list">
+                                <li *ngFor="let video of campaign.tiktokVideos">
+                                    <span class="post-status">[{{ video.status }}]</span>
+                                    <span class="post-message">{{ video.description || '(nessuna descrizione)' }}</span>
+                                    <span class="post-date">{{ video.publishedAt || video.scheduledAt | date:'short'
+                                        }}</span>
+                                    <a *ngIf="video.videoUrl" [href]="video.videoUrl" target="_blank">🎥 Visualizza</a>
+                                </li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             </ng-container>

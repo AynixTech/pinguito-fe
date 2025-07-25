@@ -1,1 +1,53 @@
-@import '../../../shared/styles/table-page.scss';
+@import "../../../shared/styles/table-page.scss";
+.campaign-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f0f8ff;
+  padding: 8px;
+  font-weight: bold;
+
+  button {
+    background: none;
+    border: none;
+    color: #1999d5;
+    cursor: pointer;
+    font-size: 0.9rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.second-row {
+  background: #f8f8f8;
+  padding: 10px;
+
+  .post-list {
+    list-style: none;
+    padding-left: 1rem;
+
+    li {
+      padding: 4px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      .post-status {
+        font-weight: bold;
+        color: #1999d5;
+      }
+
+      .post-date {
+        color: #888;
+        font-size: 0.85rem;
+      }
+
+      a {
+        color: #0077cc;
+        text-decoration: underline;
+      }
+    }
+  }
+}

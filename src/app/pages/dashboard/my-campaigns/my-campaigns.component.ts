@@ -27,6 +27,8 @@ export class MyCampaignsComponent implements OnInit, OnDestroy {
   currentPage = 1;
   totalPages = 1;
 
+  expandedCampaigns = new Set<string>();
+
   private subscription?: Subscription;
   currentCompany: Company | null = null;
 
@@ -126,6 +128,18 @@ export class MyCampaignsComponent implements OnInit, OnDestroy {
 
   nextPage() {
     if (this.currentPage < this.totalPages) this.currentPage++;
+  }
+
+  toggleExpanded(uuid: string): void {
+    if (this.expandedCampaigns.has(uuid)) {
+      this.expandedCampaigns.delete(uuid);
+    } else {
+      this.expandedCampaigns.add(uuid);
+    }
+  }
+
+  isExpanded(uuid: string): boolean {
+    return this.expandedCampaigns.has(uuid);
   }
 
   editCampaign(campaign: Campaign) {

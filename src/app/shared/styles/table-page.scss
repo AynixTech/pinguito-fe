@@ -142,6 +142,47 @@
     }
   }
 
+  .action-btn {
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin: 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    i {
+      font-size: 14px;
+    }
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+      box-shadow: 0 2px 6px rgba($primary-color, 0.3);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.25);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .action-btn {
+      padding: 5px 10px;
+      font-size: 13px;
+
+      i {
+        font-size: 13px;
+      }
+    }
+  }
+
   @media (max-width: 720px) {
     .filters {
       flex-direction: column;

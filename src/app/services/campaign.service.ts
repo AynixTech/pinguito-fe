@@ -4,6 +4,47 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Company } from './company.service';
 
+
+export interface FacebookPost {
+    uuid: string;
+    postId?: string;
+    campaignUuid: string;
+    message?: string;
+    mediaUrl?: string;
+    scheduledAt?: Date;
+    publishedAt?: Date;
+    status?: 'planned' | 'published' | 'cancelled' | 'archived' | 'scheduled';
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface InstagramPost {
+    uuid: string;
+    postId?: string;
+    campaignUuid: string;
+    caption?: string;
+    mediaUrl?: string;
+    scheduledAt?: Date;
+    publishedAt?: Date;
+    status?: 'planned' | 'published' | 'cancelled' | 'archived' | 'scheduled';
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface TikTokVideo {
+    uuid: string;
+    videoId?: string;
+    campaignUuid: string;
+    description?: string;
+    videoUrl?: string;
+    scheduledAt?: Date;
+    publishedAt?: Date;
+    status?: 'planned' | 'published' | 'cancelled' | 'archived' | 'scheduled';
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+
 export interface Campaign {
     uuid: string;
     companyUuid: string;
@@ -14,6 +55,9 @@ export interface Campaign {
     budget?: number;
     status?: 'active' | 'planned' | 'inactive' | 'completed' | 'cancelled';
     company?: Company;
+    instagramPosts?: InstagramPost[];
+    facebookPosts?: FacebookPost[];
+    tiktokVideos?: TikTokVideo[];
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -27,9 +71,14 @@ export class CampaignService {
     constructor(private http: HttpClient) { }
 
     // Recupera tutte le campagne (admin)
-    getAllCampaigns(): Observable<Campaign[]> {
-        return this.http.get<Campaign[]>(`${this.baseUrl}/allCampaigns`);
+    getAllCampaigns(companyUuid?: string): Observable<Campaign[]> {
+        let url = `${this.baseUrl}/allCampaigns/`;
+        if (companyUuid) {
+            url += `?companyUuid=${companyUuid}`;
+        }
+        return this.http.get<Campaign[]>(url);
     }
+
 
     // Recupera una campagna specifica
     getCampaignByUuid(uuid: string): Observable<Campaign> {

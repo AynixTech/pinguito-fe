@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Campaign, CampaignService } from '../../../../services/campaign.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { CompanyStoreService } from '../../../../services/company-store.service';
+import { Company } from '../../../../services/company.service';
 
 @Component({
   selector: 'app-list-campaigns',
@@ -24,18 +26,29 @@ export class ListCampaignsComponent implements OnInit {
 
   statuses: string[] = ['active', 'planned', 'inactive', 'completed', 'cancelled'];
 
+  expandedCampaigns = new Set<string>();
+  
+  currentCompany: Company | null = null;
+
+
   constructor(
     private campaignService: CampaignService,
+    private companyStoreService: CompanyStoreService,
     private router: Router,
     private toast: ToastrService
   ) { }
 
   ngOnInit(): void {
-    this.loadCampaigns();
+    this.companyStoreService.company$.subscribe(companyStore => {
+      this.currentCompany = companyStore.company || null;
+      this.loadCampaigns(); // Ricarica campagne al cambio azienda
+    });
   }
 
   loadCampaigns() {
-    this.campaignService.getAllCampaigns().subscribe({
+    const companyUuid = this.currentCompany?.uuid;
+
+    this.campaignService.getAllCampaigns(companyUuid).subscribe({
       next: (data: Campaign[]) => {
         this.campaigns = data;
         this.applyFiltersAndSort();
@@ -104,6 +117,20 @@ export class ListCampaignsComponent implements OnInit {
   nextPage() {
     if (this.currentPage < this.totalPages) this.currentPage++;
   }
+
+
+  toggleExpanded(uuid: string): void {
+    if (this.expandedCampaigns.has(uuid)) {
+      this.expandedCampaigns.delete(uuid);
+    } else {
+      this.expandedCampaigns.add(uuid);
+    }
+  }
+
+  isExpanded(uuid: string): boolean {
+    return this.expandedCampaigns.has(uuid);
+  }
+
 
   editCampaign(campaign: Campaign) {
     this.router.navigate(['/dashboard/campaigns/edit', campaign.uuid]);
