@@ -67,9 +67,9 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div *ngIf="company.planId" class="plan-info" style="min-width: 180px; text-align: right;">
-                                <strong>Piano:</strong> {{ getPlanById(company.planId)?.name }}
-                                <span *ngIf="getPlanById(company.planId)?.price"> - €{{ getPlanById(company.planId)?.price }}</span>
+                            <div *ngIf="company.plan" class="plan-info" style="min-width: 180px; text-align: right;">
+                                <strong>Piano:</strong> {{ company?.plan?.name }}
+                                <span *ngIf="company?.plan?.price"> - €{{ company?.plan?.price }}</span>
                             </div>
                         </div>
                     </td>

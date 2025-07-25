@@ -27,19 +27,15 @@ export class ListCompaniesComponent implements OnInit {
 
   industries: string[] = [];
   customerSegments: string[] = [];
-  plans: Plan[] = [];
 
   constructor(
     private companyService: CompanyService,
     private router: Router,
-    private planService: PlanService,
     private toast: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.loadCompanies();
-    this.loadPlans();
-
   }
 
   loadCompanies() {
@@ -55,15 +51,6 @@ export class ListCompaniesComponent implements OnInit {
     });
   }
 
-  loadPlans() {
-    this.planService.getAllPlans().subscribe(plans => {
-      this.plans = plans;
-    });
-  }
-
-  getPlanById(planId: number): Plan | undefined {
-    return this.plans.find(plan => plan.id === planId);
-  }
   extractFilters() {
     this.industries = Array.from(new Set(this.companies.map(c => c.industry).filter(Boolean))) as string[];
     this.customerSegments = Array.from(new Set(this.companies.map(c => c.customerSegment).filter(Boolean))) as string[];

@@ -1,18 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CompanyService } from '../../../services/company.service';
+import { Company, CompanyService } from '../../../services/company.service';
 import { AuthStoreService } from '../../../services/auth-store.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { Plan, PlanService } from '../../../services/plan.service';
 
-interface Company {
-  uuid: string;
-  name: string;
-  industry?: string;
-  customerSegment?: string;
-  vatNumber?: string;
-  legalAddress?: string;
-  // aggiungi altri campi se vuoi
-}
+
 
 @Component({
   selector: 'app-my-companies',
@@ -40,9 +33,12 @@ export class MyCompaniesComponent implements OnInit, OnDestroy {
   industries: string[] = [];
   customerSegments: string[] = [];
 
+  plans: Plan[] = [];
+
   constructor(
     private companyService: CompanyService,
     private authStore: AuthStoreService,
+    private planService: PlanService,
     private toast: ToastrService
   ) { }
 
@@ -51,9 +47,14 @@ export class MyCompaniesComponent implements OnInit, OnDestroy {
       if (user?.uuid) {
         this.currentUserUuid = user.uuid;
         this.loadCompanies();
+        this.loadPlans();
       }
     });
   }
+
+  getPlanById(planId: number): Plan | undefined {
+      return this.plans.find(plan => plan.id === planId);
+    }
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
@@ -67,6 +68,13 @@ export class MyCompaniesComponent implements OnInit, OnDestroy {
       this.applyFiltersAndSort();
     });
   }
+
+  loadPlans() {
+    this.planService.getAllPlans().subscribe(plans => {
+      this.plans = plans;
+    });
+  }
+
 
   extractFilters() {
     this.industries = Array.from(new Set(this.companies.map(c => c.industry).filter(Boolean))) as string[];
