@@ -13,7 +13,8 @@ import { PlanService, Plan } from '../../../../services/plan.service';
 export class EditCompanyComponent implements OnInit {
   companyForm!: FormGroup;
   companyUuid!: string;
-  users: User[] = [];
+  usersMonitoring: User[] = [];       // Tutti gli utenti disponibili per monitoring
+  assignedUsers: User[] = [];         // Utenti già assegnati a questa azienda
   plans: Plan[] = [];
   isLoading = true;
 
@@ -49,8 +50,8 @@ export class EditCompanyComponent implements OnInit {
       planId: [''],
     });
 
-    this.loadUsers();
     this.loadPlans();
+    this.loadUsersMonitoring();
 
     if (this.companyUuid) {
       this.loadCompany(this.companyUuid);
@@ -61,17 +62,32 @@ export class EditCompanyComponent implements OnInit {
 
   loadCompany(uuid: string) {
     this.companyService.getCompanyByUuid(uuid).subscribe(company => {
-      console.log('Company data:', company);
       this.companyForm.patchValue(company);
+
+      // Carico gli utenti già assegnati (monitorUsers) dall'azienda
+      if (company.monitorUsers) {
+        this.assignedUsers = company.monitorUsers;
+        // Rimuovo gli utenti assegnati da quelli disponibili
+        this.usersMonitoring = this.usersMonitoring.filter(u =>
+          !this.assignedUsers.some(assigned => assigned.uuid === u.uuid)
+        );
+      }
+
       this.isLoading = false;
     });
   }
 
-  loadUsers() {
+  loadUsersMonitoring() {
     this.userService.getMonitoringUsers().subscribe({
       next: users => {
-        console.log('Users loaded:', users);
-        this.users = users;
+        this.usersMonitoring = users;
+
+        // Se azienda già caricata e ha utenti assegnati, rimuoviamo quelli assegnati
+        if (this.assignedUsers.length > 0) {
+          this.usersMonitoring = this.usersMonitoring.filter(u =>
+            !this.assignedUsers.some(assigned => assigned.uuid === u.uuid)
+          );
+        }
       },
       error: err => {
         console.error('Error loading users:', err);
@@ -88,14 +104,27 @@ export class EditCompanyComponent implements OnInit {
   selectPlan(planId: number) {
     this.companyForm.patchValue({ planId });
   }
-  
 
-  save() {
+  // Funzione per spostare un utente da sinistra a destra (assegnarlo)
+  assignUser(user: User) {
+    this.assignedUsers.push(user);
+    this.usersMonitoring = this.usersMonitoring.filter(u => u.uuid !== user.uuid);
+  }
+
+  // Funzione per spostare un utente da destra a sinistra (rimuoverlo)
+  removeUser(user: User) {
+    this.usersMonitoring.push(user);
+    this.assignedUsers = this.assignedUsers.filter(u => u.uuid !== user.uuid);
+  }
+
+  modifyCompany() {
     if (this.companyForm.invalid) return;
 
     const company: Company = this.companyForm.value;
     company.uuid = this.companyUuid;
 
+    // Aggiungo gli utenti monitoring assegnati nel payload (dipende da come il backend gestisce la relazione)
+    company.monitorUserUuids = this.assignedUsers.map(u => u.uuid);
     this.companyService.saveCompany(company).subscribe(() => {
       alert('Azienda salvata con successo!');
       this.router.navigate(['/companies']);

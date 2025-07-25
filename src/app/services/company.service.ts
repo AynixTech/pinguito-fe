@@ -24,6 +24,7 @@ export interface Company {
     notes?: string;
     planId?: number;
     monitorUsers?: User[] | null; // id utente assegnato (opzionale)
+    monitorUserUuids?: string[]; // UUID degli utenti assegnati al monitoraggio
 }
 @Injectable({
     providedIn: 'root'

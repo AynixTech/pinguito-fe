@@ -1,6 +1,6 @@
 <div class="modify-form" *ngIf="!isLoading">
     <h3 class="title">Modifica Azienda</h3>
-    <form [formGroup]="companyForm" (ngSubmit)="save()">
+    <form [formGroup]="companyForm" (ngSubmit)="modifyCompany()">
         <div class="form-grid">
             <div class="form-group col-50">
                 <label>Nome</label>
@@ -67,14 +67,31 @@
                     </div>
                 </div>
             </div>
-              
-            <div class="form-group col-50">
-                <label>Assegna a Utente</label>
-                <select formControlName="assignedUserId">
-                    <option [value]="null">-- Nessuno --</option>
-                    <option *ngFor="let user of users" [value]="user.uuid">{{ user.name }}</option>
-                </select>
-            </div>
+
+            <div class="form-group col-100">
+                <div class="monitoring-panel">
+                    <div class="user-list">
+                        <h4>Utenti Monitoring Disponibili</h4>
+                        <ul>
+                            <li *ngFor="let user of usersMonitoring" (click)="assignUser(user)" tabindex="0" role="button"
+                                [attr.aria-label]="'Assegna {{ user.name }} a monitoring'">
+                                {{ user.name }} ({{ user.email }})
+                            </li>
+                            <li *ngIf="usersMonitoring.length === 0" class="empty">Nessun utente disponibile</li>
+                        </ul>
+                    </div>
+            
+                    <div class="user-list">
+                        <h4>Utenti Monitoring Assegnati</h4>
+                        <ul>
+                            <li *ngFor="let user of assignedUsers" (click)="removeUser(user)" tabindex="0" role="button"
+                            [attr.aria-label]="'Rimuovi {{ user.name }} da monitoring'">
+                                {{ user.name }} ({{ user.email }})
+                            </li>
+                            <li *ngIf="assignedUsers.length === 0" class="empty">Nessun utente assegnato</li>
+                        </ul>
+                    </div>
+                </div>  </div>
 
             <div class="form-group col-100">
                 <label>Note</label>
