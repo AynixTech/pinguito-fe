@@ -1,107 +1,122 @@
 <div class="modify-form" *ngIf="!isLoading">
-    <h3 class="title">Modifica Azienda</h3>
+    <h3 class="title">Modifica {{ companyForm.value.name }}</h3>
+
+    <nav class="tabs">
+        <button type="button" [class.active]="activeTab === 'info'" (click)="activeTab = 'info'">Info</button>
+        <button type="button" [class.active]="activeTab === 'plan'" (click)="activeTab = 'plan'">Plan</button>
+        <button type="button" [class.active]="activeTab === 'monitoring'" (click)="activeTab = 'monitoring'">Monitoring
+            user</button>
+    </nav>
+
     <form [formGroup]="companyForm" (ngSubmit)="modifyCompany()">
-        <div class="form-grid">
-            <div class="form-group col-50">
-                <label>Nome</label>
-                <input type="text" formControlName="name" />
-            </div>
 
-            <div class="form-group col-50">
-                <label>Partita IVA</label>
-                <input type="text" formControlName="vatNumber" />
+        <!-- Info Tab -->
+        <div *ngIf="activeTab === 'info'" class="tab-content">
+            <div class="form-grid">
+                <div class="form-group col-50">
+                    <label>Nome</label>
+                    <input type="text" formControlName="name" />
+                </div>
+                <div class="form-group col-50">
+                    <label>Partita IVA</label>
+                    <input type="text" formControlName="vatNumber" />
+                </div>
+                <div class="form-group col-100">
+                    <label>Indirizzo Legale</label>
+                    <input type="text" formControlName="legalAddress" />
+                </div>
+                <div class="form-group col-33">
+                    <label>Email PEC</label>
+                    <input type="email" formControlName="pecEmail" />
+                </div>
+                <div class="form-group col-33">
+                    <label>Settore</label>
+                    <input type="text" formControlName="industry" />
+                </div>
+                <div class="form-group col-33">
+                    <label>Dipendenti</label>
+                    <input type="number" formControlName="numberOfEmployees" />
+                </div>
+                <div class="form-group col-50">
+                    <label>Contatto Marketing</label>
+                    <input type="text" formControlName="marketingContactName" />
+                </div>
+                <div class="form-group col-50">
+                    <label>Email Marketing</label>
+                    <input type="email" formControlName="marketingContactEmail" />
+                </div>
+                <div class="form-group col-100">
+                    <label>Note</label>
+                    <textarea formControlName="notes" rows="3"></textarea>
+                </div>
             </div>
+        </div>
 
-            <div class="form-group col-100">
-                <label>Indirizzo Legale</label>
-                <input type="text" formControlName="legalAddress" />
-            </div>
-
-            <div class="form-group col-33">
-                <label>Email PEC</label>
-                <input type="email" formControlName="pecEmail" />
-            </div>
-
-            <div class="form-group col-33">
-                <label>Settore</label>
-                <input type="text" formControlName="industry" />
-            </div>
-
-            <div class="form-group col-33">
-                <label>Dipendenti</label>
-                <input type="number" formControlName="numberOfEmployees" />
-            </div>
-
-            <div class="form-group col-50">
-                <label>Contatto Marketing</label>
-                <input type="text" formControlName="marketingContactName" />
-            </div>
-
-            <div class="form-group col-50">
-                <label>Email Marketing</label>
-                <input type="email" formControlName="marketingContactEmail" />
-            </div>
-
+        <!-- Plan Tab -->
+        <div *ngIf="activeTab === 'plan'" class="tab-content">
             <div class="form-group col-100">
                 <label>Piano Attivo</label>
                 <div class="plan-cards">
-                    <div *ngFor="let plan of plans" class="plan-card" [class.selected]="plan.id === companyForm.value.planId"
-                        (click)="selectPlan(plan.id)">
+                    <div *ngFor="let plan of plans" class="plan-card"
+                        [class.selected]="plan.id === companyForm.value.planId" (click)="selectPlan(plan.id)">
                         <h4>{{ plan.name }}</h4>
                         <p class="description">{{ plan.description || 'Nessuna descrizione' }}</p>
-                        <p><strong>Prezzo:</strong> {{ plan.price | currency:'EUR':'symbol' }} / {{ plan.billingCycle }}</p>
+                        <p><strong>Prezzo:</strong> {{ plan.price | currency:'EUR':'symbol' }} / {{ plan.billingCycle }}
+                        </p>
                         <p><strong>Email mensili:</strong> {{ plan.monthlyEmailLimit | number }}</p>
                         <p><strong>Utenti max:</strong> {{ plan.maxUsers }}</p>
                         <p *ngIf="plan.supportLevel"><strong>Supporto:</strong> {{ plan.supportLevel }}</p>
                         <p *ngIf="plan.storageLimitMB"><strong>Storage:</strong> {{ plan.storageLimitMB }} MB</p>
-                        <p *ngIf="plan.socialMediaAccountsLimit"><strong>Account social:</strong> {{ plan.socialMediaAccountsLimit
-                            }}</p>
-                        <p *ngIf="plan.googleAdsBudgetLimit"><strong>Budget Google Ads:</strong> {{ plan.googleAdsBudgetLimit |
-                            currency:'EUR' }}</p>
-                        <p *ngIf="plan.googleAdsCampaignLimit"><strong>Campagne Google Ads:</strong> {{ plan.googleAdsCampaignLimit
-                            }}</p>
-                        <!-- <p *ngIf="plan.features"><strong>Features:</strong> {{ plan.features }}</p> -->
+                        <p *ngIf="plan.socialMediaAccountsLimit"><strong>Account social:</strong> {{
+                            plan.socialMediaAccountsLimit }}</p>
+                        <p *ngIf="plan.googleAdsBudgetLimit"><strong>Budget Google Ads:</strong> {{
+                            plan.googleAdsBudgetLimit | currency:'EUR' }}</p>
+                        <p *ngIf="plan.googleAdsCampaignLimit"><strong>Campagne Google Ads:</strong> {{
+                            plan.googleAdsCampaignLimit }}</p>
                         <p><strong>Prova gratuita:</strong> {{ plan.trialDays }} giorni</p>
-                        <p><strong>Stato:</strong> <span [class.active]="plan.active" [class.inactive]="!plan.active">{{ plan.active
-                                ? 'Attivo' : 'Non attivo' }}</span></p>
+                        <p><strong>Stato:</strong>
+                            <span [class.active]="plan.active" [class.inactive]="!plan.active">
+                                {{ plan.active ? 'Attivo' : 'Non attivo' }}
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- Monitoring user Tab -->
+        <div *ngIf="activeTab === 'monitoring'" class="tab-content">
             <div class="form-group col-100">
                 <div class="monitoring-panel">
                     <div class="user-list">
                         <h4>Utenti Monitoring Disponibili</h4>
                         <ul>
-                            <li *ngFor="let user of usersMonitoring" (click)="assignUser(user)" tabindex="0" role="button"
-                                [attr.aria-label]="'Assegna {{ user.name }} a monitoring'">
+                            <li *ngFor="let user of usersMonitoring" (click)="assignUser(user)" tabindex="0"
+                                role="button" [attr.aria-label]="'Assegna ' + user.name + ' a monitoring'">
                                 {{ user.name }} ({{ user.email }})
                             </li>
                             <li *ngIf="usersMonitoring.length === 0" class="empty">Nessun utente disponibile</li>
                         </ul>
                     </div>
-            
+
                     <div class="user-list">
                         <h4>Utenti Monitoring Assegnati</h4>
                         <ul>
                             <li *ngFor="let user of assignedUsers" (click)="removeUser(user)" tabindex="0" role="button"
-                            [attr.aria-label]="'Rimuovi {{ user.name }} da monitoring'">
+                                [attr.aria-label]="'Rimuovi ' + user.name + ' da monitoring'">
                                 {{ user.name }} ({{ user.email }})
                             </li>
                             <li *ngIf="assignedUsers.length === 0" class="empty">Nessun utente assegnato</li>
                         </ul>
                     </div>
-                </div>  </div>
-
-            <div class="form-group col-100">
-                <label>Note</label>
-                <textarea formControlName="notes" rows="3"></textarea>
+                </div>
             </div>
         </div>
 
         <div class="buttons">
             <button type="submit" class="btn-save" [disabled]="companyForm.invalid">Salva</button>
         </div>
+
     </form>
 </div>
   

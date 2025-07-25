@@ -1,4 +1,4 @@
-@import './colors.scss';
+@import "./colors.scss";
 
 .modify-form {
   background: #fff;
@@ -7,7 +7,38 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   max-width: 1000px;
   margin: 2rem auto;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
+
+  .tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    button {
+      background: none;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #555;
+      border-bottom: 3px solid transparent;
+      transition: color 0.3s, border-color 0.3s;
+
+      &.active {
+        color: #1999d5;
+        border-color: #1999d5;
+        font-weight: 700;
+      }
+
+      &:hover:not(.active) {
+        color: #1999d5;
+      }
+    }
+  }
+
+  .tab-content {
+    // opzionale: margini o padding per il contenuto del tab
+  }
 
   .title {
     font-size: 1.8rem;
