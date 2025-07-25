@@ -36,7 +36,7 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.surname }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.role?.name | titlecase }}</td>
+                <td>{{ user?.role?.name | titlecase }}</td>
                 <td>
                     <a  routerLink="edit/{{ user.uuid }}" title="Modifica">
                         <i class="fa fa-edit"></i>

@@ -8,6 +8,8 @@ export interface User {
     email: string;
     name: string;
     surname: string;
+    phone: string;
+    password: string;
     role: {
         id: number;
         name: string;
@@ -31,20 +33,22 @@ export class UserService {
     deleteUser(uuid: string): Observable<any> {
         return this.http.delete<any>(`${this.baseUrl}/${uuid}`);
     }
-    
+
     // recupera utenti monitoraggio
     getMonitoringUsers(): Observable<User[]> {
         return this.http.get<User[]>(`${this.baseUrl}/monitoring`);
     }
     // Recupera l'utente per ID
     getUserByUuid(uuid: string): Observable<any> {
-        return this.http.get<any>(`${this.baseUrl}/${uuid}`);
+        return this.http.get<any>(`${this.baseUrl}/${uuid}/getUser`);
     }
-
-   
+    // Aggiorna password
+    updatePassword(uuid: string, data: any): Observable<any> {
+        return this.http.put<any>(`${this.baseUrl}/${uuid}/updatePassword`, data);
+    }
 
     // ✅ Aggiorna un utente
     updateUser(id: string, data: any): Observable<any> {
-        return this.http.put<any>(`${this.baseUrl}/${id}`, data);
+        return this.http.put<any>(`${this.baseUrl}/${id}/updateUser`, data);
     }
 }

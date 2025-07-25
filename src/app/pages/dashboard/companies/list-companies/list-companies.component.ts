@@ -124,8 +124,7 @@ export class ListCompaniesComponent implements OnInit {
   }
 
   editCompany(company: Company) {
-    console.log('Modifica:', company);
-    alert('Modifica azienda: ' + company.uuid);
+  
     this.router.navigate(['/dashboard/companies/edit', company.uuid]);
   
   }

@@ -32,7 +32,6 @@ export class HeaderLayoutComponent implements OnInit {
   }
   toggleSidebar() {
     // Implement sidebar toggle logic here
-    console.log('Sidebar toggled');
   }
 
   @HostListener('document:click', ['$event'])

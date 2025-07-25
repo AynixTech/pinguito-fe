@@ -157,13 +157,11 @@ export class MyCompaniesComponent implements OnInit, OnDestroy {
 
   viewDetails(company: Company) {
     // Logica per mostrare i dettagli dell'azienda (ad esempio, aprire un modal o navigare)
-    console.log('Vedi dettagli:', company);
     // Esempio: this.router.navigate(['/companies/details', company.uuid]);
   }
 
   deleteCompany(company: Company) {
     // Logica per eliminare l'azienda (puoi confermare con un alert prima)
-    console.log('Elimina:', company);
     // Esempio:
     this.companyService.deleteCompany(company.uuid).subscribe({
       next: () => {

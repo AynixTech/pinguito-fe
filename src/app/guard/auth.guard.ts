@@ -18,9 +18,7 @@ export class AuthGuard implements CanActivate {
 
         const user = JSON.parse(userString);
         const userRole = user?.role?.name;
-        console.log('User:', user);
 
-        console.log('User Role:', userRole);
 
         const rolesAllowed = route.data['roles'] as Array<string>;
         if (!rolesAllowed || rolesAllowed.length === 0) {

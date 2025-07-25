@@ -36,7 +36,6 @@ export class RegisterComponent {
     this.submitted = true;
     if (this.registerForm.invalid) return;
 
-    console.log('Register Data:', this.registerForm.value);
     // TODO: Call register API
     this.router.navigate(['/home']);
   }
