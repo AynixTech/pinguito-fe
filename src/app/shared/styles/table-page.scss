@@ -1,0 +1,141 @@
+@import "colors.scss";
+.table-page-layout {
+  max-width: $table-page-layout-max-width;
+  margin: $table-page-layout-padding auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: $text-color;
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $filter-gap;
+    margin-bottom: $table-page-layout-padding / 1.5;
+
+    input[type="text"],
+    select {
+      padding: 8px 12px;
+      font-size: 15px;
+      border: 1px solid $table-border-color;
+      border-radius: 6px;
+      flex-grow: 1;
+      min-width: 200px;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 6px rgba($primary-color, 0.5);
+      }
+    }
+  }
+
+  table.companies-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 10px rgba($primary-color, 0.15);
+
+    th,
+    td {
+      padding: 12px 15px;
+      border: 1px solid $table-border-color;
+      text-align: left;
+      vertical-align: middle;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    th {
+      cursor: pointer;
+      background-color: $table-header-bg;
+      user-select: none;
+      position: relative;
+      font-weight: 600;
+      color: darken($primary-color, 20%);
+
+      span {
+        margin-left: 6px;
+        font-size: 13px;
+        color: darken($primary-color, 40%);
+      }
+
+      &:hover {
+        background-color: lighten($primary-color, 75%);
+      }
+    }
+
+    tbody tr {
+      &:hover {
+        background-color: lighten($primary-color, 90%);
+      }
+    }
+
+    td a {
+      color: $primary-color;
+      font-weight: 600;
+      text-decoration: none;
+      margin: 0 6px;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $link-hover-color;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .pagination {
+    margin-top: $table-page-layout-padding;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-size: 15px;
+    color: $text-color;
+
+    button {
+      padding: 8px 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      background-color: $pagination-bg;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover:not(:disabled) {
+        background-color: darken($primary-color, 10%);
+      }
+
+      &:disabled {
+        background-color: $pagination-bg-disabled;
+        cursor: not-allowed;
+      }
+    }
+
+    span {
+      min-width: 140px;
+      text-align: center;
+      font-weight: 600;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .filters {
+      flex-direction: column;
+
+      input[type="text"],
+      select {
+        flex-grow: unset;
+        width: 100%;
+      }
+    }
+
+    table.companies-table {
+      th,
+      td {
+        padding: 10px 8px;
+        font-size: 13px;
+      }
+    }
+  }
+}

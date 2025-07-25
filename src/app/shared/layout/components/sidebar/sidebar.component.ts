@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthStoreService, User } from '../../../../services/auth-store.service';
 
 @Component({
@@ -11,21 +12,15 @@ export class SidebarComponent implements OnInit {
   roleId: number = 0;
   menuItems: any[] = [];
   currentUser!: User | null;
-  constructor(private authStore: AuthStoreService) {
-    // Assuming you have a way to get the current user from AuthStoreService
 
-  }
+  constructor(private authStore: AuthStoreService, private router: Router) { }
+
   ngOnInit(): void {
-    // Recupera il ruolo dal localStorage (o AuthService)
     this.authStore.user$.subscribe((user: any) => {
       this.currentUser = user;
       this.roleId = this.currentUser?.role?.id || 0;
       this.setMenuItemsByRole(this.roleId);
-      console.log('Current User:', this.currentUser);
-      console.log('Role ID:', this.roleId);
-
     });
-
   }
 
   toggleItem(label: string): void {
@@ -36,11 +31,24 @@ export class SidebarComponent implements OnInit {
     return this.expandedItem === label;
   }
 
+  isChildActive(item: any): boolean {
+    if (!item.children) return false;
+
+    return item.children.some((child: any) =>
+      this.router.isActive(child.path, {
+        paths: 'subset',
+        queryParams: 'ignored',
+        fragment: 'ignored',
+        matrixParams: 'ignored'
+      })
+    );
+  }
+
   setMenuItemsByRole(roleId: number): void {
     switch (roleId) {
       case 1: // Admin
         this.menuItems = [
-          { path: '/dashboard', label: 'Dashboard', icon: 'fa fa-home' },
+          { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
           { path: '/companies', label: 'Aziende', icon: 'fa fa-building' },
           {
             label: 'Utenti',
@@ -107,7 +115,7 @@ export class SidebarComponent implements OnInit {
 
       case 3: // Monitoraggio
         this.menuItems = [
-          { path: '/dashboard', label: 'Dashboard', icon: 'fa fa-home' },
+          { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
           { path: '/my-companies', label: 'Le mie Aziende', icon: 'fa fa-building' },
           {
             label: 'Campagne Email',
@@ -141,7 +149,7 @@ export class SidebarComponent implements OnInit {
 
       case 2: // Azienda
         this.menuItems = [
-          { path: '/dashboard', label: 'Dashboard', icon: 'fa fa-home' },
+          { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
           {
             label: 'Campagne Email',
             icon: 'fa fa-envelope',

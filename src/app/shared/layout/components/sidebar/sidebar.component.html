@@ -8,79 +8,69 @@
 
     <nav class="sidebar-nav">
         <ul>
-            <li *ngFor="let item of menuItems" routerLinkActive="active">
-                <!-- Menu without children -->
-                <a *ngIf="!item.children" [routerLink]="item.path">
+            <li *ngFor="let item of menuItems">
+                <!-- Link singolo -->
+                <a *ngIf="!item.children" [routerLink]="item.path" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }">
                     <i class="{{ item.icon }}"></i>
                     {{ item.label }}
                 </a>
 
-                <!-- Menu with children -->
-                <div *ngIf="item.children" class="parent-link" (click)="toggleItem(item.label)"
-                    [class.expanded]="isExpanded(item.label)">
+                <!-- Link genitore con submenu -->
+                <div *ngIf="item.children" class="parent-link" [class.expanded]="isExpanded(item.label)"
+                    [class.active]="isChildActive(item)" (click)="toggleItem(item.label)">
                     <i class="{{ item.icon }}"></i>
                     {{ item.label }}
-                    <i class="fa fa-chevron-right"></i>
+                    <i class="fa fa-chevron-right chevron-icon" [class.rotate]="isExpanded(item.label)"></i>
                 </div>
 
+                <!-- Submenu -->
                 <ul *ngIf="item.children && isExpanded(item.label)" class="submenu">
-                    <li *ngFor="let child of item.children" routerLinkActive="active">
-                        <a [routerLink]="child.path">
+                    <li *ngFor="let child of item.children">
+                        <a [routerLink]="child.path" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }">
                             {{ child.label }}
                         </a>
                     </li>
                 </ul>
-
             </li>
         </ul>
+
+        <!-- Plan Card (facoltativo) -->
         <div class="plan-card">
             <div class="plan-header">
                 <h3>Your plan</h3>
                 <button class="close-btn">&times;</button>
             </div>
-
-            <div class="plan-item">
-                <label>Emails sent</label>
+            <div class="plan-item" *ngFor="let item of [
+          { label: 'Emails sent', value: 50, total: 100 },
+          { label: 'SMS sent', value: 10, total: 50 },
+          { label: 'Daily requests', value: 60, total: 100 }
+        ]">
+                <label>{{ item.label }}</label>
                 <div class="progress-bar">
-                    <div class="progress" [style.width.%]="50"></div>
+                    <div class="progress" [style.width.%]="(item.value / item.total) * 100"></div>
                 </div>
-                <span>50 of 100</span>
+                <span>{{ item.value }} of {{ item.total }}</span>
             </div>
-
-            <div class="plan-item">
-                <label>SMS sent</label>
-                <div class="progress-bar">
-                    <div class="progress" [style.width.%]="20"></div>
-                </div>
-                <span>10 of 50</span>
-            </div>
-
-            <div class="plan-item">
-                <label>Daily requests</label>
-                <div class="progress-bar">
-                    <div class="progress" [style.width.%]="60"></div>
-                </div>
-                <span>60 of 100</span>
-            </div>
-
             <div class="upgrade-link">
                 <a href="#" class="upgrade">Want more? <strong>Make an upgrade</strong></a>
             </div>
         </div>
 
+        <!-- Menu inferiore -->
         <ul class="bottom-menu">
-            <li routerLinkActive="active">
-                <a [routerLink]="'/support'">
-                    <i class="fa fa-life-ring"></i>
-                    Support
+            <li>
+                <a [routerLink]="'/support'" routerLinkActive="active">
+                    <i class="fa fa-life-ring"></i> Support
                 </a>
             </li>
-            <li routerLinkActive="active">
-                <a [routerLink]="'/settings'">
-                    <i class="fa fa-cog"></i>
-                    Settings
+            <li>
+                <a [routerLink]="'/settings'" routerLinkActive="active">
+                    <i class="fa fa-cog"></i> Settings
                 </a>
             </li>
         </ul>
     </nav>
 </div>
+  

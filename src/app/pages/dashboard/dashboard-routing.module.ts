@@ -17,11 +17,6 @@ const routes: Routes = [
         component: LandingComponent,
       },
       {
-        path: 'dashboard',
-        redirectTo: '',
-        pathMatch: 'full',
-      },
-      {
         path: 'companies',
         component: CompaniesComponent,
         canActivate: [AuthGuard],
