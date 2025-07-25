@@ -5,12 +5,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { ListCompaniesComponent } from './list-companies/list-companies.component';
 import { EditCompanyComponent } from './edit-company/edit-company.component';
+import { CompanyRoutingModule } from './companies-routing.module';
 
-const routes: Routes = [
-    { path: '', component: ListCompaniesComponent },            // Lista companies
-    { path: 'edit/:id', component: EditCompanyComponent },      // Modifica company con id
-    { path: 'create', component: EditCompanyComponent },        // Creazione nuova company (optional)
-];
+
 
 @NgModule({
     declarations: [
@@ -19,9 +16,9 @@ const routes: Routes = [
     ],
     imports: [
         CommonModule,
+        FormsModule,              // 👈 NECESSARIO PER ngModel
         ReactiveFormsModule,
-        FormsModule,
-        RouterModule.forChild(routes)  // Usa forChild perché modulo figlio
+        CompanyRoutingModule
     ],
     exports: [
         RouterModule

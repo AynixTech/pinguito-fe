@@ -1,16 +1,9 @@
 import { Component, OnInit} from '@angular/core';
-import { CompanyService } from '../../../../services/company.service';
+import { Company, CompanyService } from '../../../../services/company.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
-interface Company {
-  uuid: string;
-  name: string;
-  industry?: string;
-  customerSegment?: string;
-  vatNumber?: string;
-  legalAddress?: string;
-  monitorUsers: any[];
-}
+
 @Component({
   selector: 'app-list-companies',
   templateUrl: './list-companies.component.html',
@@ -36,6 +29,7 @@ export class ListCompaniesComponent implements OnInit {
 
   constructor(
     private companyService: CompanyService,
+    private router: Router,
     private toast: ToastrService
   ) { }
 
@@ -130,6 +124,9 @@ export class ListCompaniesComponent implements OnInit {
 
   editCompany(company: Company) {
     console.log('Modifica:', company);
+    alert('Modifica azienda: ' + company.uuid);
+    this.router.navigate(['/dashboard/companies/edit', company.uuid]);
+  
   }
 
   viewDetails(company: Company) {

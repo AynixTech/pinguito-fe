@@ -1,1 +1,72 @@
-<p>edit-company works!</p>
+<div class="modify-form" *ngIf="!isLoading">
+    <h3 class="title">Modifica Azienda</h3>
+    <form [formGroup]="companyForm" (ngSubmit)="save()">
+        <div class="form-grid">
+            <div class="form-group col-50">
+                <label>Nome</label>
+                <input type="text" formControlName="name" />
+            </div>
+
+            <div class="form-group col-50">
+                <label>Partita IVA</label>
+                <input type="text" formControlName="vatNumber" />
+            </div>
+
+            <div class="form-group col-100">
+                <label>Indirizzo Legale</label>
+                <input type="text" formControlName="legalAddress" />
+            </div>
+
+            <div class="form-group col-33">
+                <label>Email PEC</label>
+                <input type="email" formControlName="pecEmail" />
+            </div>
+
+            <div class="form-group col-33">
+                <label>Settore</label>
+                <input type="text" formControlName="industry" />
+            </div>
+
+            <div class="form-group col-33">
+                <label>Dipendenti</label>
+                <input type="number" formControlName="numberOfEmployees" />
+            </div>
+
+            <div class="form-group col-50">
+                <label>Contatto Marketing</label>
+                <input type="text" formControlName="marketingContactName" />
+            </div>
+
+            <div class="form-group col-50">
+                <label>Email Marketing</label>
+                <input type="email" formControlName="marketingContactEmail" />
+            </div>
+
+            <div class="form-group col-50">
+                <label>Piano</label>
+                <select formControlName="planId">
+                    <option *ngFor="let plan of plans" [value]="plan.id">{{ plan.name }}</option>
+                </select>
+            </div>
+
+            <div class="form-group col-50">
+                <label>Assegna a Utente</label>
+                <select formControlName="assignedUserId">
+                    <option [value]="null">-- Nessuno --</option>
+                    <option *ngFor="let user of users" [value]="user.uuid">{{ user.name }}</option>
+                </select>
+            </div>
+
+            <div class="form-group col-100">
+                <label>Note</label>
+                <textarea formControlName="notes" rows="3"></textarea>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn-save" [disabled]="companyForm.invalid">Salva</button>
+            <button type="button" class="btn-unassign" (click)="removeAssignment()">Rimuovi Assegnazione</button>
+        </div>
+    </form>
+</div>
+  

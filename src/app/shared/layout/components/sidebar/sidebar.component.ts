@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthStoreService, User } from '../../../../services/auth-store.service';
+import { AuthStoreService } from '../../../../services/auth-store.service';
+import { User } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,7 +17,7 @@ export class SidebarComponent implements OnInit {
   constructor(private authStore: AuthStoreService, private router: Router) { }
 
   ngOnInit(): void {
-    this.authStore.user$.subscribe((user: any) => {
+    this.authStore.user$.subscribe((user: User | null) => {
       this.currentUser = user;
       this.roleId = this.currentUser?.role?.id || 0;
       this.setMenuItemsByRole(this.roleId);

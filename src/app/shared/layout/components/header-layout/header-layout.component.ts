@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from "@angular/core";
-import { AuthStoreService, User } from "../../../../services/auth-store.service";
+import { AuthStoreService } from "../../../../services/auth-store.service";
 import { Router } from "@angular/router";
+import { User } from "../../../../services/user.service";
 
 @Component({
   selector: 'app-header',
