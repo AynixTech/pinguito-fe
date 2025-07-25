@@ -39,14 +39,14 @@ export class EditCompanyComponent implements OnInit {
       pecEmail: ['', Validators.email],
       industry: [''],
       numberOfEmployees: [''],
-      annualRevenue: [''],
+      annualRevenue: 0,
       marketingContactName: [''],
       marketingContactEmail: ['', Validators.email],
       marketingContactPhone: [''],
       websiteTraffic: [''],
       preferredCommunicationChannel: [''],
       customerSegment: [''],
-      campaignBudget: [''],
+      campaignBudget: 0,
       notes: [''],
       planId: [''],
     });
@@ -126,8 +126,7 @@ export class EditCompanyComponent implements OnInit {
 
     // Aggiungo gli utenti monitoring assegnati nel payload (dipende da come il backend gestisce la relazione)
     company.monitorUserUuids = this.assignedUsers.map(u => u.uuid);
-    this.companyService.saveCompany(company).subscribe(() => {
-      alert('Azienda salvata con successo!');
+    this.companyService.updateCompany(company).subscribe(() => {
       this.router.navigate(['/companies']);
     });
   }

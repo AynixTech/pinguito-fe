@@ -48,15 +48,15 @@ export class CompanyService {
         return this.http.get<Company[]>(`${this.baseUrl}/all`);
     }
     getCompanyByUuid(uuid: string): Observable<Company> {
-        return this.http.get<Company>(`${this.baseUrl}/${uuid}/company`);
+        return this.http.get<Company>(`${this.baseUrl}/${uuid}/getCompany`);
     }
-    saveCompany(company: Company): Observable<Company> {
-        if (company.uuid) {
-            // Update existing company
-            return this.http.put<Company>(`${this.baseUrl}/${company.uuid}`, company);
-        } else {
-            // Create new company
-            return this.http.post<Company>(`${this.baseUrl}/create`, company);
-        }
+
+    createCompany(company: Company): Observable<Company> {
+        return this.http.post<Company>(`${this.baseUrl}/createCompany`, company);
     }
+
+    updateCompany(company: Company): Observable<Company> {
+        return this.http.put<Company>(`${this.baseUrl}/${company.uuid}/updateCompany`, company);
+    }
+
 }
