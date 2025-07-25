@@ -21,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { LoaderComponent } from './shared/components/loader/loader.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 registerLocaleData(localeEs);
 
@@ -48,6 +49,11 @@ registerLocaleData(localeEs);
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent],
 })
