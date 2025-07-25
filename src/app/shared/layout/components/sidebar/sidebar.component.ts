@@ -50,13 +50,12 @@ export class SidebarComponent implements OnInit {
       case 1: // Admin
         this.menuItems = [
           { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
-          { path: '/companies', label: 'Aziende', icon: 'fa fa-building' },
           {
-            label: 'Utenti',
+            label: 'Gestione',
             icon: 'fa fa-users',
             children: [
-              { path: '/users/monitoring', label: 'Monitoraggio' },
-              { path: '/users/clients', label: 'Clienti Azienda' }
+              { path: '/users', label: 'Monitoraggio' },
+              { path: '/companies', label: 'Aziende', icon: 'fa fa-building' },
             ]
           },
           {

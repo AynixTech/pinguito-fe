@@ -32,6 +32,14 @@ const routes: Routes = [
         data: { roles: ['monitoring'] }
       },
       {
+        path: 'users',
+        loadChildren: () =>
+          import('./users/users.module').then(m => m.UsersModule),
+
+        canActivate: [AuthGuard],
+        data: { roles: ['admin'] }
+      },
+      {
         path: '**',
         component: PageNotFoundComponent
       }
