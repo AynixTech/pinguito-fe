@@ -19,6 +19,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { LoaderComponent } from './shared/components/loader/loader.component';
 
 registerLocaleData(localeEs);
 
@@ -26,6 +28,7 @@ registerLocaleData(localeEs);
     declarations: [
         LoginComponent,
         RegisterComponent,
+        LoaderComponent,
         AppComponent],
     imports: [
         BrowserAnimationsModule,
@@ -43,7 +46,8 @@ registerLocaleData(localeEs);
 
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     ],
     bootstrap: [AppComponent],
 })
