@@ -17,7 +17,7 @@ export class EditCompanyComponent implements OnInit {
   assignedUsers: User[] = [];         // Utenti già assegnati a questa azienda
   plans: Plan[] = [];
   isLoading = true;
-  activeTab: 'info' | 'plan' | 'monitoring' = 'info';  // default tab attivo
+  activeTab: 'info' | 'plan' | 'monitoring' | 'social-media' = 'info';  // default tab attivo
 
   constructor(
     private fb: FormBuilder,

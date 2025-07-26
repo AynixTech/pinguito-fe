@@ -1,133 +1,204 @@
 @import "../../../../shared/styles/modify-form.scss";
 
 .plan-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.5rem;
-    max-height: 500px;         // Altezza fissa con scroll
-    overflow-y: auto;
-    padding-right: 0.5rem;     // Spazio per scrollbar
-    background: #f9faff;
-    border: 1px solid #e0e6f0;
-    border-radius: 12px;
-    padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-height: 500px; // Altezza fissa con scroll
+  overflow-y: auto;
+  padding-right: 0.5rem; // Spazio per scrollbar
+  background: #f9faff;
+  border: 1px solid #e0e6f0;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.plan-card {
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+
+  &:hover {
+    border-color: #1999d5;
+    box-shadow: 0 4px 15px rgb(25 153 213 / 0.4);
+    transform: translateY(-4px);
   }
-  
-  .plan-card {
-    background: white;
-    border: 2px solid #ddd;
-    border-radius: 14px;
-    padding: 1.2rem 1.5rem;
-    cursor: pointer;
-    transition: 
-      border-color 0.3s ease, 
-      box-shadow 0.3s ease,
-      transform 0.2s ease;
+
+  &.selected {
+    border-color: #b7cfdb;
+    box-shadow: 0 0 20px #1999d5;
+    background: #e6f2fa;
+  }
+
+  h4 {
+    margin: 0 0 0.6rem 0;
+    font-size: 1.25rem;
+    color: #0a3d62;
+    font-weight: 700;
+  }
+
+  .description {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 1rem;
+    min-height: 42px; // mantiene altezza uniforme anche senza descrizione
+  }
+
+  p {
+    margin: 0.3rem 0;
+    font-size: 0.9rem;
+    color: #333;
+
+    strong {
+      color: #315a6e;
+      font-weight: 600;
+    }
+  }
+
+  span.active {
+    color: #28a745;
+    font-weight: 700;
+  }
+
+  span.inactive {
+    color: #dc3545;
+    font-weight: 700;
+  }
+}
+.monitoring-panel {
+  display: flex;
+  gap: 2rem;
+  margin: 1rem 0;
+  user-select: none;
+
+  .user-list {
+    flex: 1;
+    background: #f9faff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
-  
-    &:hover {
-      border-color: #1999d5;
-      box-shadow: 0 4px 15px rgb(25 153 213 / 0.4);
-      transform: translateY(-4px);
-    }
-  
-    &.selected {
-      border-color: #b7cfdb;
-      box-shadow: 0 0 20px #1999d5;
-      background: #e6f2fa;
-    }
-  
+    height: 300px;
+
     h4 {
-      margin: 0 0 0.6rem 0;
-      font-size: 1.25rem;
-      color: #0a3d62;
-      font-weight: 700;
-    }
-  
-    .description {
-      font-style: italic;
-      color: #666;
       margin-bottom: 1rem;
-      min-height: 42px; // mantiene altezza uniforme anche senza descrizione
+      font-weight: 600;
+      color: #1999d5;
+      border-bottom: 2px solid #1999d5;
+      padding-bottom: 0.3rem;
     }
-  
-    p {
-      margin: 0.3rem 0;
-      font-size: 0.9rem;
-      color: #333;
-  
-      strong {
-        color: #315a6e;
-        font-weight: 600;
-      }
-    }
-  
-    span.active {
-      color: #28a745;
-      font-weight: 700;
-    }
-  
-    span.inactive {
-      color: #dc3545;
-      font-weight: 700;
-    }
-  }
-  .monitoring-panel {
-    display: flex;
-    gap: 2rem;
-    margin: 1rem 0;
-    user-select: none;
-  
-    .user-list {
-      flex: 1;
-      background: #f9faff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      height: 300px;
-  
-      h4 {
-        margin-bottom: 1rem;
-        font-weight: 600;
-        color: #1999d5;
-        border-bottom: 2px solid #1999d5;
-        padding-bottom: 0.3rem;
-      }
-  
-      ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        overflow-y: auto;
-        flex-grow: 1;
-        border-top: 1px solid #ccc;
-  
-        li {
-          padding: 0.5rem 0.75rem;
-          margin-bottom: 0.25rem;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background-color 0.2s ease;
-  
-          &:hover,
-          &:focus {
-            background-color: #d0e7fc;
-            outline: none;
-          }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto;
+      flex-grow: 1;
+      border-top: 1px solid #ccc;
+
+      li {
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 0.25rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover,
+        &:focus {
+          background-color: #d0e7fc;
+          outline: none;
         }
-  
-        .empty {
-          color: #999;
-          font-style: italic;
-          text-align: center;
-          margin-top: 1rem;
-        }
+      }
+
+      .empty {
+        color: #999;
+        font-style: italic;
+        text-align: center;
+        margin-top: 1rem;
       }
     }
   }
-  
+}
+
+.social-block {
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  width: 100%;
+  h4 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+    }
+  }
+
+  &.facebook-block {
+    background-color: #e7f0fb;
+    border-left: 5px solid #1877f2;
+  }
+
+  &.instagram-block {
+    background: linear-gradient(
+      90deg,
+      #feda75,
+      #fa7e1e,
+      #d62976,
+      #962fbf,
+      #4f5bd5
+    );
+    color: white;
+
+    input {
+      border-color: #fff;
+
+      &:focus {
+        border-color: #fff;
+      }
+    }
+
+    label {
+      color: white;
+    }
+  }
+
+  &.tiktok-block {
+    background-color: #f0f0f0;
+    border-left: 5px solid #010101;
+  }
+
+  &.whatsapp-block {
+    background-color: #e2f6e5;
+    border-left: 5px solid #25d366;
+  }
+}

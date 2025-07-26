@@ -6,6 +6,9 @@
         <button type="button" [class.active]="activeTab === 'plan'" (click)="activeTab = 'plan'">Plan</button>
         <button type="button" [class.active]="activeTab === 'monitoring'" (click)="activeTab = 'monitoring'">Monitoring
             user</button>
+        <button type="button" [class.active]="activeTab === 'social-media'"
+            (click)="activeTab = 'social-media'">Social Media</button>
+
     </nav>
 
     <form [formGroup]="companyForm" (ngSubmit)="modifyCompany()">
@@ -112,6 +115,73 @@
                 </div>
             </div>
         </div>
+        <!-- Social Media Tab -->
+        <div *ngIf="activeTab === 'social-media'" class="tab-content">
+            <div class="form-grid">
+        
+                <!-- Facebook Block -->
+                <div class="social-block facebook-block">
+                    <h4>Facebook</h4>
+                    <div class="form-group col-50">
+                        <label>Facebook Link</label>
+                        <input type="url" formControlName="facebookLink" placeholder="https://facebook.com/..." />
+                    </div>
+                    <div class="form-group col-50">
+                        <label>Facebook Page ID</label>
+                        <input type="text" formControlName="facebookPageId" />
+                    </div>
+                    <div class="form-group col-100">
+                        <label>Facebook Access Token</label>
+                        <input type="text" formControlName="facebookAccessToken" />
+                    </div>
+                </div>
+        
+                <!-- Instagram Block -->
+                <div class="social-block instagram-block">
+                    <h4>Instagram</h4>
+                    <div class="form-group col-50">
+                        <label>Instagram Link</label>
+                        <input type="url" formControlName="instagramLink" placeholder="https://instagram.com/..." />
+                    </div>
+                    <div class="form-group col-50">
+                        <label>Instagram Business ID</label>
+                        <input type="text" formControlName="instagramBusinessId" />
+                    </div>
+                </div>
+        
+                <!-- TikTok Block -->
+                <div class="social-block tiktok-block">
+                    <h4>TikTok</h4>
+                    <div class="form-group col-50">
+                        <label>TikTok Link</label>
+                        <input type="url" formControlName="tiktokLink" placeholder="https://tiktok.com/..." />
+                    </div>
+                    <div class="form-group col-50">
+                        <label>TikTok Business ID</label>
+                        <input type="text" formControlName="tiktokBusinessId" />
+                    </div>
+                    <div class="form-group col-100">
+                        <label>TikTok Access Token</label>
+                        <input type="text" formControlName="tiktokAccessToken" />
+                    </div>
+                </div>
+        
+                <!-- WhatsApp Block -->
+                <div class="social-block whatsapp-block">
+                    <h4>WhatsApp</h4>
+                    <div class="form-group col-50">
+                        <label>WhatsApp Phone Number</label>
+                        <input type="text" formControlName="whatsappPhoneNumber" placeholder="+39..." />
+                    </div>
+                    <div class="form-group col-50">
+                        <label>WhatsApp API Token</label>
+                        <input type="text" formControlName="whatsappApiToken" />
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+          
 
         <div class="buttons">
             <button type="submit" class="btn-primary" [disabled]="companyForm.invalid">Salva modifiche</button>
@@ -119,4 +189,3 @@
 
     </form>
 </div>
-  
