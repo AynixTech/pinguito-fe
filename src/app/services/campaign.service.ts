@@ -72,7 +72,7 @@ export class CampaignService {
 
     // Recupera tutte le campagne (admin)
     getAllCampaigns(companyUuid?: string): Observable<Campaign[]> {
-        let url = `${this.baseUrl}/allCampaigns/`;
+        let url = `${this.baseUrl}/allCampaigns`;
         if (companyUuid) {
             url += `?companyUuid=${companyUuid}`;
         }

@@ -6,7 +6,6 @@ import { LandingComponent } from './landing/landing.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MyCompaniesComponent } from './my-companies/my-companies.component';
 import { AuthGuard } from '../../guard/auth.guard';
-import { MyCampaignsComponent } from './my-campaigns/my-campaigns.component';
 
 const routes: Routes = [
   {
@@ -32,12 +31,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['monitoring'] }
       },
-      {
-        path: 'my-campaigns',
-        component: MyCampaignsComponent,
-        canActivate: [AuthGuard],
-        data: { roles: ['monitoring'] }
-      },
+      // {
+      //   path: 'my-campaigns',
+      //   component: MyCampaignsComponent,
+      //   canActivate: [AuthGuard],
+      //   data: { roles: ['monitoring'] }
+      // },
       {
         path: 'users',
         loadChildren: () =>

@@ -131,7 +131,7 @@ export class SidebarComponent implements OnInit {
             label: 'Campagne',
             icon: 'fa fa-envelope',
             children: [
-              { path: '/my-campaigns', label: 'Tutte le campagne' },
+              { path: '/campaigns', label: 'Tutte le campagne' },
               { path: '/create', label: 'Crea campagna' }
             ]
           },
