@@ -4,13 +4,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompanyService, Company } from '../../../../services/company.service';
 import { UserService, User } from '../../../../services/user.service';
 import { PlanService, Plan } from '../../../../services/plan.service';
+import { AuthStoreService } from '../../../../services/auth-store.service';
 
 @Component({
-  selector: 'app-edit-company',
-  templateUrl: './edit-company.component.html',
-  styleUrls: ['./edit-company.component.scss']
+  selector: 'app-detail-company',
+  templateUrl: './detail-company.component.html',
+  styleUrls: ['./detail-company.component.scss']
 })
-export class EditCompanyComponent implements OnInit {
+export class DetailCompanyComponent implements OnInit {
   companyForm!: FormGroup;
   companyUuid!: string;
   usersMonitoring: User[] = [];       // Tutti gli utenti disponibili per monitoring
@@ -18,6 +19,7 @@ export class EditCompanyComponent implements OnInit {
   plans: Plan[] = [];
   isLoading = true;
   activeTab: 'info' | 'plan' | 'monitoring' | 'social-media' = 'info';  // default tab attivo
+  readonlyMode = false;
 
   constructor(
     private fb: FormBuilder,
@@ -25,11 +27,15 @@ export class EditCompanyComponent implements OnInit {
     private router: Router,
     private companyService: CompanyService,
     private userService: UserService,
+    private authStore: AuthStoreService,
     private planService: PlanService
   ) { }
 
   ngOnInit(): void {
     this.companyUuid = this.route.snapshot.paramMap.get('uuid') || '';
+    this.authStore.user$.subscribe((user: any) => {
+      this.readonlyMode = user.role?.name !== 'admin'; // Imposta readonly se il ruolo è diverso da admin
+    });
 
     this.companyForm = this.fb.group({
       name: ['', Validators.required],
@@ -50,6 +56,10 @@ export class EditCompanyComponent implements OnInit {
       notes: [''],
       planId: [''],
     });
+
+    if (this.readonlyMode) {
+      this.companyForm.disable();
+    }
 
     this.loadPlans();
     this.loadUsersMonitoring();
@@ -103,17 +113,20 @@ export class EditCompanyComponent implements OnInit {
   }
 
   selectPlan(planId: number) {
+    if (this.readonlyMode) return; // Non permette di cambiare il piano in modalità readonly
     this.companyForm.patchValue({ planId });
   }
 
   // Funzione per spostare un utente da sinistra a destra (assegnarlo)
   assignUser(user: User) {
+    if (this.readonlyMode) return; // Non permette di assegnare utenti in modalità readonly
     this.assignedUsers.push(user);
     this.usersMonitoring = this.usersMonitoring.filter(u => u.uuid !== user.uuid);
   }
 
   // Funzione per spostare un utente da destra a sinistra (rimuoverlo)
   removeUser(user: User) {
+    if (this.readonlyMode) return; // Non permette di rimuovere utenti in modalità readonly
     this.usersMonitoring.push(user);
     this.assignedUsers = this.assignedUsers.filter(u => u.uuid !== user.uuid);
   }

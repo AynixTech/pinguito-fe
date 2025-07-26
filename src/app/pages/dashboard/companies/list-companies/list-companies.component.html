@@ -31,7 +31,7 @@
                 </th>
                 <th>Partita IVA</th>
                 <th>Indirizzo Legale</th>
-                <th>Actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -43,13 +43,13 @@
                     <td>{{ company.vatNumber || '-' }}</td>
                     <td>{{ company.legalAddress || '-' }}</td>
                     <td>
-                        <a href="#" routerLink="edit/{{ company.uuid }}" title="Modifica">
+                        <a *ngIf="isAdmin" href="#" routerLink="detail/{{ company.uuid }}" title="Modifica">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a href="#" routerLink="view/{{ company.uuid }}" title="Vedi dettagli">
+                        <a *ngIf="!isAdmin" href="#" routerLink="detail/{{ company.uuid }}" title="Vedi dettagli">
                             <i class="fa fa-eye"></i>
                         </a>
-                        <a href="#" (click)="deleteCompany(company)" title="Elimina">
+                        <a *ngIf="isAdmin" (click)="deleteCompany(company)" title="Elimina">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>

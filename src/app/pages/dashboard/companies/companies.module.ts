@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { ListCompaniesComponent } from './list-companies/list-companies.component';
-import { EditCompanyComponent } from './edit-company/edit-company.component';
+import { DetailCompanyComponent } from './detail-company/detail-company.component';
 import { CompanyRoutingModule } from './companies-routing.module';
 
 
@@ -12,7 +12,7 @@ import { CompanyRoutingModule } from './companies-routing.module';
 @NgModule({
     declarations: [
         ListCompaniesComponent,
-        EditCompanyComponent
+        DetailCompanyComponent,
     ],
     imports: [
         CommonModule,

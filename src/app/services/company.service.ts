@@ -36,7 +36,6 @@ export class CompanyService {
 
     constructor(private http: HttpClient) { }
 
-    //Monitoring: Recupera la lista delle companies associate all'utente
     getAllCompanies(): Observable<Company[]> {
         return this.http.get<Company[]>(`${this.baseUrl}/AllCompanies`);
     }

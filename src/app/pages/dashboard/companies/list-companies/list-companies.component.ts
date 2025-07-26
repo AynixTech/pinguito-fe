@@ -1,8 +1,9 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Company, CompanyService } from '../../../../services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Plan, PlanService } from '../../../../services/plan.service';
+import { AuthStoreService } from '../../../../services/auth-store.service';
 
 
 @Component({
@@ -28,13 +29,20 @@ export class ListCompaniesComponent implements OnInit {
   industries: string[] = [];
   customerSegments: string[] = [];
 
+  isAdmin: boolean = false;
+
   constructor(
     private companyService: CompanyService,
+    private authStore: AuthStoreService,
     private router: Router,
     private toast: ToastrService
   ) { }
 
   ngOnInit(): void {
+    this.authStore.user$.subscribe((user: any) => {
+      this.isAdmin = user.role?.name === 'admin'; // Imposta isAdmin se il ruolo è admin
+    });
+    
     this.loadCompanies();
   }
 
@@ -124,9 +132,9 @@ export class ListCompaniesComponent implements OnInit {
   }
 
   editCompany(company: Company) {
-  
+
     this.router.navigate(['/dashboard/companies/edit', company.uuid]);
-  
+
   }
 
   viewDetails(company: Company) {
