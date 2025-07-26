@@ -9,14 +9,12 @@ import { CompaniesComponent } from './companies/companies.component';
 import { LandingComponent } from './landing/landing.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CompaniesModule } from './companies/companies.module';
-import { MyCompaniesComponent } from './my-companies/my-companies.component';
 
 @NgModule({
   declarations: [
     ChartCampaignComponent,
     DashboardComponent,
     LandingComponent,
-    MyCompaniesComponent,
     PageNotFoundComponent,
   ],
   imports: [

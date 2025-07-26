@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Campaign, CampaignService } from '../../../../services/campaign.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CompanyStoreService } from '../../../../services/company-store.service';
 import { Company } from '../../../../services/company.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list-campaigns',
   templateUrl: './list-campaigns.component.html',
   styleUrls: ['./list-campaigns.component.scss']
 })
-export class ListCampaignsComponent implements OnInit {
+export class ListCampaignsComponent implements OnInit, OnDestroy {
   campaigns: Campaign[] = [];
   filteredCampaigns: Campaign[] = [];
 
@@ -27,8 +28,9 @@ export class ListCampaignsComponent implements OnInit {
   statuses: string[] = ['active', 'planned', 'inactive', 'completed', 'cancelled'];
 
   expandedCampaigns = new Set<string>();
-  
+
   currentCompany: Company | null = null;
+  private companySubscription?: Subscription;
 
 
   constructor(
@@ -39,10 +41,13 @@ export class ListCampaignsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.companyStoreService.company$.subscribe(companyStore => {
+    this.companySubscription = this.companyStoreService.company$.subscribe(companyStore => {
       this.currentCompany = companyStore.company || null;
-      this.loadCampaigns(); // Ricarica campagne al cambio azienda
+      this.loadCampaigns();
     });
+  }
+  ngOnDestroy(): void {
+    this.companySubscription?.unsubscribe();
   }
 
   loadCampaigns() {

@@ -4,7 +4,6 @@ import { DashboardComponent } from './dashboard.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { LandingComponent } from './landing/landing.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { MyCompaniesComponent } from './my-companies/my-companies.component';
 import { AuthGuard } from '../../guard/auth.guard';
 
 const routes: Routes = [
@@ -23,20 +22,9 @@ const routes: Routes = [
           import('./companies/companies.module').then(m => m.CompaniesModule),
 
         canActivate: [AuthGuard],
-        data: { roles: ['admin'] }
+        data: { roles: ['admin', 'monitoring'] }
       },
-      {
-        path: 'my-companies',
-        component: MyCompaniesComponent,
-        canActivate: [AuthGuard],
-        data: { roles: ['monitoring'] }
-      },
-      // {
-      //   path: 'my-campaigns',
-      //   component: MyCampaignsComponent,
-      //   canActivate: [AuthGuard],
-      //   data: { roles: ['monitoring'] }
-      // },
+
       {
         path: 'users',
         loadChildren: () =>

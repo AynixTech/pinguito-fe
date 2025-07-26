@@ -37,8 +37,8 @@ export class CompanyService {
     constructor(private http: HttpClient) { }
 
     //Monitoring: Recupera la lista delle companies associate all'utente
-    getCompaniesByUserUuid(userUuid: string): Observable<Company[]> {
-        return this.http.get<Company[]>(`${this.baseUrl}/${userUuid}/my-companies`);
+    getAllCompanies(): Observable<Company[]> {
+        return this.http.get<Company[]>(`${this.baseUrl}/AllCompanies`);
     }
 
     //Admin: canella una company
@@ -46,8 +46,9 @@ export class CompanyService {
         return this.http.delete<any>(`${this.baseUrl}/${companyUuid}/delete`);
     }
     //Admin recupera la lista di tutte le companies
-    getAllCompanies(): Observable<Company[]> {
-        return this.http.get<Company[]>(`${this.baseUrl}/allCompanies`);
+    // Recupera la lista delle companies in base al ruolo dell'utente (admin: tutte, monitoring: solo associate)
+    getCompaniesByUserRole(userUuid: string): Observable<Company[]> {
+        return this.http.get<Company[]>(`${this.baseUrl}/${userUuid}/AllCompanies`);
     }
     getCompanyByUuid(uuid: string): Observable<Company> {
         return this.http.get<Company>(`${this.baseUrl}/${uuid}/getCompany`);

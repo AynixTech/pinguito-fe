@@ -42,8 +42,7 @@ export class HeaderLayoutComponent implements OnInit {
   
 
   loadCompanies() {
-    if (!this.currentUserUuid) return;
-    this.companyService.getCompaniesByUserUuid(this.currentUserUuid).subscribe(data => {
+    this.companyService.getAllCompanies().subscribe(data => {
       this.companies = data;
 
       // Sincronizza currentCompany con la lista, se esiste nello store

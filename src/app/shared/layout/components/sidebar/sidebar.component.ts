@@ -126,7 +126,7 @@ export class SidebarComponent implements OnInit {
       case 3: // Monitoraggio
         this.menuItems = [
           { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
-          { path: '/my-companies', label: 'Le mie Aziende', icon: 'fa fa-building' },
+          { path: '/companies', label: 'Le mie Aziende', icon: 'fa fa-building' },
           {
             label: 'Campagne',
             icon: 'fa fa-envelope',
