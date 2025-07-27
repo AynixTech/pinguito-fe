@@ -12,7 +12,7 @@ import { CompanyRoutingModule } from './companies-routing.module';
 @NgModule({
     declarations: [
         ListCompaniesComponent,
-        DetailCompanyComponent,
+        DetailCompanyComponent
     ],
     imports: [
         CommonModule,

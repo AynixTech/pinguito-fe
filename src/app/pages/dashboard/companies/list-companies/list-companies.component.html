@@ -43,10 +43,10 @@
                     <td>{{ company.vatNumber || '-' }}</td>
                     <td>{{ company.legalAddress || '-' }}</td>
                     <td>
-                        <a *ngIf="isAdmin" href="#" routerLink="detail/{{ company.uuid }}" title="Modifica">
+                        <a *ngIf="isAdmin" routerLink="detail/{{ company.uuid }}" title="Modifica">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a *ngIf="!isAdmin" href="#" routerLink="detail/{{ company.uuid }}" title="Vedi dettagli">
+                        <a *ngIf="!isAdmin" routerLink="detail/{{ company.uuid }}" title="Vedi dettagli">
                             <i class="fa fa-eye"></i>
                         </a>
                         <a *ngIf="isAdmin" (click)="deleteCompany(company)" title="Elimina">

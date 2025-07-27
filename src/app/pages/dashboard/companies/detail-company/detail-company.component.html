@@ -117,77 +117,135 @@
         </div>
         <!-- Social Media Tab -->
         <div *ngIf="activeTab === 'social-media'" class="tab-content">
-            <div class="form-grid">
+            <div class="accordion-wrapper">
 
-                <!-- Facebook Block -->
-                <div class="social-block facebook-block">
-                    <h4>Facebook</h4>
-                    <div class="form-group col-50">
-                        <label>Facebook Link</label>
-                        <input type="url" formControlName="facebookLink" placeholder="https://facebook.com/..." />
+                <!-- META -->
+                <div class="accordion-item">
+                    <div class="accordion-header" (click)="toggleAccordion('meta')">
+                        <h4>Meta (FB, IG , Whatsapp)</h4>
+                        <div class="actions">
+                            <span class="status-label" [ngClass]="getStatusClass(syncStatus['meta'])">
+                                {{ getStatusText(syncStatus['meta']) }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="form-group col-50">
-                        <label>Facebook Page ID</label>
-                        <input type="text" formControlName="facebookPageId" />
-                    </div>
-                    <div class="form-group col-100">
-                        <label>Facebook Access Token</label>
-                        <input type="text" formControlName="facebookAccessToken" />
+
+                    <div *ngIf="opened['meta']" class="accordion-body social-block meta-block">
+
+
+                        1) Inserisci App ID, poi App Secret e clicca su "Collega Facebook" per avviare il processo di autenticazione.
+                       
+                        <div class="form-group col-50">
+                            <label>META App ID</label>
+                            <input type="text" formControlName="metaAppId" />
+                        </div>
+                        <div class="form-group col-50">
+                            <label>META App Secret</label>
+                            <input type="text" formControlName="metaAppSecret" />
+                        </div>
+
+                        <button type="button" class="btn-connect-meta" (click)="loginWithFacebook()">🔗 Collega Facebook</button >
+
+
+
+                        <div class="form-group col-100">
+                            <label>META Short Token</label>
+                            <input type="text" formControlName="metaShortToken" />
+                        </div>
+                        <div class="form-group col-100">
+                            <label>META Access Token</label>
+                            <input type="text" formControlName="metaAccessToken" />
+                        </div>
+                       
+
+                        <div class="form-group col-50">
+                            <label>Response</label>
+                            <div *ngIf="metaTokenData" class="meta-token-info">
+                                <h2>Informazioni Token Meta</h2>
+
+                                <p><strong>Applicazione:</strong> {{ metaTokenData.application }}</p>
+                                <p><strong>User ID:</strong> {{ metaTokenData.user_id }}</p>
+                                <p><strong>App ID:</strong> {{ metaTokenData.app_id }}</p>
+                                <p><strong>Tipo:</strong> {{ metaTokenData.type }}</p>
+                                <p>
+                                    <strong>Token valido:</strong>
+                                    <span
+                                        [ngClass]="{ 'valid': metaTokenData.is_valid, 'invalid': !metaTokenData.is_valid }">
+                                        {{ metaTokenData.is_valid ? 'Sì' : 'No' }}
+                                    </span>
+                                </p>
+                                <p>
+                                    <strong>Scadenza Token:</strong>
+                                    <span *ngIf="metaTokenData.expires_at !== 0; else noExpiry"
+                                        [ngClass]="{ 'expired': isExpired(metaTokenData.expires_at) }">
+                                        {{ expiresAtDate }}
+                                    </span>
+                                    <ng-template #noExpiry>
+                                        Nessuna scadenza
+                                    </ng-template>
+                                </p>
+
+                                <p>
+                                    <strong>Scadenza accesso ai dati:</strong>
+                                    <span [ngClass]="{ 'expired': isExpired(metaTokenData.data_access_expires_at) }">
+                                        {{ dataAccessExpiresAtDate }}
+                                    </span>
+                                </p>
+
+                                <h3>Permessi Attivi (Scopes):</h3>
+                                <ul>
+                                    <li *ngFor="let scope of metaTokenData.scopes">{{ scope }}</li>
+                                </ul>
+
+                                <h3>Permessi Granulari:</h3>
+                                <div *ngFor="let g of metaTokenData.granular_scopes" class="granular-scope">
+                                    <strong>{{ g.scope }}</strong>
+                                    <div *ngIf="g.target_ids">
+                                        <em>Target IDs:</em> {{ g.target_ids.join(', ') }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
-                <!-- Instagram Block -->
-                <div class="social-block instagram-block">
-                    <h4>Instagram</h4>
-                    <div class="form-group col-50">
-                        <label>Instagram Link</label>
-                        <input type="url" formControlName="instagramLink" placeholder="https://instagram.com/..." />
+
+                <!-- TIKTOK -->
+                <div class="accordion-item">
+                    <div class="accordion-header" (click)="toggleAccordion('tiktok')">
+                        <h4>TikTok</h4>
+                        <div class="actions">
+                            <span class="status-label" [ngClass]="getStatusClass(syncStatus['tiktok'])">
+                                {{ getStatusText(syncStatus['tiktok']) }}
+                            </span>
+                           
+                        </div>
                     </div>
-                    <div class="form-group col-50">
-                        <label>Instagram Business ID</label>
-                        <input type="text" formControlName="instagramBusinessId" />
+                    <div *ngIf="opened['tiktok']" class="accordion-body social-block tiktok-block">
+                        <div class="form-group col-50">
+                            <label>TikTok Link</label>
+                            <input type="url" formControlName="tiktokLink" placeholder="https://tiktok.com/..." />
+                        </div>
+                        <div class="form-group col-50">
+                            <label>TikTok Business ID</label>
+                            <input type="text" formControlName="tiktokBusinessId" />
+                        </div>
+                        <div class="form-group col-100">
+                            <label>TikTok Access Token</label>
+                            <input type="text" formControlName="tiktokAccessToken" />
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- TikTok Block -->
-                <div class="social-block tiktok-block">
-                    <h4>TikTok</h4>
-                    <div class="form-group col-50">
-                        <label>TikTok Link</label>
-                        <input type="url" formControlName="tiktokLink" placeholder="https://tiktok.com/..." />
-                    </div>
-                    <div class="form-group col-50">
-                        <label>TikTok Business ID</label>
-                        <input type="text" formControlName="tiktokBusinessId" />
-                    </div>
-                    <div class="form-group col-100">
-                        <label>TikTok Access Token</label>
-                        <input type="text" formControlName="tiktokAccessToken" />
-                    </div>
+            <div class="buttons">
+                <div *ngIf="!readonlyMode" class="buttons">
+                    <button type="submit" class="btn-primary" [disabled]="companyForm.invalid">Salva modifiche</button>
                 </div>
-
-                <!-- WhatsApp Block -->
-                <div class="social-block whatsapp-block">
-                    <h4>WhatsApp</h4>
-                    <div class="form-group col-50">
-                        <label>WhatsApp Phone Number</label>
-                        <input type="text" formControlName="whatsappPhoneNumber" placeholder="+39..." />
-                    </div>
-                    <div class="form-group col-50">
-                        <label>WhatsApp API Token</label>
-                        <input type="text" formControlName="whatsappApiToken" />
-                    </div>
-                </div>
-
             </div>
         </div>
 
-
-        <div class="buttons">
-            <div class="buttons" *ngIf="!readonlyMode">
-                <button type="submit" class="btn-primary" [disabled]="companyForm.invalid">Salva modifiche</button>
-            </div>
-        </div>
 
     </form>
 </div>
