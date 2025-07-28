@@ -54,6 +54,22 @@
             </select>
         </div>
 
+        <div class="form-group col-100">
+            <label>Canali</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" [value]="'email'" (change)="onChannelChange($event)"
+                        [checked]="channels.includes('email')" /> Email</label>
+                <label><input type="checkbox" [value]="'facebook'" (change)="onChannelChange($event)"
+                        [checked]="channels.includes('facebook')" /> Facebook</label>
+                <label><input type="checkbox" [value]="'instagram'" (change)="onChannelChange($event)"
+                        [checked]="channels.includes('instagram')" /> Instagram</label>
+                <label><input type="checkbox" [value]="'tiktok'" (change)="onChannelChange($event)"
+                        [checked]="channels.includes('tiktok')" /> TikTok</label>
+            </div>
+        </div>
+          
+          
+
         <!-- Campo prompt AI -->
         <div class="form-group col-100">
             <label for="aiContentPrompt">Prompt Contenuto AI</label>
@@ -71,13 +87,13 @@
         <!-- Campi AI generati -->
         <div class="form-group col-100">
             <label for="aiGeneratedContent">Contenuto AI Generato</label>
-            <textarea id="aiGeneratedContent" formControlName="aiGeneratedContent" readonly
-                [rows]="Math.max(3, (campaignForm.get('aiGeneratedContent')?.value?.split('\n').length || 1))"></textarea>
+            <textarea id="aiGeneratedContent" formControlName="aiGeneratedContent" 
+                [rows]="10"></textarea>
         </div>
 
         <div class="form-group col-100">
             <label for="aiSummary">Sintesi AI</label>
-            <textarea id="aiSummary" formControlName="aiSummary" readonly></textarea>
+            <textarea id="aiSummary" formControlName="aiSummary" ></textarea>
         </div>
 
         <div class="form-group col-100">

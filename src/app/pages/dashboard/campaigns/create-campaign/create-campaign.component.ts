@@ -14,6 +14,8 @@ export class CreateCampaignComponent implements OnInit {
   campaignForm!: FormGroup;
   loading = false;
   currentCompany: Company | null = null;
+  channels: string[] = [];
+
   private companySubscription?: Subscription;
 
   constructor(private fb: FormBuilder, private companyStoreService: CompanyStoreService, private aiService: AiService) { }
@@ -27,6 +29,7 @@ export class CreateCampaignComponent implements OnInit {
       description: [''],
       startDate: [''],
       endDate: [''],
+      channels: [[]] ,
       status: ['planned'],
       aiContentPrompt: ['', Validators.required],
       aiGeneratedContent: [''],
@@ -40,9 +43,22 @@ export class CreateCampaignComponent implements OnInit {
         companyUuid: this.currentCompany?.uuid || ''
       });
     });
+    this.channels = this.campaignForm.get('channels')?.value || [];
+
     this.campaignForm.get('status')?.disable();
   }
-
+  onChannelChange(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    if (checkbox.checked) {
+      if (!this.channels.includes(checkbox.value)) {
+        this.channels.push(checkbox.value);
+      }
+    } else {
+      this.channels = this.channels.filter(c => c !== checkbox.value);
+    }
+    this.campaignForm.patchValue({ channels: this.channels });
+  }
+  
   generateAIContent(): void {
     const prompt = this.campaignForm.get('aiContentPrompt')?.value;
     if (!prompt?.trim()) return;
