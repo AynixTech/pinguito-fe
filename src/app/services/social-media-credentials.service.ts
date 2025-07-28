@@ -11,6 +11,11 @@ export class SocialMediaCredentialsService {
 
     constructor(private http: HttpClient) { }
 
+    savePageData(data: any): Observable<any> {
+        const url = `${this.baseUrl}/meta/save-page-data`;
+        return this.http.post(url, data);
+    }
+    
     syncMetaToken(data: any): Observable<any> {
         const url = `${this.baseUrl}/meta/sync-meta-token`;
         return this.http.post(url, data);

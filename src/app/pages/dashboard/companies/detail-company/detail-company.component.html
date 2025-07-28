@@ -123,6 +123,15 @@
                 <div class="accordion-item">
                     <div class="accordion-header" (click)="toggleAccordion('meta')">
                         <h4>Meta (FB, IG , Whatsapp)</h4>
+                        <div>
+                            <strong>Scadenza token:</strong>
+                            <span [ngClass]="{ 'expired': isExpired(metaTokenData.data_access_expires_at) }">
+                                {{ dataAccessExpiresAtDate }}
+                                <span *ngIf="metaTokenData.data_access_expires_at && !isExpired(metaTokenData.data_access_expires_at)">
+                                    ({{ getTimeLeft(metaTokenData.data_access_expires_at) }} giorni rimanenti)
+                                </span>
+                            </span>
+                        </div>
                         <div class="actions">
                             <span class="status-label" [ngClass]="getStatusClass(syncStatus['meta'])">
                                 {{ getStatusText(syncStatus['meta']) }}
@@ -132,9 +141,14 @@
 
                     <div *ngIf="opened['meta']" class="accordion-body social-block meta-block">
 
+                        <div class="form-group col-50">
+                            <p>
+                                1) Inserisci App ID, poi App Secret e clicca su "Collega Facebook" per avviare il
+                                processo di
+                                autenticazione.
+                            </p>
+                        </div>
 
-                        1) Inserisci App ID, poi App Secret e clicca su "Collega Facebook" per avviare il processo di autenticazione.
-                       
                         <div class="form-group col-50">
                             <label>META App ID</label>
                             <input type="text" formControlName="metaAppId" />
@@ -144,7 +158,8 @@
                             <input type="text" formControlName="metaAppSecret" />
                         </div>
 
-                        <button type="button" class="btn-connect-meta" (click)="loginWithFacebook()">🔗 Collega Facebook</button >
+                        <button type="button" class="btn-connect-meta" (click)="loginWithFacebook()">🔗 Collega
+                            Facebook</button>
 
 
 
@@ -156,10 +171,36 @@
                             <label>META Access Token</label>
                             <input type="text" formControlName="metaAccessToken" />
                         </div>
-                       
-
                         <div class="form-group col-50">
-                            <label>Response</label>
+                            <p>
+                                2) Dopo aver inserito il token, seleziona una pagina Facebook per ottenere le informazioni
+                                del token.
+                            </p>
+                        </div>
+
+
+                       
+                        <div class="form-group col-100">
+                            <label for="pageSelect">Seleziona una pagina Facebook:</label>
+
+                            <select id="pageSelect" class="form-control" formControlName="metaPageId"
+                                (change)="onPageSelect()">
+                                <option [ngValue]="undefined" disabled>-- Seleziona Pagina --</option>
+                                <option *ngFor="let page of metaPageData;" [ngValue]="page.id">
+                                    {{ page.name }} ({{ page.id }})
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group col-100">
+                            <label>META Page Access Token</label>
+                            <input type="text" formControlName="metaPageAccessToken" />
+                        </div>
+                        <div class="form-group col-100">
+                            <label>META PageId</label>
+                            <input type="text" formControlName="metaPageId" />
+                        </div>
+                        <div class="form-group col-50">
                             <div *ngIf="metaTokenData" class="meta-token-info">
                                 <h2>Informazioni Token Meta</h2>
 
@@ -219,7 +260,7 @@
                             <span class="status-label" [ngClass]="getStatusClass(syncStatus['tiktok'])">
                                 {{ getStatusText(syncStatus['tiktok']) }}
                             </span>
-                           
+
                         </div>
                     </div>
                     <div *ngIf="opened['tiktok']" class="accordion-body social-block tiktok-block">

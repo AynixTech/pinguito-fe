@@ -6,6 +6,7 @@ import { UserService, User } from '../../../../services/user.service';
 import { PlanService, Plan } from '../../../../services/plan.service';
 import { AuthStoreService } from '../../../../services/auth-store.service';
 import { SocialMediaCredentialsService } from '../../../../services/social-media-credentials.service';
+import { ToastrService } from 'ngx-toastr';
 declare global {
   interface Window {
     fbAsyncInit: () => void;
@@ -63,6 +64,7 @@ export class DetailCompanyComponent implements OnInit {
   };
   metaSyncResponseParsed: any = '';
   metaTokenData: any;
+  metaPageData: any;
   expiresAtDate: string = '';
   dataAccessExpiresAtDate: string = '';
 
@@ -73,6 +75,7 @@ export class DetailCompanyComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private companyService: CompanyService,
+    private toast: ToastrService,
     private socialMediaCredentialsService: SocialMediaCredentialsService,
     private userService: UserService,
     private authStore: AuthStoreService,
@@ -132,6 +135,8 @@ export class DetailCompanyComponent implements OnInit {
       metaAccessToken: [''],
       metaShortToken: [''],
       metaSyncResponse: [''],
+      metaPageId: [null],
+      metaPageAccessToken: [''],
     });
   }
 
@@ -156,7 +161,7 @@ export class DetailCompanyComponent implements OnInit {
       if (response.status === 'connected') {
         const shortToken = response.authResponse.accessToken;
         console.log('Short Token:', shortToken);
-        this.syncFacebookToken({shortToken, companyUuid: this.companyUuid, appId: appId, appSecret: appSecret});
+        this.syncFacebookToken({ shortToken, companyUuid: this.companyUuid, appId: appId, appSecret: appSecret });
       } else {
         alert('Login Facebook annullato o fallito.');
       }
@@ -234,6 +239,7 @@ export class DetailCompanyComponent implements OnInit {
         console.log('Credenziali social media:', credentials);
         if (credentials) {
           this.metaTokenData = JSON.parse(credentials.metaSyncResponse || '{}');
+          this.metaPageData = JSON.parse(credentials.metaPagesResponse || '{}');
           if (this.metaTokenData) {
             this.expiresAtDate = this.formatDate(this.metaTokenData.expires_at);
             this.dataAccessExpiresAtDate = this.formatDate(this.metaTokenData.data_access_expires_at);
@@ -244,6 +250,8 @@ export class DetailCompanyComponent implements OnInit {
             metaAppSecret: credentials.metaAppSecret,
             metaShortToken: credentials.metaShortToken,
             metaAccessToken: credentials.metaAccessToken,
+            metaPageId: credentials.metaPageId,
+            metaPageAccessToken: credentials.metaPageAccessToken,
           });
         }
       },
@@ -260,8 +268,25 @@ export class DetailCompanyComponent implements OnInit {
   isExpired(unixTimestamp: number): boolean {
     return new Date(unixTimestamp * 1000) < new Date();
   }
+  getTimeLeft(unixTimestamp: number): string {
+    const expirationDate = new Date(unixTimestamp * 1000);
+    const now = new Date();
+    let diff = expirationDate.getTime() - now.getTime();
 
+    if (diff <= 0) {
+      return '0 giorni, 0 ore, 0 minuti';
+    }
 
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff -= days * (1000 * 60 * 60 * 24);
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    diff -= hours * (1000 * 60 * 60);
+
+    const minutes = Math.floor(diff / (1000 * 60));
+
+    return `${days} giorni, ${hours} ore, ${minutes} minuti`;
+  }
 
   loadUsersMonitoring(): void {
     this.userService.getMonitoringUsers().subscribe({
@@ -290,6 +315,40 @@ export class DetailCompanyComponent implements OnInit {
       }
     });
   }
+
+  onPageSelect(): void {
+    const selectedIndex = this.companyForm.get('metaPageId')?.value;
+    if (selectedIndex !== undefined) {
+      console.log('Index selezionato:', selectedIndex);
+      console.log('metaPageData:', this.metaPageData);
+    }
+    console.log('Pagina selezionata:', selectedIndex);
+
+    const selectedPage = this.metaPageData.find((page: any) => page.id === selectedIndex);
+
+    const payload = {
+      pageId: selectedPage.id,
+      accessToken: selectedPage.access_token,
+    };
+
+    console.log('Dati da salvare:', payload);
+
+    this.socialMediaCredentialsService.savePageData({
+      companyUuid: this.companyUuid,
+      pageId: selectedPage.id,
+      accessToken: selectedPage.access_token,
+    }).subscribe({
+      next: (response) => {
+        console.log('Pagina salvata con successo:', response);
+        this.toast.success('Pagina salvata con successo', 'Successo');
+      },
+      error: (error) => {
+        console.error('Errore durante il salvataggio:', error);
+        this.toast.error('Errore durante il salvataggio della pagina', 'Errore');
+      }
+    });
+  }
+  
 
   selectPlan(planId: number): void {
     if (this.readonlyMode) return;

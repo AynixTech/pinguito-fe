@@ -307,6 +307,24 @@
     background-color: darken(#1877f2, 5%);
   }
 }
+.btn-save-page{
+  background-color: #1999d5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken(#1999d5, 5%);
+  }
+}
 .meta-token-info {
   background-color: #ffffff;
   padding: 1.5rem 2rem;
