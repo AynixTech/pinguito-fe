@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 @Injectable({
     providedIn: 'root'
 })
-export class SocialMediaCredentialsService {
+export class SocialMediaService {
     private baseUrl = environment.apiUrl + '/social-media';
 
     constructor(private http: HttpClient) { }
@@ -15,7 +15,7 @@ export class SocialMediaCredentialsService {
         const url = `${this.baseUrl}/meta/save-page-data`;
         return this.http.post(url, data);
     }
-    
+
     syncMetaToken(data: any): Observable<any> {
         const url = `${this.baseUrl}/meta/sync-meta-token`;
         return this.http.post(url, data);
@@ -28,5 +28,9 @@ export class SocialMediaCredentialsService {
 
     getSocialMediaCredentialsByCompanyUuid(companyUuid: string): Observable<any> {
         return this.http.get(`${this.baseUrl}/credentials/${companyUuid}`);
+    }
+
+    publishFacebookPost(uuid: string): Observable<any> {
+        return this.http.post<any>(`${this.baseUrl}/facebook/${uuid}/publish`, {});
     }
 }

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CompanyStoreService } from '../../../../services/company-store.service';
 import { Company } from '../../../../services/company.service';
 import { Subscription } from 'rxjs';
+import { SocialMediaService } from '../../../../services/social-media.service';
 
 @Component({
   selector: 'app-list-campaigns',
@@ -36,6 +37,7 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
   constructor(
     private campaignService: CampaignService,
     private companyStoreService: CompanyStoreService,
+    private socialMediaService: SocialMediaService,
     private router: Router,
     private toast: ToastrService
   ) { }
@@ -136,6 +138,20 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
     return this.expandedCampaigns.has(uuid);
   }
 
+  publishFacebookPost(post: any) {
+    // Logica per pubblicare il post
+    console.log('Pubblicazione post:', post);
+    // Qui puoi chiamare un servizio per pubblicare il post
+    this.toast.success('Post pubblicato con successo', 'Successo');
+    this.socialMediaService.publishFacebookPost(post.uuid).subscribe({
+      next: () => {
+        this.toast.success('Post pubblicato con successo', 'Successo');
+      },
+      error: () => {
+        this.toast.error('Errore durante la pubblicazione del post', 'Errore');
+      }
+    });
+  }
 
   editCampaign(campaign: Campaign) {
     this.router.navigate(['/dashboard/campaigns/edit', campaign.uuid]);

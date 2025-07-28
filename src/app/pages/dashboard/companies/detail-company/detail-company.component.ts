@@ -5,7 +5,7 @@ import { CompanyService, Company } from '../../../../services/company.service';
 import { UserService, User } from '../../../../services/user.service';
 import { PlanService, Plan } from '../../../../services/plan.service';
 import { AuthStoreService } from '../../../../services/auth-store.service';
-import { SocialMediaCredentialsService } from '../../../../services/social-media-credentials.service';
+import { SocialMediaService } from '../../../../services/social-media.service';
 import { ToastrService } from 'ngx-toastr';
 declare global {
   interface Window {
@@ -76,7 +76,7 @@ export class DetailCompanyComponent implements OnInit {
     private router: Router,
     private companyService: CompanyService,
     private toast: ToastrService,
-    private socialMediaCredentialsService: SocialMediaCredentialsService,
+    private SocialMediaService: SocialMediaService,
     private userService: UserService,
     private authStore: AuthStoreService,
     private planService: PlanService
@@ -171,7 +171,7 @@ export class DetailCompanyComponent implements OnInit {
   }
   syncFacebookToken(data: { shortToken: string, companyUuid: string, appId: string, appSecret: string }) {
 
-    this.socialMediaCredentialsService.syncMetaToken(data).subscribe({
+    this.SocialMediaService.syncMetaToken(data).subscribe({
       next: (response: any) => {
         console.log('Sincronizzazione Meta riuscita:', response);
         this.companyForm.patchValue({
@@ -234,7 +234,7 @@ export class DetailCompanyComponent implements OnInit {
   }
 
   loadSocialMediaCredentials(uuid: string): void {
-    this.socialMediaCredentialsService.getSocialMediaCredentialsByCompanyUuid(uuid).subscribe({
+    this.SocialMediaService.getSocialMediaCredentialsByCompanyUuid(uuid).subscribe({
       next: (credentials) => {
         console.log('Credenziali social media:', credentials);
         if (credentials) {
@@ -333,7 +333,7 @@ export class DetailCompanyComponent implements OnInit {
 
     console.log('Dati da salvare:', payload);
 
-    this.socialMediaCredentialsService.savePageData({
+    this.SocialMediaService.savePageData({
       companyUuid: this.companyUuid,
       pageId: selectedPage.id,
       accessToken: selectedPage.access_token,
@@ -348,7 +348,7 @@ export class DetailCompanyComponent implements OnInit {
       }
     });
   }
-  
+
 
   selectPlan(planId: number): void {
     if (this.readonlyMode) return;

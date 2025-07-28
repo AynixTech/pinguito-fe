@@ -71,15 +71,32 @@
                         <!-- Facebook -->
                         <div *ngIf="campaign.facebookPosts?.length">
                             <strong>Facebook:</strong> {{ campaign.facebookPosts?.length }} post
-                            <ul class="post-list">
-                                <li *ngFor="let post of campaign.facebookPosts">
-                                    <span class="post-status">[{{ post.status }}]</span>
-                                    <span class="post-message">{{ post.message || '(nessun messaggio)' }}</span>
-                                    <span class="post-date">{{ post.publishedAt || post.scheduledAt | date:'short'
-                                        }}</span>
-                                    <a *ngIf="post.mediaUrl" [href]="post.mediaUrl" target="_blank">📷 Visualizza</a>
-                                </li>
-                            </ul>
+                            <div class="post-list">
+                                <div class="post-item" *ngFor="let post of campaign.facebookPosts">
+                                    <div class="post-status" [ngClass]="{
+                                                                'status-planned': post.status === 'planned',
+                                                                'status-published': post.status === 'published'
+                                                              }">
+                                        {{ post.status | titlecase }}
+                                    </div>
+
+                                    <div class="post-message">{{ post.message || '(nessun messaggio)' }}</div>
+
+                                    <div class="post-date">
+                                        {{ post.publishedAt || post.scheduledAt | date: 'short' }}
+                                    </div>
+
+                                    <div class="post-actions">
+
+                                        <button *ngIf="post.status === 'planned'" (click)="publishFacebookPost(post)"
+                                            class="btn-action">
+                                            Pubblica
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
                         <!-- Instagram -->
