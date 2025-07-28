@@ -4,6 +4,8 @@ import { AiService } from '../../../../services/ai.service';
 import { Company } from '../../../../services/company.service';
 import { Subscription } from 'rxjs';
 import { CompanyStoreService } from '../../../../services/company-store.service';
+import { CampaignService, CreateCampaignRequest } from '../../../../services/campaign.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-campaign',
@@ -18,7 +20,8 @@ export class CreateCampaignComponent implements OnInit {
 
   private companySubscription?: Subscription;
 
-  constructor(private fb: FormBuilder, private companyStoreService: CompanyStoreService, private aiService: AiService) { }
+  constructor(private fb: FormBuilder, private campaignService: CampaignService, private companyStoreService: CompanyStoreService, private toast: ToastrService
+    , private aiService: AiService) { }
   Math = Math; // Per usare Math.max in template
   ngOnInit(): void {
     this.campaignForm = this.fb.group({
@@ -27,9 +30,9 @@ export class CreateCampaignComponent implements OnInit {
       name: ['', Validators.required],
       budget: [''],
       description: [''],
-      startDate: [''],
-      endDate: [''],
-      channels: [[]] ,
+      startDate: [null],
+      endDate: [null],
+      channels: [[]],
       status: ['planned'],
       aiContentPrompt: ['', Validators.required],
       aiGeneratedContentEmail: [''],
@@ -53,6 +56,11 @@ export class CreateCampaignComponent implements OnInit {
 
     this.campaignForm.get('status')?.disable();
   }
+
+  ngOnDestroy(): void {
+    this.companySubscription?.unsubscribe();
+  }
+
   onChannelChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     if (checkbox.checked) {
@@ -84,8 +92,8 @@ export class CreateCampaignComponent implements OnInit {
           aiKeywordsFacebook: res.aiKeywordsFacebook ?? null,
           aiKeywordsInstagram: res.aiKeywordsInstagram ?? null
         });
-        
-        
+
+
         this.loading = false;
       },
       error: (err) => {
@@ -100,5 +108,39 @@ export class CreateCampaignComponent implements OnInit {
     const data = this.campaignForm.value;
     console.log('Campagna da salvare:', data);
     // Salva la campagna qui
+    const saveData: CreateCampaignRequest = {
+      companyUuid: data.companyUuid,
+      name: data.name,
+      description: data.description,
+      startDate: data.startDate ? new Date(data.startDate) : undefined,
+      endDate: data.endDate ? new Date(data.endDate) : undefined,
+      budget: data.budget,
+      status: data.status,
+      channels: JSON.stringify(data.channels), // dovrebbe essere string[] secondo il form
+      aiGeneratedContentEmail: data.aiGeneratedContentEmail,
+      aiGeneratedContentFacebook: data.aiGeneratedContentFacebook,
+      aiGeneratedContentInstagram: data.aiGeneratedContentInstagram,
+      aiSummaryEmail: data.aiSummaryEmail,
+      aiSummaryFacebook: data.aiSummaryFacebook,
+      aiSummaryInstagram: data.aiSummaryInstagram,
+      aiKeywordsEmail: data.aiKeywordsEmail,
+      aiKeywordsFacebook: data.aiKeywordsFacebook,
+      aiKeywordsInstagram: data.aiKeywordsInstagram,
+    };
+    this.campaignService.createCampaign(saveData
+    ).subscribe({
+      next: (campaign) => {
+        console.log('Campagna creata con successo:', campaign);
+        // Puoi reindirizzare o mostrare un messaggio di successo
+        this.toast.success('Campagna creata con successo', 'Successo');
+        this.campaignForm.reset();
+        this.channels = [];
+      },
+      error: (err) => {
+        console.error('Errore durante la creazione della campagna:', err);
+        this.toast.error('Errore durante la creazione della campagna', 'Errore');
+        // Mostra un messaggio di errore all'utente
+      }
+    });
   }
 }

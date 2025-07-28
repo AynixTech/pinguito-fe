@@ -49,10 +49,10 @@
                     <td>{{ campaign.budget !== undefined ? ('€' + campaign.budget) : '-' }}</td>
                     <td>{{ campaign.status || '-' }}</td>
                     <td>
-                        <button type="button" (click)="toggleExpanded(campaign.uuid)"
+                        <button type="button" (click)="toggleExpanded(campaign.uuid?? '')"
                             title="Mostra/Nascondi post social" class="action-btn">
                             <i class="fa"
-                                [ngClass]="expandedCampaigns.has(campaign.uuid) ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"></i>
+                                [ngClass]="expandedCampaigns.has(campaign.uuid?? '') ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"></i>
                         </button>
 
                         <button type="button" (click)="editCampaign(campaign)" title="Modifica" class="action-btn">
@@ -64,7 +64,7 @@
                         </button>
                     </td>
                 </tr>
-                <tr *ngIf="expandedCampaigns.has(campaign.uuid)">
+                <tr *ngIf="expandedCampaigns.has(campaign.uuid ?? '')">
                     <td colspan="7" class="second-row">
                         <strong>Social Media Posts:</strong>
 

@@ -4,11 +4,10 @@
     <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()" class="form-grid">
 
 
-        
+
         <div class="form-group col-100">
             <label for="companyName">Azienda (Nome)</label>
-            <input type="text" id="companyName" formControlName="companyName"
-                placeholder="Company Name" />
+            <input type="text" id="companyName" formControlName="companyName" placeholder="Company Name" />
         </div>
 
         <div class="form-group col-100">
@@ -67,8 +66,8 @@
                         [checked]="channels.includes('tiktok')" /> TikTok</label>
             </div>
         </div>
-          
-          
+
+
 
         <!-- Campo prompt AI -->
         <div class="form-group col-100">
@@ -79,57 +78,65 @@
 
         <div class="form-group col-100">
             <button type="button" class="btn-generate-ai-content" (click)="generateAIContent()"
-                [disabled]="!campaignForm.get('aiContentPrompt')?.value.trim()">
+                [disabled]="!campaignForm.get('aiContentPrompt')?.value.trim() || channels.length === 0">
                 Genera contenuto AI
             </button>
         </div>
 
         <!-- Campi AI generati -->
-        <div class="form-group col-100">
-            <label for="aiGeneratedContentFacebook">Contenuto AI Generato</label>
-            <textarea id="aiGeneratedContentFacebook" formControlName="aiGeneratedContentFacebook"
-                [rows]="10"></textarea>
-        </div>
+        <ng-container *ngIf="channels.includes('facebook')">
+            <div class="form-group col-100">
+                <label for="aiGeneratedContentFacebook">Contenuto Facebook AI Generato</label>
+                <textarea id="aiGeneratedContentFacebook" formControlName="aiGeneratedContentFacebook"
+                    [rows]="10"></textarea>
+            </div>
 
-        <div class="form-group col-100">
-            <label for="aiSummaryFacebook">Sintesi AI</label>
-            <textarea id="aiSummaryFacebook" formControlName="aiSummaryFacebook"></textarea>
-        </div>
+            <div class="form-group col-100">
+                <label for="aiSummaryFacebook">Sintesi Facebook AI</label>
+                <textarea id="aiSummaryFacebook" formControlName="aiSummaryFacebook"></textarea>
+            </div>
 
-        <div class="form-group col-100">
-            <label for="aiKeywordsFacebook">Parole Chiave AI (separate da virgola)</label>
-            <input id="aiKeywordsFacebook" formControlName="aiKeywordsFacebook" placeholder="inverno, regali, newsletter" />
-        </div>
+            <div class="form-group col-100">
+                <label for="aiKeywordsFacebook">Parole Chiave Facebook AI (separate da virgola)</label>
+                <input id="aiKeywordsFacebook" formControlName="aiKeywordsFacebook"
+                    placeholder="inverno, regali, newsletter" />
+            </div>
+        </ng-container>
 
-        <div class="form-group col-100">
-            <label for="aiGeneratedContentInstagram">Contenuto Instagram AI Generato</label>
-            <textarea id="aiGeneratedContentInstagram" formControlName="aiGeneratedContentInstagram" [rows]="10"></textarea>
-        </div>
-        <div class="form-group col-100">
-            <label for="aiSummaryInstagram">Sintesi Instagram AI</label>
-            <textarea id="aiSummaryInstagram" formControlName="aiSummaryInstagram"></textarea>
-        </div>
-        <div class="form-group col-100">
-            <label for="aiKeywordsInstagram">Parole Chiave Instagram AI (separate da virgola)</label>
-            <input id="aiKeywordsInstagram" formControlName="aiKeywordsInstagram" placeholder="inverno, regali, newsletter" />
-        </div>
-        <div class="form-group col-100">
-            <label for="aiGeneratedContentEmail">Contenuto Email AI Generato</label>
-            <textarea id="aiGeneratedContentEmail" formControlName="aiGeneratedContentEmail"
-                [rows]="10"></textarea>
-        </div>  
-        <div class="form-group col-100">
-            <label for="aiSummaryEmail">Sintesi Email AI</label>
-            <textarea id="aiSummaryEmail" formControlName="aiSummaryEmail"></textarea>
-        </div>
-        <div class="form-group col-100">
-            <label for="aiKeywordsEmail">Parole Chiave Email AI (separate da virgola)</label>
-            <input id="aiKeywordsEmail" formControlName="aiKeywordsEmail" placeholder="inverno, regali, newsletter" />
-        </div>  
-       
+        <ng-container *ngIf="channels.includes('instagram')">
+            <div class="form-group col-100">
+                <label for="aiGeneratedContentInstagram">Contenuto Instagram AI Generato</label>
+                <textarea id="aiGeneratedContentInstagram" formControlName="aiGeneratedContentInstagram"
+                    [rows]="10"></textarea>
+            </div>
+            <div class="form-group col-100">
+                <label for="aiSummaryInstagram">Sintesi Instagram AI</label>
+                <textarea id="aiSummaryInstagram" formControlName="aiSummaryInstagram"></textarea>
+            </div>
+            <div class="form-group col-100">
+                <label for="aiKeywordsInstagram">Parole Chiave Instagram AI (separate da virgola)</label>
+                <input id="aiKeywordsInstagram" formControlName="aiKeywordsInstagram"
+                    placeholder="inverno, regali, newsletter" />
+            </div>
+        </ng-container>
+        <ng-container *ngIf="channels.includes('email')">
+
+            <div class="form-group col-100">
+                <label for="aiGeneratedContentEmail">Contenuto Email AI Generato</label>
+                <textarea id="aiGeneratedContentEmail" formControlName="aiGeneratedContentEmail" [rows]="10"></textarea>
+            </div>
+            <div class="form-group col-100">
+                <label for="aiSummaryEmail">Sintesi Email AI</label>
+                <textarea id="aiSummaryEmail" formControlName="aiSummaryEmail"></textarea>
+            </div>
+            <div class="form-group col-100">
+                <label for="aiKeywordsEmail">Parole Chiave Email AI (separate da virgola)</label>
+                <input id="aiKeywordsEmail" formControlName="aiKeywordsEmail"
+                    placeholder="inverno, regali, newsletter" />
+            </div>
+        </ng-container>
         <div class="buttons col-100">
             <button class="btn-primary" type="submit" [disabled]="campaignForm.invalid">Salva</button>
         </div>
     </form>
 </div>
-  

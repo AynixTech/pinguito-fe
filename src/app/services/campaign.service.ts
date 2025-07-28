@@ -46,12 +46,13 @@ export interface TikTokVideo {
 
 
 export interface Campaign {
-    uuid: string;
+    uuid?: string;
     companyUuid: string;
     name: string;
     description?: string;
-    startDate?: Date;
-    endDate?: Date;
+    startDate?: Date | null;  // <-- aggiungi null qui
+    endDate?: Date | null;
+    channels?: string;
     budget?: number;
     status?: 'active' | 'planned' | 'inactive' | 'completed' | 'cancelled';
     company?: Company;
@@ -60,6 +61,17 @@ export interface Campaign {
     tiktokVideos?: TikTokVideo[];
     createdAt?: Date;
     updatedAt?: Date;
+}
+export interface CreateCampaignRequest extends Campaign {
+    aiGeneratedContentEmail?: string;
+    aiGeneratedContentFacebook?: string;
+    aiGeneratedContentInstagram?: string;
+    aiSummaryEmail?: string;
+    aiSummaryFacebook?: string;
+    aiSummaryInstagram?: string;
+    aiKeywordsEmail?: string;
+    aiKeywordsFacebook?: string;
+    aiKeywordsInstagram?: string;
 }
 
 @Injectable({
@@ -86,8 +98,8 @@ export class CampaignService {
     }
 
     // Crea una nuova campagna
-    createCampaign(campaign: Campaign): Observable<Campaign> {
-        return this.http.post<Campaign>(`${this.baseUrl}/createCampaign`, campaign);
+    createCampaign(campaign: CreateCampaignRequest): Observable<any> {
+        return this.http.post<any>(`${this.baseUrl}/createCampaign`, campaign);
     }
 
     // Aggiorna una campagna esistente

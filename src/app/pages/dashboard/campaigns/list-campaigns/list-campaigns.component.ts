@@ -145,8 +145,8 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard/campaigns/view', campaign.uuid]);
   }
 
-  deleteCampaign(campaign: Campaign) {
-    this.campaignService.deleteCampaign(campaign.uuid).subscribe({
+  deleteCampaign(uuid: string) {
+    this.campaignService.deleteCampaign(uuid).subscribe({
       next: () => {
         this.loadCampaigns();
         this.toast.success('Campagna eliminata con successo', 'Successo');
