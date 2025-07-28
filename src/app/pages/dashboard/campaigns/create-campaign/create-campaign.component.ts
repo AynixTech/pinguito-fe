@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AiService } from '../../../../services/ai.service';
+import { Company } from '../../../../services/company.service';
+import { Subscription } from 'rxjs';
+import { CompanyStoreService } from '../../../../services/company-store.service';
 
 @Component({
   selector: 'app-create-campaign',
@@ -10,8 +13,10 @@ import { AiService } from '../../../../services/ai.service';
 export class CreateCampaignComponent implements OnInit {
   campaignForm!: FormGroup;
   loading = false;
+  currentCompany: Company | null = null;
+  private companySubscription?: Subscription;
 
-  constructor(private fb: FormBuilder, private aiService: AiService) { }
+  constructor(private fb: FormBuilder, private companyStoreService: CompanyStoreService, private aiService: AiService) { }
   Math = Math; // Per usare Math.max in template
   ngOnInit(): void {
     this.campaignForm = this.fb.group({
@@ -28,6 +33,14 @@ export class CreateCampaignComponent implements OnInit {
       aiSummary: [''],
       aiKeywords: ['']
     });
+    this.companySubscription = this.companyStoreService.company$.subscribe(companyStore => {
+      this.currentCompany = companyStore.company || null;
+      this.campaignForm.patchValue({
+        companyName: this.currentCompany?.name || '',
+        companyUuid: this.currentCompany?.uuid || ''
+      });
+    });
+    this.campaignForm.get('status')?.disable();
   }
 
   generateAIContent(): void {
@@ -39,7 +52,7 @@ export class CreateCampaignComponent implements OnInit {
       next: (res) => {
         this.campaignForm.patchValue({
           aiGeneratedContent: res.aiGeneratedContent,
-          aiSummary:res.aiSummary,
+          aiSummary: res.aiSummary,
           aiKeywords: res.aiKeywords
         });
         this.loading = false;
@@ -49,21 +62,6 @@ export class CreateCampaignComponent implements OnInit {
         this.loading = false;
       }
     });
-  }
-
-  private generateSummary(text: string): string {
-    const sentences = text.split('.').filter(s => s.trim());
-    return sentences.slice(0, 2).join('. ') + (sentences.length > 2 ? '...' : '');
-  }
-
-  private extractKeywords(text: string): string {
-    const words = text
-      .toLowerCase()
-      .replace(/[^\w\s]/g, '')
-      .split(/\s+/)
-      .filter(w => w.length > 4);
-    const uniqueWords = Array.from(new Set(words));
-    return uniqueWords.slice(0, 5).join(', ');
   }
 
   onSubmit(): void {

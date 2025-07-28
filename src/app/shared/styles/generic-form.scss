@@ -112,6 +112,19 @@
         background-color: darken($primary-color, 10%);
       }
     }
+    .btn-secondary{
+      background-color: #f0f0f0;
+      color: #333;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken(#f0f0f0, 10%);
+      }
+    }
 
     .btn-unassign {
       background-color: #e74c3c;

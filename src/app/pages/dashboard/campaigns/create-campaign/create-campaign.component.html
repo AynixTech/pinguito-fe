@@ -62,7 +62,7 @@
         </div>
 
         <div class="form-group col-100">
-            <button type="button" class="btn-secondary" (click)="generateAIContent()"
+            <button type="button" class="btn-generate-ai-content" (click)="generateAIContent()"
                 [disabled]="!campaignForm.get('aiContentPrompt')?.value.trim()">
                 Genera contenuto AI
             </button>
