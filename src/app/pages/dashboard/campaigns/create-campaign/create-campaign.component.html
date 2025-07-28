@@ -2,34 +2,45 @@
     <h2 class="title">Crea una nuova Campagna</h2>
 
     <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()" class="form-grid">
+
+
+        
         <div class="form-group col-100">
-            <label for="companyUuid">Azienda</label>
-            <input type="text" id="companyUuid" formControlName="companyUuid" />
+            <label for="companyName">Azienda (Nome)</label>
+            <input type="text" id="companyName" formControlName="companyName"
+                placeholder="Company Name" />
+        </div>
+
+        <div class="form-group col-100">
+            <label for="companyUuid">Azienda (UUID)</label>
+            <input type="text" id="companyUuid" formControlName="companyUuid"
+                placeholder="es. 123e4567-e89b-12d3-a456-426614174000" />
         </div>
 
         <div class="form-group col-50">
             <label for="name">Nome</label>
-            <input type="text" id="name" formControlName="name" />
+            <input type="text" id="name" formControlName="name" placeholder="Campagna Inverno 2025" />
         </div>
 
         <div class="form-group col-50">
-            <label for="budget">Budget</label>
-            <input type="number" id="budget" formControlName="budget" />
+            <label for="budget">Budget (€)</label>
+            <input type="number" id="budget" formControlName="budget" placeholder="1000" />
         </div>
 
         <div class="form-group col-100">
             <label for="description">Descrizione</label>
-            <textarea id="description" formControlName="description"></textarea>
+            <textarea id="description" formControlName="description"
+                placeholder="Campagna inverno con focus su email marketing"></textarea>
         </div>
 
         <div class="form-group col-50">
             <label for="startDate">Data Inizio</label>
-            <input type="date" id="startDate" formControlName="startDate" />
+            <input type="datetime-local" id="startDate" formControlName="startDate" />
         </div>
 
         <div class="form-group col-50">
             <label for="endDate">Data Fine</label>
-            <input type="date" id="endDate" formControlName="endDate" />
+            <input type="datetime-local" id="endDate" formControlName="endDate" />
         </div>
 
         <div class="form-group col-100">
@@ -43,8 +54,40 @@
             </select>
         </div>
 
-        <div class="buttons">
+        <!-- Campo prompt AI -->
+        <div class="form-group col-100">
+            <label for="aiContentPrompt">Prompt Contenuto AI</label>
+            <textarea id="aiContentPrompt" formControlName="aiContentPrompt"
+                placeholder="es. 'Scrivi un testo promozionale per una campagna invernale di email marketing rivolto a clienti fidelizzati'"></textarea>
+        </div>
+
+        <div class="form-group col-100">
+            <button type="button" class="btn-secondary" (click)="generateAIContent()"
+                [disabled]="!campaignForm.get('aiContentPrompt')?.value.trim()">
+                Genera contenuto AI
+            </button>
+        </div>
+
+        <!-- Campi AI generati -->
+        <div class="form-group col-100">
+            <label for="aiGeneratedContent">Contenuto AI Generato</label>
+            <textarea id="aiGeneratedContent" formControlName="aiGeneratedContent" readonly
+                [rows]="Math.max(3, (campaignForm.get('aiGeneratedContent')?.value?.split('\n').length || 1))"></textarea>
+        </div>
+
+        <div class="form-group col-100">
+            <label for="aiSummary">Sintesi AI</label>
+            <textarea id="aiSummary" formControlName="aiSummary" readonly></textarea>
+        </div>
+
+        <div class="form-group col-100">
+            <label for="aiKeywords">Parole Chiave AI (separate da virgola)</label>
+            <input id="aiKeywords" formControlName="aiKeywords" placeholder="inverno, regali, newsletter" />
+        </div>
+
+        <div class="buttons col-100">
             <button class="btn-primary" type="submit" [disabled]="campaignForm.invalid">Salva</button>
         </div>
     </form>
 </div>
+  
