@@ -32,9 +32,15 @@ export class CreateCampaignComponent implements OnInit {
       channels: [[]] ,
       status: ['planned'],
       aiContentPrompt: ['', Validators.required],
-      aiGeneratedContent: [''],
-      aiSummary: [''],
-      aiKeywords: ['']
+      aiGeneratedContentEmail: [''],
+      aiGeneratedContentFacebook: [''],
+      aiGeneratedContentInstagram: [''],
+      aiSummaryEmail: [''],
+      aiSummaryFacebook: [''],
+      aiSummaryInstagram: [''],
+      aiKeywordsEmail: [''],
+      aiKeywordsFacebook: [''],
+      aiKeywordsInstagram: ['']
     });
     this.companySubscription = this.companyStoreService.company$.subscribe(companyStore => {
       this.currentCompany = companyStore.company || null;
@@ -58,19 +64,28 @@ export class CreateCampaignComponent implements OnInit {
     }
     this.campaignForm.patchValue({ channels: this.channels });
   }
-  
+
   generateAIContent(): void {
     const prompt = this.campaignForm.get('aiContentPrompt')?.value;
     if (!prompt?.trim()) return;
 
     this.loading = true;
-    this.aiService.generateAiCampaignContent(prompt).subscribe({
+    let channels = this.campaignForm.get('channels')?.value.join(', ') || '';
+    this.aiService.generateAiCampaignContent(prompt, channels).subscribe({
       next: (res) => {
         this.campaignForm.patchValue({
-          aiGeneratedContent: res.aiGeneratedContent,
-          aiSummary: res.aiSummary,
-          aiKeywords: res.aiKeywords
+          aiGeneratedContentEmail: res.aiGeneratedContentEmail ?? null,
+          aiGeneratedContentFacebook: res.aiGeneratedContentFacebook ?? null,
+          aiGeneratedContentInstagram: res.aiGeneratedContentInstagram ?? null,
+          aiSummaryEmail: res.aiSummaryEmail ?? null,
+          aiSummaryFacebook: res.aiSummaryFacebook ?? null,
+          aiSummaryInstagram: res.aiSummaryInstagram ?? null,
+          aiKeywordsEmail: res.aiKeywordsEmail ?? null,
+          aiKeywordsFacebook: res.aiKeywordsFacebook ?? null,
+          aiKeywordsInstagram: res.aiKeywordsInstagram ?? null
         });
+        
+        
         this.loading = false;
       },
       error: (err) => {

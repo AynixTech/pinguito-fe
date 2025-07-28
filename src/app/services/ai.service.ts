@@ -11,13 +11,13 @@ export class AiService {
 
     constructor(private http: HttpClient) { }
 
-    generateAiCampaignContent(prompt: string): Observable<{ aiGeneratedContent: string, aiSummary: string, aiKeywords: string }> {
+    generateAiCampaignContent(prompt: string, channels: string): Observable<any> {
         if (!prompt?.trim()) {
             throw new Error('Prompt cannot be empty');
         }
-        return this.http.post<{ aiGeneratedContent: string, aiSummary: string, aiKeywords: string }>(
+        return this.http.post<any>(
             `${this.baseUrl}/generate-ai-campaign`,
-            { prompt }
+            { prompt, channels }
         );
     }
 
