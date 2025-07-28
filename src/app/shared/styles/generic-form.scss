@@ -1,70 +1,129 @@
-@import './colors'; // se usi un file con variabili come $primary-color
+@import "./colors.scss";
 
-.generic-form-container {
-  max-width: 700px;
-  padding: 1.5rem;
+.generic-form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  max-width: 1000px;
+  margin: 2rem auto;
+  font-family: "Segoe UI", sans-serif;
 
-  .form-header {
+  .tabs {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #eee;
-    margin-bottom: 2rem;
-    padding-bottom: 0.5rem;
-
-    h2 {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: $primary-color;
-    }
+    gap: 1rem;
+    margin-bottom: 1rem;
 
     button {
-      background: transparent;
+      background: none;
       border: none;
-      font-size: 1.3rem;
-      color: $primary-color;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: color 0.3s ease;
+      color: #555;
+      border-bottom: 3px solid transparent;
+      transition: color 0.3s, border-color 0.3s;
 
-      &:hover {
-        color: darken($primary-color, 10%);
+      &.active {
+        color: #1999d5;
+        border-color: #1999d5;
+        font-weight: 700;
+      }
+
+      &:hover:not(.active) {
+        color: #1999d5;
       }
     }
   }
 
-  .form-content {
-    display: grid;
-    gap: 1.5rem;
+  .tab-content {
+    // opzionale: margini o padding per il contenuto del tab
+  }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
+  .title {
+    font-size: 1rem;
+    color: $primary-color;
+    margin-bottom: 1.5rem;
+  }
 
-      label {
-        font-weight: 500;
-        margin-bottom: 0.4rem;
-        color: #555;
+  .form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+
+    input,
+    select,
+    textarea {
+      padding: 0.6rem 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
       }
+    }
 
-      input,
-      select,
-      textarea {
-        border: none;
-        border-bottom: 2px solid #ccc;
-        padding: 0.4rem 0;
-        font-size: 1rem;
-        background: transparent;
-        transition: border-color 0.3s ease;
+    &.col-100 {
+      flex: 0 0 100%;
+    }
 
-        &:focus {
-          outline: none;
-          border-color: $primary-color;
-        }
+    &.col-50 {
+      flex: 0 0 48%;
+    }
 
-        &:disabled {
-          color: #999;
-          border-color: #eee;
-        }
+    &.col-33 {
+      flex: 0 0 31.5%;
+    }
+
+    &.col-25 {
+      flex: 0 0 23%;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    .btn-primary {
+      background-color: $primary-color;
+      color: #fff;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+
+    .btn-unassign {
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken(#e74c3c, 10%);
       }
     }
   }
