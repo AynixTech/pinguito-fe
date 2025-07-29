@@ -17,13 +17,13 @@ export class HeaderLayoutComponent implements OnInit {
   userName = '';
   userFullName = '';
   userEmail = '';
-
+  userInitials = '';
   isDropdownOpen = false;
   userCompanies: Company[] = [];
   currentUserUuid: string | null = null;
   companies: Company[] = [];
 
-  constructor(private authStore: AuthStoreService, private xpStore: ExperienceStateService, private companyService: CompanyService, private companyStore: CompanyStoreService, private router: Router) { }
+  constructor(private authStore: AuthStoreService, private experienceStateService: ExperienceStateService, private companyService: CompanyService, private companyStore: CompanyStoreService, private router: Router) { }
 
   ngOnInit(): void {
     this.authStore.user$.subscribe((user: any) => {
@@ -32,6 +32,7 @@ export class HeaderLayoutComponent implements OnInit {
       this.userName = this.currentUser?.name || '';
       this.userFullName = this.currentUser?.name + " " + this.currentUser?.surname || '';
       this.userEmail = this.currentUser?.email || '';
+      this.userInitials = this.getUserInitials(this.userFullName);
       console.log('Current User:', this.currentUser);
       this.loadCompanies();
     });
@@ -40,7 +41,11 @@ export class HeaderLayoutComponent implements OnInit {
       this.currentCompany = storeState.company || null;
     });
   }
-  
+  getUserInitials(fullName: string): string {
+    if (!fullName) return '';
+    const names = fullName.split(' ');
+    return names.map(name => name.charAt(0).toUpperCase()).join('');
+  }
 
   loadCompanies() {
     this.companyService.getAllCompanies().subscribe(data => {
@@ -94,7 +99,7 @@ export class HeaderLayoutComponent implements OnInit {
   logout() {
     this.authStore.clearUser(); 
     this.companyStore.clearCompany();
-    this.xpStore.clearExperience();
+    this.experienceStateService.clearExperience();
     this.router.navigate(['/login']);
   }
 }

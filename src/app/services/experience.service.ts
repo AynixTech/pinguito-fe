@@ -12,6 +12,13 @@ export interface ExperienceResponse {
     nextLevelXp: number;
 }
 
+export interface LeaderboardUser {
+    name: string;
+    surname: string;
+    level: number;
+    xp: number;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -31,7 +38,13 @@ export class ExperienceService {
             action
         });
     }
+
     getExperienceByUserUuid(userUuid: string): Observable<ExperienceResponse> {
         return this.http.get<ExperienceResponse>(`${this.baseUrl}/${userUuid}/get`);
     }
+
+    getLeaderboard(): Observable<LeaderboardUser[]> {
+        return this.http.get<LeaderboardUser[]>(`${this.baseUrl}/leaderboard`);
+    }
+
 }

@@ -5,7 +5,6 @@ import { DashboardComponent } from './dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartCampaignComponent } from '../../components/chart-campaign/chart-campaign.component';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { CompaniesComponent } from './companies/companies.component';
 import { LandingComponent } from './landing/landing.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CompaniesModule } from './companies/companies.module';

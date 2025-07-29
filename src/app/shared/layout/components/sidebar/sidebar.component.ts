@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthStoreService } from '../../../../services/auth-store.service';
 import { User } from '../../../../services/user.service';
+import { ExperienceService, LeaderboardUser } from '../../../../services/experience.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,7 +16,8 @@ export class SidebarComponent implements OnInit {
   menuItems: any[] = [];
   currentUser!: User | null;
 
-  constructor(private authStore: AuthStoreService, public router: Router) { }
+  constructor(private authStore: AuthStoreService, private experienceService: ExperienceService, public router: Router) { }
+  users: LeaderboardUser[] = [];
 
   ngOnInit(): void {
     this.authStore.user$.subscribe((user: User | null) => {
@@ -31,7 +33,9 @@ export class SidebarComponent implements OnInit {
     ).subscribe((event: NavigationEnd) => {
       this.setExpandedItemBasedOnRoute(event.urlAfterRedirects);
     });
-
+    this.experienceService.getLeaderboard().subscribe(data => {
+      this.users = data;
+    });
   }
 
   setExpandedItemBasedOnRoute(currentPath: string) {

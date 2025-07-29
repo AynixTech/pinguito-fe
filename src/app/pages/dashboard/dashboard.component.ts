@@ -13,11 +13,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   experienceResponse: ExperienceResponse | null = null;
   private destroy$ = new Subject<void>();
 
-  constructor(private xpState: ExperienceStateService) { }
+  constructor(private experienceStateService: ExperienceStateService) { }
 
   ngOnInit(): void {
     console.log('DashboardComponent initialized');
-    this.xpState.experience$
+    this.experienceStateService.experience$
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.experienceResponse = res;

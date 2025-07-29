@@ -16,11 +16,11 @@
   </div>
 
   <div class="right-section">
-    <i class="fa fa-bell icon"></i>
-    <i class="fa fa-moon icon"></i>
+    <!-- <i class="fa fa-bell icon"></i>
+    <i class="fa fa-moon icon"></i> -->
 
     <div class="profile" (click)="toggleDropdown()" [class.open]="isDropdownOpen">
-      <div class="avatar">MJ</div>
+      <div class="avatar">{{ userInitials }}</div>
       <div class="profile-info">
         <span class="name">{{ userFullName }}</span>
         <span class="email">{{ userEmail }}</span>

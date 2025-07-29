@@ -30,7 +30,8 @@ registerLocaleData(localeEs);
         LoginComponent,
         RegisterComponent,
         LoaderComponent,
-        AppComponent],
+        AppComponent
+    ],
     imports: [
         BrowserAnimationsModule,
         CommonModule,

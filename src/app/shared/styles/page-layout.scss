@@ -1,8 +1,8 @@
 .page-layout {
   padding: 2rem;
   background-color: #f4f4f4;
-  min-height: 100vh;
-
+  height: 100vh;
+  overflow-y: scroll;
   .header {
     width: 100%;
     text-align: center;
