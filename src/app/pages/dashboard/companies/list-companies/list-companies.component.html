@@ -67,7 +67,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div *ngIf="company.plan" class="plan-info" style="min-width: 180px; text-align: right;">
+                            <div *ngIf="company.plan" class="plan-info" >
                                 <strong>Piano:</strong> {{ company?.plan?.name }}
                                 <span *ngIf="company?.plan?.price"> - €{{ company?.plan?.price }}</span>
                             </div>

@@ -72,9 +72,8 @@ export class SidebarComponent implements OnInit {
             label: 'Campagne',
             icon: 'fa fa-envelope',
             children: [
-              { path: '/campaigns', label: 'Tutte le campagne' },
-              { path: '/campaigns/create', label: 'Crea campagna' }
-            ]
+              { path: 'campaigns/list-campaigns', label: 'Tutte le campagne' },
+              { path: 'campaigns/create-campaign', label: 'Crea campagna' }  ]
           },
           {
             label: 'Campagne Social',
@@ -126,13 +125,13 @@ export class SidebarComponent implements OnInit {
       case 3: // Monitoraggio
         this.menuItems = [
           { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
-          { path: '/companies', label: 'Le mie Aziende', icon: 'fa fa-building' },
+          { path: '/companies', label: 'Le mie aziende', icon: 'fa fa-building' },
           {
             label: 'Campagne',
             icon: 'fa fa-envelope',
             children: [
-              { path: '/campaigns', label: 'Tutte le campagne' },
-              { path: '/campaigns/create', label: 'Crea campagna' }
+              { path: 'campaigns/list-campaigns', label: 'Tutte le campagne' },
+              { path: 'campaigns/create-campaign', label: 'Crea campagna' }
             ]
           },
           {

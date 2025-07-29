@@ -39,6 +39,10 @@
                     Stato
                     <span *ngIf="sortColumn === 'status'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
                 </th>
+                <th (click)="toggleSort('updatedAt')">
+                    Data Ultimo Aggiornamento
+                    <span *ngIf="sortColumn === 'updatedAt'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                </th>
                 <th>Azioni</th>
             </tr>
         </thead>
@@ -49,10 +53,11 @@
                     <td>{{ campaign.company?.name || '-' }}</td>
                     <td>{{ campaign.company?.socialMedia?.metaPageName || '-' }}</td>
 
-                    <td>{{ campaign.startDate ? (campaign.startDate | date:'dd/MM/yyyy') : '-' }}</td>
-                    <td>{{ campaign.endDate ? (campaign.endDate | date:'dd/MM/yyyy') : '-' }}</td>
+                    <td>{{ campaign.startDate ? (campaign.startDate | date:'dd/MM/yyyy HH:mm') : '-' }}</td>
+                    <td>{{ campaign.endDate ? (campaign.endDate | date:'dd/MM/yyyy HH:mm') : '-' }}</td>
                     <td>{{ campaign.budget !== undefined ? ('€' + campaign.budget) : '-' }}</td>
                     <td>{{ campaign.status || '-' }}</td>
+                    <td>{{ campaign.updatedAt ? (campaign.updatedAt | date:'dd/MM/yyyy HH:mm') : '-' }}</td>
                     <td>
                         <div class="actions-buttons">
                             <button type="button" (click)="toggleExpanded(campaign.uuid?? '')"
@@ -74,7 +79,7 @@
                     </td>
                 </tr>
                 <tr *ngIf="expandedCampaigns.has(campaign.uuid ?? '')">
-                    <td colspan="8" class="second-row">
+                    <td colspan="9" class="second-row">
                         <strong>Social Media Posts:</strong>
 
                         <!-- Facebook -->

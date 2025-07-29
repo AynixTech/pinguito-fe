@@ -6,7 +6,7 @@ import { CreateCampaignComponent } from './create-campaign/create-campaign.compo
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'list-campaigns',
         component: ListCampaignsComponent // elenco delle campagne
     },
     {
@@ -14,7 +14,7 @@ const routes: Routes = [
         component: EditCampaignComponent // modifica campagna esistente
     },
     {
-        path: 'create',
+        path: 'create-campaign',
         component: CreateCampaignComponent // creazione nuova campagna
     }
 ];

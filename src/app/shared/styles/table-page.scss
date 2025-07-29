@@ -1,10 +1,10 @@
 @import "colors.scss";
 
 .table-page-layout {
-  max-width: $table-page-layout-max-width;
-  margin: $table-page-layout-padding auto;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: $text-color;
+  padding: 2rem;
+  margin: 2rem auto;
 
   .filters {
     display: flex;
@@ -34,7 +34,8 @@
     width: 100%;
     border-collapse: collapse;
     box-shadow: 0 4px 10px rgba($primary-color, 0.15);
-
+    overflow: hidden;
+    border-radius: 10px;
     th,
     td {
       padding: 12px 15px;

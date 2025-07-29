@@ -23,10 +23,10 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
   filterStatus: string = '';
 
-  sortColumn: keyof Campaign = 'name';
-  sortDirection: 'asc' | 'desc' = 'asc';
+  sortColumn: keyof Campaign = 'updatedAt'; // da 'name' a 'updatedAt'
+  sortDirection: 'asc' | 'desc' = 'desc'; 
 
-  pageSize = 5;
+  pageSize = 50;
   currentPage = 1;
   totalPages = 1;
 
@@ -90,12 +90,26 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
     }
 
     temp.sort((a, b) => {
-      let valA = a[this.sortColumn] || '';
-      let valB = b[this.sortColumn] || '';
-      if (valA instanceof Date) valA = valA.getTime();
-      if (valB instanceof Date) valB = valB.getTime();
-      if (typeof valA === 'string') valA = valA.toLowerCase();
-      if (typeof valB === 'string') valB = valB.toLowerCase();
+      let valA = a[this.sortColumn];
+      let valB = b[this.sortColumn];
+
+      if (this.sortColumn === 'updatedAt') {
+        // ordina per date (timestamp)
+        valA = (typeof valA === 'string' || typeof valA === 'number' || valA instanceof Date)
+          ? new Date(valA).getTime()
+          : 0;
+        valB = (typeof valB === 'string' || typeof valB === 'number' || valB instanceof Date)
+          ? new Date(valB).getTime()
+          : 0;
+      } else {
+        if (valA instanceof Date) valA = valA.getTime();
+        if (valB instanceof Date) valB = valB.getTime();
+        if (typeof valA === 'string') valA = valA.toLowerCase();
+        if (typeof valB === 'string') valB = valB.toLowerCase();
+      }
+
+      valA = valA ?? '';
+      valB = valB ?? '';
       if (valA < valB) return this.sortDirection === 'asc' ? -1 : 1;
       if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
       return 0;
@@ -105,6 +119,7 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
     this.currentPage = 1;
     this.totalPages = Math.ceil(this.filteredCampaigns.length / this.pageSize);
   }
+
 
   onSearchChange() {
     this.applyFiltersAndSort();
@@ -119,7 +134,7 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
       this.sortColumn = column;
-      this.sortDirection = 'asc';
+      this.sortDirection = column === 'updatedAt' ? 'desc' : 'asc';
     }
     this.applyFiltersAndSort();
   }
