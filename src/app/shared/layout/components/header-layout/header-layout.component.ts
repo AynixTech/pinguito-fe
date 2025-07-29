@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { User } from "../../../../services/user.service";
 import { CompanyStoreService } from "../../../../services/company-store.service";
 import { Company, CompanyService } from "../../../../services/company.service";
+import { ExperienceStateService } from "../../../../services/experience-state.service";
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,7 @@ export class HeaderLayoutComponent implements OnInit {
   currentUserUuid: string | null = null;
   companies: Company[] = [];
 
-  constructor(private authStore: AuthStoreService, private companyService: CompanyService, private companyStore: CompanyStoreService, private router: Router) { }
+  constructor(private authStore: AuthStoreService, private xpStore: ExperienceStateService, private companyService: CompanyService, private companyStore: CompanyStoreService, private router: Router) { }
 
   ngOnInit(): void {
     this.authStore.user$.subscribe((user: any) => {
@@ -93,6 +94,7 @@ export class HeaderLayoutComponent implements OnInit {
   logout() {
     this.authStore.clearUser(); 
     this.companyStore.clearCompany();
+    this.xpStore.clearExperience();
     this.router.navigate(['/login']);
   }
 }

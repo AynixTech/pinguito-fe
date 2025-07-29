@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth.service';
 import { AuthStoreService } from '../../services/auth-store.service';
 import { LoginResponse } from '../../models/auth.model';
 import { ToastrService } from 'ngx-toastr';
+import { ExperienceService } from '../../services/experience.service';
+import { ExperienceStateService } from '../../services/experience-state.service';
 
 @Component({
   selector: 'app-login',
@@ -36,6 +38,8 @@ export class LoginComponent {
     private router: Router,
     private authService: AuthService,
     private toastr: ToastrService,
+    private experienceService: ExperienceService,
+    private experienceStateService: ExperienceStateService,
     private authStore: AuthStoreService
   ) {
     // 👉 Se l'utente è già autenticato, reindirizza
@@ -87,6 +91,9 @@ export class LoginComponent {
         // Assuming you have ngx-toastr installed and injected as toastr: ToastrService
         // Add private toastr: ToastrService to the constructor
         this.toastr.success('Login effettuato con successo!', 'Successo');
+        this.experienceService.getExperienceByUserUuid(user.uuid).subscribe(response => {
+          this.experienceStateService.setExperience({ ...response }); // forza l'aggiornamento
+        });
         this.router.navigate(['/']);
       },
       error: (err: { error?: { message?: string } }) => {
