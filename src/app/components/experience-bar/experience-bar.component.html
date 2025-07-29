@@ -1,4 +1,9 @@
-<div  *ngIf="response" class="xp-container">
+<button class="xp-toggle-button" (click)="toggleVisibility()" aria-label="Toggle barra esperienza">
+    <i class="fas fa-gamepad" [style.color]="isVisible ? '#ffe600' : 'white'" style="font-size: 20px;"></i>
+</button>
+
+
+<div *ngIf="response && isVisible" class="xp-container">
     <div class="level-info">
         Livello {{ currentLevel }}
         <span *ngIf="levelUp" class="level-up-badge">🔥 Livello aumentato!</span>
@@ -13,4 +18,3 @@
         <span class="xp-remaining">({{ xpToNextLevel }} XP al prossimo livello)</span>
     </div>
 </div>
-  

@@ -16,10 +16,25 @@ export class ExperienceBarComponent implements OnChanges {
   xpToNextLevel: number = 0;
   levelUp: boolean = false;
 
+  isVisible: boolean = true;
+
+  private levelUpTimeoutId: any;
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['response'] && this.response) {
       this.updateExperienceBar();
+
+      if (this.levelUp) {
+        clearTimeout(this.levelUpTimeoutId);
+        this.levelUpTimeoutId = setTimeout(() => {
+          this.levelUp = false;
+        }, 10000);
+      }
     }
+  }
+
+  toggleVisibility(): void {
+    this.isVisible = !this.isVisible;
   }
 
   private updateExperienceBar(): void {
@@ -49,7 +64,6 @@ export class ExperienceBarComponent implements OnChanges {
   }
 
   xpForLevel(level: number): number {
-    const xp = Math.floor(100 * Math.pow(level - 1, 1.5));
-    return xp;
+    return Math.floor(100 * Math.pow(level - 1, 1.5));
   }
 }
