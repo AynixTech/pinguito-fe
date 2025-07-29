@@ -23,27 +23,33 @@ export class ExperienceBarComponent implements OnChanges {
   }
 
   private updateExperienceBar(): void {
-    console.log('ExperienceBarComponent response:', this.response);
-
     this.currentXp = this.response?.totalXp ?? 0;
-    this.currentLevel = this.response?.newLevel ?? 1;
+    this.currentLevel = this.getLevelFromXp(this.currentXp);
     this.levelUp = this.response?.levelUp ?? false;
 
     const currentLevelXp = this.xpForLevel(this.currentLevel);
-    this.nextLevelXp = this.response?.nextLevelXp ?? this.xpForLevel(this.currentLevel + 1);
-    this.xpToNextLevel = this.nextLevelXp - this.currentXp;
+    const nextLevelXp = this.xpForLevel(this.currentLevel + 1);
 
-    const xpRange = this.nextLevelXp - currentLevelXp;
+    this.nextLevelXp = nextLevelXp;
+    this.xpToNextLevel = nextLevelXp - this.currentXp;
+
+    const xpRange = nextLevelXp - currentLevelXp;
 
     this.xpProgressPercent = xpRange > 0
       ? ((this.currentXp - currentLevelXp) * 100) / xpRange
       : 0;
+  }
 
-    // Debug
-    console.log('XP progress %:', this.xpProgressPercent);
+  getLevelFromXp(xp: number): number {
+    let level = 1;
+    while (xp >= this.xpForLevel(level + 1)) {
+      level++;
+    }
+    return level;
   }
 
   xpForLevel(level: number): number {
-    return Math.floor(100 * level * 1.5); // stessa formula del backend
+    const xp = Math.floor(100 * Math.pow(level - 1, 1.5));
+    return xp;
   }
 }
