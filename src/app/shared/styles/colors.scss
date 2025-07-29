@@ -1,18 +1,59 @@
-$primary-color: #3b7fe5;
-$bg: #fffdf9;
-$gray: #333;
-$error-red: #d32f2f;
-$secondary-color: #F2F8FC;
-$text-color: #333333;
-$light-text: #777;
-$background: #f66a05;
-$shadow: rgba(0, 0, 0, 0.06);
-$table-page-layout-padding: 20px;
-$table-page-layout-max-width: 1000px;
-$filter-gap: 16px;
-$table-border-color: lighten($primary-color, 50%);
-$table-header-bg: lighten($primary-color, 80%);
-$link-hover-color: darken($primary-color, 10%);
-$pagination-bg: $primary-color;
-$pagination-bg-disabled: lighten($primary-color, 40%);
-$text-color: #2c3e50;
+// === Brand Colors ===
+$primary-color: #49A0D0; // Blu principale
+$secondary-color: #ee424c; // Rosso acceso (extra)
+$ternary-color: #0c3d67; // Blu profondo
+
+$brand-blue: #2d80d3; // Blu Pinguito (pinguino)
+$brand-blue-dark: #1d5ba0;
+$brand-blue-light: #8fc2f5;
+
+$brand-yellow: #f7c948; // Giallo (cravatta/grafico)
+$brand-yellow-dark: #dca419;
+$brand-yellow-light: #ffe9a6;
+
+// === Neutri ===
+$color-white: #ffffff;
+$color-black: #030303;
+$color-black-opacity80: #000000cc;
+
+$color-light-grey: #e6e6e6;
+$color-background-grey: #f5f5f5;
+$color-dark-grey: #5a6268;
+
+$grey-100: #f8f9fa;
+$grey-200: #e9ecef;
+$grey-300: #dee2e6;
+$grey-400: #ced4da;
+$grey-500: #adb5bd;
+$grey-600: #6c757d;
+$grey-700: #495057;
+$grey-800: #343a40;
+$grey-900: #212529;
+
+// === Sfumature brand ===
+$primary-light: #6c84f0;
+$primary-lighter: #aab8fa;
+$primary-dark: #2f4ad0;
+$primary-darker: #1e36b5;
+
+$yellow-soft: #fff3cd;
+$blue-soft: #ebf5ff;
+
+// === Stati / Feedback ===
+$color-success: #28a745;
+$color-success-light: #b2f2bb;
+
+$color-warning: #ffc107;
+$color-warning-light: #fff3cd;
+
+$color-info: #17a2b8;
+$color-info-light: #c5f6fa;
+
+$color-danger: #dc3545;
+$color-danger-light: #ffa8b4;
+
+// === Backgrounds ===
+$background-primary-color: #ebeffb;
+$background-light: #fdfdfd;
+$background-soft: #f8faff;
+$background-contrast: #f0f2f5;

@@ -1,0 +1,29 @@
+.page-layout {
+  padding: 2rem;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+
+  .header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+    }
+  }
+
+  .content {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+
+    @media (max-width: 768px) {
+      padding: 1rem;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-@import "../../../../../assets/scss/colors.scss";
+@import "../../../styles/colors.scss";
 
 .sidebar {
   background-color: $color-white;
@@ -16,7 +16,7 @@
       gap: 0.75rem;
 
       img {
-        width: 40px;
+        width: 150px;
         height: auto;
       }
 

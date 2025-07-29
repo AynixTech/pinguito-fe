@@ -1,27 +1,25 @@
-@import "colors.scss";
+@import "./colors.scss";
 
 .table-page-layout {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: $text-color;
+  color: darken($primary-color, 40%);
   padding: 2rem;
-  margin: 2rem auto;
 
   .filters {
     display: flex;
     flex-wrap: wrap;
-    gap: $filter-gap;
-    margin-bottom: $table-page-layout-padding / 1.5;
+    gap: 1rem;
+    margin-bottom: 1rem;
 
     input[type="text"],
     select {
       padding: 8px 12px;
       font-size: 15px;
-      border: 1px solid $table-border-color;
+      border: 1px solid $color-light-grey;
       border-radius: 6px;
       flex-grow: 1;
       min-width: 200px;
       transition: border-color 0.3s ease;
-
+      color: $color-dark-grey;
       &:focus {
         outline: none;
         border-color: $primary-color;
@@ -36,10 +34,11 @@
     box-shadow: 0 4px 10px rgba($primary-color, 0.15);
     overflow: hidden;
     border-radius: 10px;
+    background: $color-white;
     th,
     td {
       padding: 12px 15px;
-      border: 1px solid $table-border-color;
+      border: 1px solid $color-light-grey;
       text-align: left;
       vertical-align: middle;
       font-size: 14px;
@@ -48,11 +47,11 @@
 
     th {
       cursor: pointer;
-      background-color: $table-header-bg;
+      background-color: $grey-200;
       user-select: none;
       position: relative;
       font-weight: 600;
-      color: darken($primary-color, 20%);
+      color: darken($primary-color, 40%);
 
       span {
         margin-left: 6px;
@@ -75,7 +74,7 @@
       .second-row {
         background-color: lighten($primary-color, 94%);
         font-size: 13px;
-        color: darken($text-color, 20%);
+        color: darken($primary-color, 20%);
         padding: 8px 15px;
         .assigned-title {
           font-weight: 600;
@@ -101,27 +100,27 @@
       transition: color 0.3s ease;
 
       &:hover {
-        color: $link-hover-color;
+        color: darken($primary-color, 10%);
         text-decoration: underline;
       }
     }
   }
 
   .pagination {
-    margin-top: $table-page-layout-padding;
+    margin-top: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
     font-size: 15px;
-    color: $text-color;
+    color: $primary-color;
 
     button {
       padding: 8px 18px;
       font-weight: 700;
       border: none;
       border-radius: 6px;
-      background-color: $pagination-bg;
+      background-color: $primary-color;
       color: white;
       cursor: pointer;
       transition: background-color 0.3s ease;
@@ -131,12 +130,13 @@
       }
 
       &:disabled {
-        background-color: $pagination-bg-disabled;
+        background-color: #ccc;
         cursor: not-allowed;
       }
     }
 
     span {
+      color: darken($primary-color, 40%);
       min-width: 140px;
       text-align: center;
       font-weight: 600;

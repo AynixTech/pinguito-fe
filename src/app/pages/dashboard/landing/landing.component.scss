@@ -1,6 +1,8 @@
+@import "../../../shared/styles/page-layout.scss";
 .stats {
   display: flex;
   gap: 1rem;
+  margin: 1rem 0;
 
   .stat {
     background: #fff;
