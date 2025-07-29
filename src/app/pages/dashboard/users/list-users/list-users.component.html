@@ -28,6 +28,8 @@
                     Ruolo
                     <span *ngIf="sortColumn === 'role'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
                 </th>
+                <th>EXP</th>
+                <th>Livello</th>
                 <th>Azioni</th>
             </tr>
         </thead>
@@ -37,6 +39,8 @@
                 <td>{{ user.surname }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user?.role?.name | titlecase }}</td>
+                <td>{{ user.xp || 0 }}</td>
+                <td>{{ user.level || 0 }}</td>
                 <td>
                     <a  routerLink="edit/{{ user.uuid }}" title="Modifica">
                         <i class="fa fa-edit"></i>

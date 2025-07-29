@@ -74,6 +74,10 @@ export class ListUsersComponent implements OnInit {
         valB = b.role?.name || '';
       }
 
+      // Provide default values if undefined
+      if (typeof valA === 'undefined' || valA === null) valA = '';
+      if (typeof valB === 'undefined' || valB === null) valB = '';
+
       if (typeof valA === 'string') valA = valA.toLowerCase();
       if (typeof valB === 'string') valB = valB.toLowerCase();
 

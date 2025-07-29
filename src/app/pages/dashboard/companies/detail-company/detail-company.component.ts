@@ -92,7 +92,10 @@ export class DetailCompanyComponent implements OnInit {
     this.authStore.user$.subscribe((user: any) => {
       this.readonlyMode = user?.role?.name !== 'admin';
       if (this.readonlyMode) {
-        this.companyForm.disable();
+        this.companyForm?.disable();
+      }
+      else {
+        this.companyForm?.enable();
       }
     });
 

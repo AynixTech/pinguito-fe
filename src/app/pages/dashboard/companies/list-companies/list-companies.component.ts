@@ -40,7 +40,7 @@ export class ListCompaniesComponent implements OnInit {
 
   ngOnInit(): void {
     this.authStore.user$.subscribe((user: any) => {
-      this.isAdmin = user.role?.name === 'admin'; // Imposta isAdmin se il ruolo è admin
+      this.isAdmin = user?.role?.name === 'admin'; // Imposta isAdmin se il ruolo è admin
     });
     
     this.loadCompanies();

@@ -279,14 +279,13 @@
                     </div>
                 </div>
             </div>
-
-            <div class="buttons">
-                <div *ngIf="!readonlyMode" class="buttons">
-                    <button type="submit" class="btn-primary" [disabled]="companyForm.invalid">Salva modifiche</button>
-                </div>
+        </div>
+        <div class="buttons" *ngIf="activeTab !== 'social-media'">
+            {{ readonlyMode ? '' : ' '}}
+            <div *ngIf="!readonlyMode" class="buttons">
+                <button type="submit" class="btn-primary" [disabled]="companyForm.invalid">Salva modifiche</button>
             </div>
         </div>
-
 
     </form>
 </div>

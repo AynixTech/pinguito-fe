@@ -7,6 +7,9 @@ import { CompanyStoreService } from '../../../../services/company-store.service'
 import { CampaignService, CreateCampaignRequest } from '../../../../services/campaign.service';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../../services/loader.service';
+import { ExperienceService } from '../../../../services/experience.service';
+import { AuthStoreService } from '../../../../services/auth-store.service';
+import { User } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-create-campaign',
@@ -18,6 +21,7 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
   loading = false;
   currentCompany: Company | null = null;
   channels: string[] = [];
+  currentUser: User | null = null;
 
   private companySubscription?: Subscription;
   private formChangesSubscription?: Subscription;
@@ -28,7 +32,9 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private campaignService: CampaignService,
     private loader: LoaderService,
+    private experienceService: ExperienceService,
     private companyStoreService: CompanyStoreService,
+    private authStore: AuthStoreService,
     private toast: ToastrService,
     private aiService: AiService
   ) { }
@@ -36,6 +42,10 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
   Math = Math; // Per usare Math.max in template
 
   ngOnInit(): void {
+    this.authStore.user$.subscribe((user: any) => {
+      this.currentUser = user;
+    });
+
     this.campaignForm = this.fb.group({
       companyName: [''],
       companyUuid: ['', Validators.required],
@@ -168,6 +178,18 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
       }
     });
   }
+  callGiveExperience(action:string): void {
+    if (this.currentUser) {
+      this.experienceService.giveExperience(this.currentUser?.uuid, action).subscribe({
+        next: () => {
+          console.log('Esperienza aggiunta con successo');
+        },
+        error: (err) => {
+          console.error('Errore durante l\'aggiunta dell\'esperienza:', err);
+        }
+      });
+    }
+  }
 
   onSubmit(): void {
     if (this.campaignForm.invalid) return;
@@ -194,6 +216,9 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
         this.toast.success('Campagna creata con successo', 'Successo');
         this.campaignForm.reset();
         this.channels = [];
+        //Add experience to user
+        this.callGiveExperience('create_campaign');
+
         localStorage.removeItem(this.localStorageKey); // pulisco i dati salvati
       },
       error: (err) => {
