@@ -18,7 +18,7 @@ export class ListUsersComponent implements OnInit {
   sortColumn: keyof User = 'name';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  pageSize = 5;
+  pageSize = 50;
   currentPage = 1;
   totalPages = 1;
 

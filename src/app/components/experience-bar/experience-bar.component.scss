@@ -1,0 +1,93 @@
+.xp-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    max-width: 600px;
+    background: rgba(25, 153, 213, 0.95);
+    color: white;
+    border-radius: 16px;
+    padding: 12px 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    z-index: 1000;
+    animation: slideUpFade 0.6s ease-out;
+  
+    @media (max-width: 768px) {
+      width: 90%;
+    }
+  }
+  
+  .level-info {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 6px;
+  
+    .level-up-badge {
+      background: #ffe600;
+      color: #000;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-left: 12px;
+      box-shadow: 0 0 8px #ffe600;
+      animation: pulseBadge 1s infinite ease-in-out;
+    }
+  }
+  
+  .xp-bar-wrapper {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 14px;
+    margin-bottom: 8px;
+  
+    .xp-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #ffe600, #ff9900);
+      transition: width 0.6s ease-in-out;
+    }
+  }
+  
+  .xp-stats {
+    font-size: 13px;
+    opacity: 0.95;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Courier New', Courier, monospace;
+  
+    .xp-remaining {
+      font-style: italic;
+      color: #f0f0f0;
+    }
+  }
+  
+  @keyframes slideUpFade {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+  
+  @keyframes pulseBadge {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 6px #ffe600;
+    }
+    50% {
+      transform: scale(1.08);
+      box-shadow: 0 0 16px #ffe600;
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 6px #ffe600;
+    }
+  }
+  

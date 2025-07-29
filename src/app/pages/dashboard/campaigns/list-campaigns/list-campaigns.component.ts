@@ -6,6 +6,10 @@ import { CompanyStoreService } from '../../../../services/company-store.service'
 import { Company } from '../../../../services/company.service';
 import { Subscription } from 'rxjs';
 import { SocialMediaService } from '../../../../services/social-media.service';
+import { AuthStoreService } from '../../../../services/auth-store.service';
+import { User } from '../../../../services/user.service';
+import { ExperienceService } from '../../../../services/experience.service';
+import { ExperienceStateService } from '../../../../services/experience-state.service';
 
 @Component({
   selector: 'app-list-campaigns',
@@ -31,6 +35,7 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
   expandedCampaigns = new Set<string>();
 
   currentCompany: Company | null = null;
+  currentUser: User | null = null;
   private companySubscription?: Subscription;
 
 
@@ -38,11 +43,18 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     private companyStoreService: CompanyStoreService,
     private socialMediaService: SocialMediaService,
+    private experienceService: ExperienceService,
+    private experienceStateService: ExperienceStateService,
+    private authStore: AuthStoreService,
     private router: Router,
     private toast: ToastrService
   ) { }
 
   ngOnInit(): void {
+    this.authStore.user$.subscribe((user: any) => {
+      this.currentUser = user;
+    });
+
     this.companySubscription = this.companyStoreService.company$.subscribe(companyStore => {
       this.currentCompany = companyStore.company || null;
       this.loadCampaigns();
@@ -146,11 +158,25 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
     this.socialMediaService.publishFacebookPost(post.uuid).subscribe({
       next: () => {
         this.toast.success('Post pubblicato con successo', 'Successo');
+        this.callGiveExperience('publish_post');
       },
       error: () => {
         this.toast.error('Errore durante la pubblicazione del post', 'Errore');
       }
     });
+  }
+
+  callGiveExperience(action: string): void {
+    if (this.currentUser) {
+      this.experienceService.giveExperience(this.currentUser?.uuid, action).subscribe({
+        next: (res) => {
+          this.experienceStateService.setExperience(res);
+        },
+        error: (err) => {
+          this.toast.error('Errore durante l\'aggiunta dell\'esperienza:', 'Errore');
+        }
+      });
+    }
   }
 
   editCampaign(campaign: Campaign) {

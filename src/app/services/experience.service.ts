@@ -8,6 +8,8 @@ export interface ExperienceResponse {
     newLevel: number;
     totalXp: number;
     message?: string;
+    levelUp?: boolean;
+    nextLevelXp: number;
 }
 
 @Injectable({
@@ -28,5 +30,8 @@ export class ExperienceService {
             userUuid,
             action
         });
+    }
+    getExperienceByUserUuid(userUuid: string): Observable<ExperienceResponse> {
+        return this.http.get<ExperienceResponse>(`${this.baseUrl}/${userUuid}/get`);
     }
 }

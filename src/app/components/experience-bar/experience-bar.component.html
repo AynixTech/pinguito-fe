@@ -1,0 +1,16 @@
+<div  *ngIf="response" class="xp-container">
+    <div class="level-info">
+        Livello {{ currentLevel }}
+        <span *ngIf="levelUp" class="level-up-badge">🔥 Livello aumentato!</span>
+    </div>
+
+    <div class="xp-bar-wrapper">
+        <div class="xp-bar" [style.width.%]="xpProgressPercent"></div>
+    </div>
+
+    <div class="xp-stats">
+        {{ currentXp }} XP / {{ nextLevelXp }} XP
+        <span class="xp-remaining">({{ xpToNextLevel }} XP al prossimo livello)</span>
+    </div>
+</div>
+  

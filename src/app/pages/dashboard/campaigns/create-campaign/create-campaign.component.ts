@@ -10,6 +10,7 @@ import { LoaderService } from '../../../../services/loader.service';
 import { ExperienceService } from '../../../../services/experience.service';
 import { AuthStoreService } from '../../../../services/auth-store.service';
 import { User } from '../../../../services/user.service';
+import { ExperienceStateService } from '../../../../services/experience-state.service';
 
 @Component({
   selector: 'app-create-campaign',
@@ -33,6 +34,7 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     private loader: LoaderService,
     private experienceService: ExperienceService,
+    private experienceStateService: ExperienceStateService,
     private companyStoreService: CompanyStoreService,
     private authStore: AuthStoreService,
     private toast: ToastrService,
@@ -181,8 +183,9 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
   callGiveExperience(action:string): void {
     if (this.currentUser) {
       this.experienceService.giveExperience(this.currentUser?.uuid, action).subscribe({
-        next: () => {
+        next: (res) => {
           console.log('Esperienza aggiunta con successo');
+          this.experienceStateService.setExperience(res);
         },
         error: (err) => {
           console.error('Errore durante l\'aggiunta dell\'esperienza:', err);
