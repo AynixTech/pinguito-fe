@@ -1,28 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AiService } from '../../../../services/ai.service';
 import { Company } from '../../../../services/company.service';
 import { Subscription } from 'rxjs';
 import { CompanyStoreService } from '../../../../services/company-store.service';
 import { CampaignService, CreateCampaignRequest } from '../../../../services/campaign.service';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../../../services/loader.service';
 
 @Component({
   selector: 'app-create-campaign',
   templateUrl: './create-campaign.component.html',
   styleUrls: ['./create-campaign.component.scss']
 })
-export class CreateCampaignComponent implements OnInit {
+export class CreateCampaignComponent implements OnInit, OnDestroy {
   campaignForm!: FormGroup;
   loading = false;
   currentCompany: Company | null = null;
   channels: string[] = [];
 
   private companySubscription?: Subscription;
+  private formChangesSubscription?: Subscription;
 
-  constructor(private fb: FormBuilder, private campaignService: CampaignService, private companyStoreService: CompanyStoreService, private toast: ToastrService
-    , private aiService: AiService) { }
+  private localStorageKey = 'createCampaignFormData';
+
+  constructor(
+    private fb: FormBuilder,
+    private campaignService: CampaignService,
+    private loader: LoaderService,
+    private companyStoreService: CompanyStoreService,
+    private toast: ToastrService,
+    private aiService: AiService
+  ) { }
+
   Math = Math; // Per usare Math.max in template
+
   ngOnInit(): void {
     this.campaignForm = this.fb.group({
       companyName: [''],
@@ -35,16 +47,31 @@ export class CreateCampaignComponent implements OnInit {
       channels: [[]],
       status: ['planned'],
       aiContentPrompt: ['', Validators.required],
-      aiGeneratedContentEmail: [''],
-      aiGeneratedContentFacebook: [''],
-      aiGeneratedContentInstagram: [''],
-      aiSummaryEmail: [''],
-      aiSummaryFacebook: [''],
-      aiSummaryInstagram: [''],
-      aiKeywordsEmail: [''],
-      aiKeywordsFacebook: [''],
-      aiKeywordsInstagram: ['']
+      numberPosts: [2, [Validators.required, Validators.min(1)]], // Numero di post per giorno
+      facebookPosts: this.fb.array([]),
+      instagramPosts: this.fb.array([]),
+      tiktokVideos: this.fb.array([]),
     });
+
+    // Carica dati da localStorage se presenti
+    const savedForm = localStorage.getItem(this.localStorageKey);
+    if (savedForm) {
+      const savedData = JSON.parse(savedForm);
+
+      // Carichiamo i post Facebook singolarmente perché sono FormArray di FormGroup
+      if (savedData.facebookPosts && Array.isArray(savedData.facebookPosts)) {
+        const fbPosts = this.fb.array(savedData.facebookPosts.map((post: any) => this.createFacebookPost(post)));
+        this.campaignForm.setControl('facebookPosts', fbPosts);
+      }
+
+      // Carichiamo gli altri campi
+      this.campaignForm.patchValue({
+        ...savedData,
+        facebookPosts: undefined // perché già settato sopra
+      });
+      this.channels = savedData.channels || [];
+    }
+
     this.companySubscription = this.companyStoreService.company$.subscribe(companyStore => {
       this.currentCompany = companyStore.company || null;
       this.campaignForm.patchValue({
@@ -52,13 +79,20 @@ export class CreateCampaignComponent implements OnInit {
         companyUuid: this.currentCompany?.uuid || ''
       });
     });
-    this.channels = this.campaignForm.get('channels')?.value || [];
 
+    this.channels = this.campaignForm.get('channels')?.value || [];
     this.campaignForm.get('status')?.disable();
+
+    // Salva in locale ogni volta che il form cambia
+    this.formChangesSubscription = this.campaignForm.valueChanges.subscribe(value => {
+      // Per salvare, dobbiamo serializzare i FormArray correttamente (già è JSON serializzabile)
+      localStorage.setItem(this.localStorageKey, JSON.stringify(value));
+    });
   }
 
   ngOnDestroy(): void {
     this.companySubscription?.unsubscribe();
+    this.formChangesSubscription?.unsubscribe();
   }
 
   onChannelChange(event: Event) {
@@ -73,27 +107,59 @@ export class CreateCampaignComponent implements OnInit {
     this.campaignForm.patchValue({ channels: this.channels });
   }
 
+  get facebookPosts(): FormArray {
+    return this.campaignForm.get('facebookPosts') as FormArray;
+  }
+
+  createFacebookPost(post: any = {}): FormGroup {
+    return this.fb.group({
+      aiGeneratedContent: [post.aiGeneratedContent || ''],
+      aiSummary: [post.aiSummary || ''],
+      aiKeywords: [post.aiKeywords || ''],
+      scheduledDate: [post.scheduledDate ? new Date(post.scheduledDate).toISOString().substring(0, 16) : '']
+    });
+  }
+
+  setPostsInForm(response: any): void {
+    const facebookPosts = response.facebookPosts || [];
+
+    const fbFormArray = this.fb.array(
+      facebookPosts.map((post: any) => this.createFacebookPost(post))
+    );
+
+    this.campaignForm.setControl('facebookPosts', fbFormArray);
+  }
+
+  addFacebookPost() {
+    this.facebookPosts.push(this.createFacebookPost());
+  }
+
+  removeFacebookPost(index: number) {
+    this.facebookPosts.removeAt(index);
+  }
+
   generateAIContent(): void {
     const prompt = this.campaignForm.get('aiContentPrompt')?.value;
     if (!prompt?.trim()) return;
 
+    const startDate = this.campaignForm.get('startDate')?.value;
+    const endDate = this.campaignForm.get('endDate')?.value;
+
+    let days = 1;
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      days = Math.max(1, Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1);
+    }
+
     this.loading = true;
-    let channels = this.campaignForm.get('channels')?.value.join(', ') || '';
-    this.aiService.generateAiCampaignContent(prompt, channels).subscribe({
+    let channels = this.campaignForm.get('channels')?.value || [];
+    let postPerDays = this.campaignForm.get('numberPosts')?.value || 0;
+
+    this.aiService.generateAiCampaignContent(prompt, channels, postPerDays, startDate, endDate).subscribe({
       next: (res) => {
-        this.campaignForm.patchValue({
-          aiGeneratedContentEmail: res.aiGeneratedContentEmail ?? null,
-          aiGeneratedContentFacebook: res.aiGeneratedContentFacebook ?? null,
-          aiGeneratedContentInstagram: res.aiGeneratedContentInstagram ?? null,
-          aiSummaryEmail: res.aiSummaryEmail ?? null,
-          aiSummaryFacebook: res.aiSummaryFacebook ?? null,
-          aiSummaryInstagram: res.aiSummaryInstagram ?? null,
-          aiKeywordsEmail: res.aiKeywordsEmail ?? null,
-          aiKeywordsFacebook: res.aiKeywordsFacebook ?? null,
-          aiKeywordsInstagram: res.aiKeywordsInstagram ?? null
-        });
-
-
+        this.setPostsInForm(res);
+        this.loader.stopLoader();
         this.loading = false;
       },
       error: (err) => {
@@ -105,9 +171,10 @@ export class CreateCampaignComponent implements OnInit {
 
   onSubmit(): void {
     if (this.campaignForm.invalid) return;
+
     const data = this.campaignForm.value;
     console.log('Campagna da salvare:', data);
-    // Salva la campagna qui
+
     const saveData: CreateCampaignRequest = {
       companyUuid: data.companyUuid,
       name: data.name,
@@ -116,30 +183,22 @@ export class CreateCampaignComponent implements OnInit {
       endDate: data.endDate ? new Date(data.endDate) : undefined,
       budget: data.budget,
       status: data.status,
-      channels: JSON.stringify(data.channels), // dovrebbe essere string[] secondo il form
-      aiGeneratedContentEmail: data.aiGeneratedContentEmail,
-      aiGeneratedContentFacebook: data.aiGeneratedContentFacebook,
-      aiGeneratedContentInstagram: data.aiGeneratedContentInstagram,
-      aiSummaryEmail: data.aiSummaryEmail,
-      aiSummaryFacebook: data.aiSummaryFacebook,
-      aiSummaryInstagram: data.aiSummaryInstagram,
-      aiKeywordsEmail: data.aiKeywordsEmail,
-      aiKeywordsFacebook: data.aiKeywordsFacebook,
-      aiKeywordsInstagram: data.aiKeywordsInstagram,
+      channels: JSON.stringify(data.channels),
+      facebookPosts: data.facebookPosts,
+      instagramPosts: data.instagramPosts,
     };
-    this.campaignService.createCampaign(saveData
-    ).subscribe({
+
+    this.campaignService.createCampaign(saveData).subscribe({
       next: (campaign) => {
         console.log('Campagna creata con successo:', campaign);
-        // Puoi reindirizzare o mostrare un messaggio di successo
         this.toast.success('Campagna creata con successo', 'Successo');
         this.campaignForm.reset();
         this.channels = [];
+        localStorage.removeItem(this.localStorageKey); // pulisco i dati salvati
       },
       error: (err) => {
         console.error('Errore durante la creazione della campagna:', err);
         this.toast.error('Errore durante la creazione della campagna', 'Errore');
-        // Mostra un messaggio di errore all'utente
       }
     });
   }

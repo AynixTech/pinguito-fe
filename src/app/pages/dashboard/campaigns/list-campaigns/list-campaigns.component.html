@@ -20,6 +20,9 @@
                     Azienda
                     <span *ngIf="sortColumn === 'company'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
                 </th>
+                <th>
+                    Pagina
+                </th>
                 <th (click)="toggleSort('startDate')">
                     Data Inizio
                     <span *ngIf="sortColumn === 'startDate'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
@@ -44,28 +47,34 @@
                 <tr>
                     <td>{{ campaign.name }}</td>
                     <td>{{ campaign.company?.name || '-' }}</td>
-                    <td>{{ campaign.startDate ? (campaign.startDate | date:'shortDate') : '-' }}</td>
-                    <td>{{ campaign.endDate ? (campaign.endDate | date:'shortDate') : '-' }}</td>
+                    <td>{{ campaign.company?.socialMedia?.metaPageName || '-' }}</td>
+
+                    <td>{{ campaign.startDate ? (campaign.startDate | date:'dd/MM/yyyy') : '-' }}</td>
+                    <td>{{ campaign.endDate ? (campaign.endDate | date:'dd/MM/yyyy') : '-' }}</td>
                     <td>{{ campaign.budget !== undefined ? ('€' + campaign.budget) : '-' }}</td>
                     <td>{{ campaign.status || '-' }}</td>
                     <td>
-                        <button type="button" (click)="toggleExpanded(campaign.uuid?? '')"
-                            title="Mostra/Nascondi post social" class="action-btn">
-                            <i class="fa"
-                                [ngClass]="expandedCampaigns.has(campaign.uuid?? '') ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"></i>
-                        </button>
+                        <div class="actions-buttons">
+                            <button type="button" (click)="toggleExpanded(campaign.uuid?? '')"
+                                title="Mostra/Nascondi post social" class="action-btn">
+                                <i class="fa"
+                                    [ngClass]="expandedCampaigns.has(campaign.uuid?? '') ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"></i>
+                            </button>
 
-                        <button type="button" (click)="editCampaign(campaign)" title="Modifica" class="action-btn">
-                            <i class="fa fa-edit"></i>
-                        </button>
+                            <button type="button" (click)="editCampaign(campaign)" title="Modifica" class="action-btn">
+                                <i class="fa fa-edit"></i>
+                            </button>
 
-                        <button type="button" (click)="viewDetails(campaign)" title="Vedi dettagli" class="action-btn">
-                            <i class="fa fa-eye"></i>
-                        </button>
+                            <button type="button" (click)="viewDetails(campaign)" title="Vedi dettagli"
+                                class="action-btn">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+
                     </td>
                 </tr>
                 <tr *ngIf="expandedCampaigns.has(campaign.uuid ?? '')">
-                    <td colspan="7" class="second-row">
+                    <td colspan="8" class="second-row">
                         <strong>Social Media Posts:</strong>
 
                         <!-- Facebook -->
@@ -82,10 +91,14 @@
 
                                     <div class="post-message">{{ post.message || '(nessun messaggio)' }}</div>
 
-                                    <div class="post-date">
-                                        {{ post.publishedAt || post.scheduledAt | date: 'short' }}
+                                    <div class="post-date" *ngIf="post.scheduledAt">
+                                        Pianificato per:
+                                        {{ post.scheduledAt | date:'dd/MM/yyyy HH:mm' }}
                                     </div>
-
+                                    <div class="post-date" *ngIf="post.publishedAt">
+                                        Pubblicato il:
+                                        {{ post.publishedAt | date:'dd/MM/yyyy HH:mm' }}
+                                    </div>
                                     <div class="post-actions">
 
                                         <button *ngIf="post.status === 'planned'" (click)="publishFacebookPost(post)"

@@ -2,10 +2,23 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-
+export interface SocialMedia {
+    uuid: string;
+    companyUuid: string;
+    metaShortToken?: string;
+    metaAccessToken?: string;
+    metaAppId?: string;
+    metaAppSecret?: string;
+    metaSyncResponse?: string;
+    metaPagesResponse?: string;
+    metaPageId?: string;
+    metaPageAccessToken?: string; // New field to store the page access token
+    metaPageName?: string; // Optional field to store the page name
+}
 @Injectable({
     providedIn: 'root'
 })
+
 export class SocialMediaService {
     private baseUrl = environment.apiUrl + '/social-media';
 

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from './user.service';
 import { Plan } from './plan.service';
+import { SocialMedia } from './social-media.service';
 
 export interface Company {
     uuid: string;
@@ -26,6 +27,7 @@ export interface Company {
     planId?: number;
     monitorUsers?: User[] | null; // id utente assegnato (opzionale)
     monitorUserUuids?: string[]; // UUID degli utenti assegnati al monitoraggio
+    socialMedia?: SocialMedia;
     plan?: Plan
 }
 @Injectable({
