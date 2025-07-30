@@ -9,11 +9,13 @@ import { LandingComponent } from './landing/landing.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CompaniesModule } from './companies/companies.module';
 import { ExperienceBarComponent } from '../../components/experience-bar/experience-bar.component';
+import { LeaderboardComponent } from '../../components/leaderboard/leaderboard.component';
 
 @NgModule({
   declarations: [
     ChartCampaignComponent,
     ExperienceBarComponent,
+    LeaderboardComponent,
     DashboardComponent,
     LandingComponent,
     PageNotFoundComponent,

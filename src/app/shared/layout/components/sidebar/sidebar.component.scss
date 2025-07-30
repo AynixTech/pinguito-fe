@@ -7,6 +7,11 @@
   flex-direction: column;
   height: 100vh;
   width: 250px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  &.closed {
+    width: 0; // Width when closed
+    overflow: hidden;
+  }
   .sidebar-header {
     padding: 0 0.5rem;
 
@@ -37,18 +42,13 @@
     gap: 3rem;
 
     .menu-items-container {
-      overflow-y: scroll;
       flex-grow: 1;
       padding-right: 0.5rem;
-      height: 300px; // Adjust height to fit within the sidebar
-      scrollbar-width: thin;
-      scrollbar-color: $color-light-grey $color-white;
+
       //glass effect
       background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
       ul.menu-items {
         list-style: none;
         padding: 0;
@@ -193,161 +193,6 @@
 
         strong {
           font-weight: 600;
-        }
-      }
-    }
-  }
-}
-
-.leaderboard-widget {
-  background-color: #1999d5; // sfondo blu
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  font-family: "Segoe UI", sans-serif;
-  max-width: 400px;
-  color: white;
-
-  h3 {
-    margin-bottom: 12px;
-    font-size: 15px;
-    font-weight: bold;
-  }
-
-  .leaderboard-content {
-    overflow-y: scroll;
-    height: 220px;
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-
-      li {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 10px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        color: #000;
-
-        .position {
-          width: 30px;
-          font-weight: bold;
-        }
-
-        .info {
-          .name {
-            font-size: 14px;
-            font-weight: 600;
-          }
-
-          .stats {
-            font-size: 12px;
-
-          }
-        }
-
-        // Oro per il primo
-        &:nth-child(1) {
-          background: linear-gradient(120deg, #fffbe6 0%, #ffe066 30%, #ffd700 60%, #fffbe6 100%);
-          box-shadow: 0 2px 8px 0 rgba(222, 189, 12, 0.25), 0 1.5px 0 #fffbe6 inset;
-          border: 1.5px solid #ffe066;
-          color: #bfa100;
-          position: relative;
-          overflow: hidden;
-
-          &::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background: linear-gradient(
-              120deg,
-              rgba(255,255,255,0.35) 0%,
-              rgba(255,255,255,0.15) 40%,
-              rgba(255,255,255,0.05) 100%
-            );
-            mix-blend-mode: lighten;
-          }
-
-          .stats {
-            color: #bfa100;
-            text-shadow: 0 1px 2px #fffbe6, 0 0.5px 0 #ffe066;
-          }
-        }
-
-        // Argento per il secondo
-        &:nth-child(2) {
-          background: linear-gradient(120deg, #f8f8f8 0%, #e0e0e0 30%, #c0c0c0 60%, #f8f8f8 100%);
-          box-shadow: 0 2px 8px 0 rgba(180, 180, 180, 0.18), 0 1.5px 0 #f8f8f8 inset;
-          border: 1.5px solid #e0e0e0;
-          color: #7d7d7d;
-          position: relative;
-          overflow: hidden;
-
-          &::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background: linear-gradient(
-              120deg,
-              rgba(255,255,255,0.4) 0%,
-              rgba(200,200,200,0.18) 40%,
-              rgba(255,255,255,0.08) 100%
-            );
-            mix-blend-mode: lighten;
-          }
-
-          .stats {
-            color: #7d7d7d;
-            text-shadow: 0 1px 2px #f8f8f8, 0 0.5px 0 #e0e0e0;
-          }
-        }
-
-        // Bronzo per il terzo
-        // Bronzo per il terzo
-        &:nth-child(3) {
-          background: linear-gradient(120deg, #fbeee6 0%, #e7b98a 30%, #cd7f32 60%, #fbeee6 100%);
-          box-shadow: 0 2px 8px 0 rgba(205, 127, 50, 0.18), 0 1.5px 0 #fbeee6 inset;
-          border: 1.5px solid #e7b98a;
-          color: #a97142;
-          position: relative;
-          overflow: hidden;
-
-          &::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background: linear-gradient(
-              120deg,
-              rgba(255,255,255,0.25) 0%,
-              rgba(205,127,50,0.10) 40%,
-              rgba(255,255,255,0.05) 100%
-            );
-            mix-blend-mode: lighten;
-          }
-
-          .stats {
-            color: #a97142;
-            text-shadow: 0 1px 2px #fbeee6, 0 0.5px 0 #e7b98a;
-          }
-        }
-
-        // Tutti gli altri
-        &:nth-child(n + 4) {
-          background-color: #f0f0f0;
         }
       }
     }

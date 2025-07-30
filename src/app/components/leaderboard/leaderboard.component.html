@@ -1,0 +1,20 @@
+<div class="leaderboard-container" *ngIf=" isVisible">
+    <div class="leaderboard-widget">
+        <h3>🏆 Leaderboard</h3>
+        <div class="leaderboard-content">
+            <ul>
+                <li *ngFor="let user of users; index as i">
+                    <div class="position">#{{ i + 1 }}</div>
+                    <div class="info">
+                        <div class="name">{{ user.name }} {{ user.surname }}</div>
+                        <div class="stats">Level {{ user.level }} · {{ user.xp }} XP</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<button class="leaderboard-toggle-button" (click)="toggleVisibility()" aria-label="Toggle board">
+    <i class="fas fa-trophy" [style.color]="'gold'" style="font-size: 20px;"></i>
+</button>

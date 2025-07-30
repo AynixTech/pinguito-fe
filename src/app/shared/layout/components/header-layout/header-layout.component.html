@@ -1,7 +1,8 @@
 <header class="header">
   <div class="left-section">
-    <span class="welcome-message">Bienvenido, {{ userFullName }}</span> <br>
-    <span class="user-role">{{ currentUser?.role?.name | titlecase }}</span>
+    <div (click)="toggleSidebar()">
+      <i class="fa fa-bars menu-icon"></i>
+    </div>
   </div>
 
   <div class="center-section">
@@ -10,9 +11,9 @@
       <option *ngFor="let company of companies; trackBy: trackByCompanyUuid" [ngValue]="company">
         {{ company.name }}
       </option>
-      
+
     </select>
-    
+
   </div>
 
   <div class="right-section">
@@ -26,12 +27,11 @@
         <span class="email">{{ userEmail }}</span>
       </div>
       <i class="fa fa-caret-down dropdown-icon"></i>
-    
+
       <!-- Dropdown menu -->
       <ul class="dropdown-menu" *ngIf="isDropdownOpen">
         <li (click)="logout()">Logout</li>
       </ul>
     </div>
-    
   </div>
 </header>

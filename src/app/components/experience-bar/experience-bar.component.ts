@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ExperienceResponse } from '../../services/experience.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { ExperienceResponse } from '../../services/experience.service';
   templateUrl: './experience-bar.component.html',
   styleUrls: ['./experience-bar.component.scss']
 })
-export class ExperienceBarComponent implements OnChanges {
+export class ExperienceBarComponent implements OnInit, OnChanges {
   @Input() response: ExperienceResponse | null = null;
 
   currentXp: number = 0;
@@ -16,9 +16,16 @@ export class ExperienceBarComponent implements OnChanges {
   xpToNextLevel: number = 0;
   levelUp: boolean = false;
 
-  isVisible: boolean = true;
-
+  isVisible: boolean = false;
+  private readonly visibilityKey = 'experience-bar-visibility';
   private levelUpTimeoutId: any;
+
+  ngOnInit(): void {
+    const savedVisibility = localStorage.getItem(this.visibilityKey);
+    if (savedVisibility !== null) {
+      this.isVisible = savedVisibility === 'true';
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['response'] && this.response) {
@@ -35,6 +42,7 @@ export class ExperienceBarComponent implements OnChanges {
 
   toggleVisibility(): void {
     this.isVisible = !this.isVisible;
+    localStorage.setItem(this.visibilityKey, this.isVisible.toString());
   }
 
   private updateExperienceBar(): void {

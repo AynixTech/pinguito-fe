@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar" [class.closed]="!(sidebarStateService.isSidebarOpen())">
     <div class="sidebar-header">
         <div class="logo">
             <img src="assets/images/logo.png" alt="Logo" />
@@ -40,26 +40,5 @@
 
 
         </div>
-
-
-        <div class="leaderboard-container">
-            <div class="leaderboard-widget">
-                <h3>🏆 Leaderboard</h3>
-                <div class="leaderboard-content">
-                    <ul>
-                        <li *ngFor="let user of users; index as i">
-                            <div class="position">#{{ i + 1 }}</div>
-                            <div class="info">
-                                <div class="name">{{ user.name }} {{ user.surname }}</div>
-                                <div class="stats">Level {{ user.level }} · {{ user.xp }} XP</div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-        <!-- Menu inferiore -->
-
     </nav>
 </div>

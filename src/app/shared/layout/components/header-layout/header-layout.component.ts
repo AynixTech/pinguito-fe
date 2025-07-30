@@ -5,6 +5,7 @@ import { User } from "../../../../services/user.service";
 import { CompanyStoreService } from "../../../../services/company-store.service";
 import { Company, CompanyService } from "../../../../services/company.service";
 import { ExperienceStateService } from "../../../../services/experience-state.service";
+import { SidebarStateService } from "../../../../services/sidebar-state.service";
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,7 @@ export class HeaderLayoutComponent implements OnInit {
   currentUserUuid: string | null = null;
   companies: Company[] = [];
 
-  constructor(private authStore: AuthStoreService, private experienceStateService: ExperienceStateService, private companyService: CompanyService, private companyStore: CompanyStoreService, private router: Router) { }
+  constructor(private authStore: AuthStoreService, private sidebarStateService: SidebarStateService, private experienceStateService: ExperienceStateService, private companyService: CompanyService, private companyStore: CompanyStoreService, private router: Router) { }
 
   ngOnInit(): void {
     this.authStore.user$.subscribe((user: any) => {
@@ -85,7 +86,8 @@ export class HeaderLayoutComponent implements OnInit {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
   toggleSidebar() {
-    // Implement sidebar toggle logic here
+    console.log('Toggling sidebar');  
+    this.sidebarStateService.toggleSidebar();
   }
 
   @HostListener('document:click', ['$event'])

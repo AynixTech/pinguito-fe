@@ -7,16 +7,29 @@
   border-bottom: 1px solid #e0e0e0;
 
   .left-section {
-    .welcome-message {
-      font-size: 18px;
-      font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .menu-icon {
+      font-size: 24px;
+      cursor: pointer;
       color: #333;
+      transition: color 0.3s;
+      border: 2px solid #1d1f1f;
+      border-radius: 50%;
+      padding: 6px;
+      width: 25px;
+      height: 25px;
+      &:hover {
+        color: #1d1f1f;
+        background-color: #f0f0f0;
+      }
     }
-    .user-role {
-      font-size: 14px;
-      color: #777;
-      margin-top: 4px;
-    }
+
+   
+
+   
   }
 
   .center-section {
@@ -65,8 +78,8 @@
 
   .right-section {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 16px;
     position: relative;
 
     .icon {
