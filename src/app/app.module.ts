@@ -20,7 +20,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
-import { LoaderComponent } from './shared/components/loader/loader.component';
+import { LoaderComponent } from './components/loader/loader.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 registerLocaleData(localeEs);
