@@ -7,18 +7,25 @@
 
         <div class="form-group col-100">
             <label for="companyName">Azienda (Nome)</label>
-            <input type="text" id="companyName" formControlName="companyName" placeholder="Company Name" />
+            <input type="text" id="companyName" formControlName="companyName" placeholder="Company Name" [readonly]="true" />
         </div>
 
         <div class="form-group col-100">
             <label for="companyUuid">Azienda (UUID)</label>
             <input type="text" id="companyUuid" formControlName="companyUuid"
-                placeholder="es. 123e4567-e89b-12d3-a456-426614174000" />
+                placeholder="es. 123e4567-e89b-12d3-a456-426614174000" [readonly]="true" />
+            <div *ngIf="campaignForm.get('companyUuid')?.touched && campaignForm.get('companyUuid')?.invalid"
+                class="form-error">
+                UUID obbligatorio.
+            </div>
         </div>
 
         <div class="form-group col-50">
-            <label for="name">Nome</label>
+            <label for="name">Nome campagna</label>
             <input type="text" id="name" formControlName="name" placeholder="Campagna Inverno 2025" />
+            <div *ngIf="campaignForm.get('name')?.touched && campaignForm.get('name')?.invalid" class="form-error">
+                Il nome della campagna è obbligatorio.
+            </div>
         </div>
 
         <div class="form-group col-50">
@@ -40,6 +47,11 @@
         <div class="form-group col-50">
             <label for="endDate">Data Fine</label>
             <input type="datetime-local" id="endDate" formControlName="endDate" />
+            <div *ngIf="campaignForm.errors?.['endBeforeStart'] && (campaignForm.get('endDate')?.touched || campaignForm.get('startDate')?.touched)"
+                class="form-error">
+                La data di fine deve essere **successiva** alla data di inizio.
+            </div>
+
         </div>
 
         <div class="form-group col-100">
@@ -55,7 +67,10 @@
 
         <div class="form-group col-50">
             <label for="numberPosts">Numero Post per giorno</label>
-            <input type="number" id="numberPosts" formControlName="numberPosts" placeholder="5" />
+            <input type="number" id="numberPosts" formControlName="numberPosts" placeholder="1" />
+            <div *ngIf="campaignForm.get('numberPosts')?.touched && campaignForm.get('numberPosts')?.invalid"
+                class="form-error">
+                Inserisci almeno 1 post al giorno. </div>
         </div>
 
         <div class="form-group col-100">
@@ -79,6 +94,9 @@
             <label for="aiContentPrompt">Prompt Contenuto AI</label>
             <textarea id="aiContentPrompt" formControlName="aiContentPrompt"
                 placeholder="es. 'Scrivi un testo promozionale per una campagna invernale di email marketing rivolto a clienti fidelizzati'"></textarea>
+            <div *ngIf="campaignForm.get('aiContentPrompt')?.touched && campaignForm.get('aiContentPrompt')?.invalid"
+                class="form-error">
+                Inserisci un prompt valido per generare il contenuto AI. </div>
         </div>
 
         <div class="form-group col-100">
@@ -91,14 +109,14 @@
         <!-- Campi AI generati -->
         <div class="form-group col-100">
             <div class="post-container" *ngIf="channels.includes('facebook')" formArrayName="facebookPosts">
-                <div class="post facebook-post" *ngFor="let post of facebookPosts.controls; let i = index" [formGroupName]="i"
-                    >
+                <div class="post facebook-post" *ngFor="let post of facebookPosts.controls; let i = index"
+                    [formGroupName]="i">
                     <h3>Post Facebook {{ i + 1 }}</h3>
 
-                    <label>Contenuto AI Generato</label>
+                    <label>Contenuto </label>
                     <textarea formControlName="aiGeneratedContent" rows="5"></textarea>
 
-                    <label>Sintesi AI</label>
+                    <label>Sintesi</label>
                     <textarea formControlName="aiSummary" rows="3"></textarea>
 
                     <label>Parole Chiave</label>
@@ -114,7 +132,7 @@
             </div>
         </div>
         <div class="buttons col-100">
-            <button class="btn-primary" type="submit" [disabled]="campaignForm.invalid">Salva</button>
+            <button class="btn-primary" type="submit" [disabled]="campaignForm.invalid">Crea campagna</button>
         </div>
     </form>
 </div>

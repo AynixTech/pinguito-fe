@@ -13,35 +13,49 @@
         <thead>
             <tr>
                 <th (click)="toggleSort('name')">
-                    Nome
-                    <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Nome
+                        <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('company')">
-                    Azienda
-                    <span *ngIf="sortColumn === 'company'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Azienda
+                        <span *ngIf="sortColumn === 'company'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th>
                     Pagina
                 </th>
                 <th (click)="toggleSort('startDate')">
-                    Data Inizio
-                    <span *ngIf="sortColumn === 'startDate'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Data Inizio
+                        <span *ngIf="sortColumn === 'startDate'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('endDate')">
-                    Data Fine
-                    <span *ngIf="sortColumn === 'endDate'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Data Fine
+                        <span *ngIf="sortColumn === 'endDate'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('budget')">
-                    Budget
-                    <span *ngIf="sortColumn === 'budget'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Budget
+                        <span *ngIf="sortColumn === 'budget'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('status')">
-                    Stato
-                    <span *ngIf="sortColumn === 'status'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Stato
+                        <span *ngIf="sortColumn === 'status'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('updatedAt')">
-                    Data Ultimo Aggiornamento
-                    <span *ngIf="sortColumn === 'updatedAt'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Data aggiornamento
+                        <span *ngIf="sortColumn === 'updatedAt'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th>Azioni</th>
             </tr>
@@ -61,7 +75,8 @@
                     <td>
                         <div class="actions-buttons">
                             <button type="button" (click)="toggleExpanded(campaign.uuid?? '')"
-                                title="Mostra/Nascondi post social" class="action-btn">
+                                title="Mostra/Nascondi post social" class="action-btn"
+                                *ngIf="campaign.facebookPosts?.length || campaign.instagramPosts?.length || campaign.tiktokVideos?.length">
                                 <i class="fa"
                                     [ngClass]="expandedCampaigns.has(campaign.uuid?? '') ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"></i>
                             </button>
@@ -79,9 +94,8 @@
                     </td>
                 </tr>
                 <tr *ngIf="expandedCampaigns.has(campaign.uuid ?? '')">
-                    <td colspan="9" class="second-row">
-                        <strong>Social Media Posts:</strong>
-
+                    <td colspan="9" class="second-row" *ngIf="campaign.facebookPosts?.length || campaign.instagramPosts?.length || campaign.tiktokVideos?.length">
+                        <strong >Social Media Posts:</strong>
                         <!-- Facebook -->
                         <div *ngIf="campaign.facebookPosts?.length">
                             <strong>Facebook:</strong> {{ campaign.facebookPosts?.length }} post

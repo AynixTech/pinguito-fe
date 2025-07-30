@@ -24,6 +24,14 @@
             <span class="value">Lv. {{ user.level }}</span>
         </div>
     </div>
+    <div class="companies-list" *ngIf="companies && companies.length > 0">
+        <h3>Lista aziende assegnate</h3>
+        <ul>
+            <li *ngFor="let company of companies">
+                <span class="company-name">{{ company.name }}</span>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <!-- MODALE AVATAR -->

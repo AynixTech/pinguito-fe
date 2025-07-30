@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Company } from './company.service';
 
 export interface User {
     uuid: string;
@@ -17,6 +18,7 @@ export interface User {
     xp?: number;
     level?: number;
     avatar?: string;
+    companies?: Company[];
 }
 
 @Injectable({
@@ -54,7 +56,7 @@ export class UserService {
     updateUser(id: string, data: any): Observable<any> {
         return this.http.put<any>(`${this.baseUrl}/${id}/updateUser`, data);
     }
-    
+
     getMyProfile(uuid: string): Observable<User> {
         return this.http.get<User>(`${this.baseUrl}/${uuid}/myProfile`);
     }

@@ -18,16 +18,22 @@
         <thead>
             <tr>
                 <th (click)="toggleSort('name')">
-                    Nome
-                    <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Nome
+                        <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('industry')">
-                    Industry
-                    <span *ngIf="sortColumn === 'industry'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Industry
+                        <span *ngIf="sortColumn === 'industry'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('customerSegment')">
-                    Segmento Cliente
-                    <span *ngIf="sortColumn === 'customerSegment'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Segmento Cliente
+                        <span *ngIf="sortColumn === 'customerSegment'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th>Partita IVA</th>
                 <th>Indirizzo Legale</th>

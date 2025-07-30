@@ -31,12 +31,13 @@
   }
 
   table.elements-table {
-    width: 100%;
     border-collapse: collapse;
     box-shadow: 0 4px 10px rgba($primary-color, 0.15);
     overflow: hidden;
     border-radius: 10px;
     background: $color-white;
+    table-layout: fixed;
+
     th,
     td {
       padding: 12px 15px;
@@ -45,6 +46,19 @@
       vertical-align: middle;
       font-size: 14px;
       transition: background-color 0.3s ease;
+      width: 150px; // o qualsiasi valore uguale per tutti
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      .sortable-header {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+
+      }
+      &:last-child {
+       width: 150px;
+      }
     }
 
     th {
@@ -147,7 +161,7 @@
 
   .actions-buttons {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 10px;
     margin-top: 20px;
     .action-btn {

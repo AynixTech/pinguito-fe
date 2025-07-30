@@ -13,20 +13,28 @@
         <thead>
             <tr>
                 <th (click)="toggleSort('name')">
-                    Nome
-                    <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Nome
+                        <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('surname')">
-                    Cognome
-                    <span *ngIf="sortColumn === 'surname'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Cognome
+                        <span *ngIf="sortColumn === 'surname'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('email')">
-                    Email
-                    <span *ngIf="sortColumn === 'email'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Email
+                        <span *ngIf="sortColumn === 'email'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th (click)="toggleSort('role')">
-                    Ruolo
-                    <span *ngIf="sortColumn === 'role'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    <div class="sortable-header">
+                        Ruolo
+                        <span *ngIf="sortColumn === 'role'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
                 </th>
                 <th>EXP</th>
                 <th>Livello</th>
@@ -65,4 +73,3 @@
         <button (click)="nextPage()" [disabled]="currentPage === totalPages">Successiva</button>
     </div>
 </div>
-  

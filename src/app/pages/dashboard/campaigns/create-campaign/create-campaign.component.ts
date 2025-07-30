@@ -52,17 +52,20 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
       companyName: [''],
       companyUuid: ['', Validators.required],
       name: ['', Validators.required],
-      budget: [''],
+      budget: ['', Validators.required],
       description: [''],
-      startDate: [null],
-      endDate: [null],
-      channels: [[]],
-      status: ['planned'],
+      startDate: [null, Validators.required],
+      endDate: [null, Validators.required],
+      channels: [[], Validators.required],
+      status: ['planned', Validators.required],
       aiContentPrompt: ['', Validators.required],
       numberPosts: [2, [Validators.required, Validators.min(1)]], // Numero di post per giorno
       facebookPosts: this.fb.array([]),
       instagramPosts: this.fb.array([]),
       tiktokVideos: this.fb.array([]),
+    }, {
+      validators: [this.startBeforeEndValidator] // 👈 Aggiunto qui
+
     });
 
     // Carica dati da localStorage se presenti
@@ -100,6 +103,16 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
       // Per salvare, dobbiamo serializzare i FormArray correttamente (già è JSON serializzabile)
       localStorage.setItem(this.localStorageKey, JSON.stringify(value));
     });
+  }
+
+  startBeforeEndValidator(form: FormGroup) {
+    const start = form.get('startDate')?.value;
+    const end = form.get('endDate')?.value;
+
+    if (start && end && new Date(end) <= new Date(start)) {
+      return { endBeforeStart: true };
+    }
+    return null;
   }
 
   ngOnDestroy(): void {
