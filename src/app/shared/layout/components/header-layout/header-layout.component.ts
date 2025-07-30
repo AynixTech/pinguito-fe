@@ -23,6 +23,7 @@ export class HeaderLayoutComponent implements OnInit {
   userCompanies: Company[] = [];
   currentUserUuid: string | null = null;
   companies: Company[] = [];
+  userAvatar: string='';
 
   constructor(private authStore: AuthStoreService, private sidebarStateService: SidebarStateService, private experienceStateService: ExperienceStateService, private companyService: CompanyService, private companyStore: CompanyStoreService, private router: Router) { }
 
@@ -33,7 +34,7 @@ export class HeaderLayoutComponent implements OnInit {
       this.userName = this.currentUser?.name || '';
       this.userFullName = this.currentUser?.name + " " + this.currentUser?.surname || '';
       this.userEmail = this.currentUser?.email || '';
-      this.userInitials = this.getUserInitials(this.userFullName);
+      this.userAvatar = this.currentUser?.avatar || 'penguin_default'; // Default avatar if not set
       console.log('Current User:', this.currentUser);
       this.loadCompanies();
     });
@@ -97,9 +98,12 @@ export class HeaderLayoutComponent implements OnInit {
       this.isDropdownOpen = false;
     }
   }
+  goToMyProfile() {
+    this.router.navigate(['/profile/my-profile']);
+  }
 
   logout() {
-    this.authStore.clearUser(); 
+    this.authStore.clearUser();
     this.companyStore.clearCompany();
     this.experienceStateService.clearExperience();
     this.router.navigate(['/login']);

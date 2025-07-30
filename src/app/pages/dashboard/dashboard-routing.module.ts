@@ -41,6 +41,11 @@ const routes: Routes = [
         data: { roles: ['admin','monitoring'] }
       },
       {
+        path: 'profile',
+        loadChildren: () =>
+          import('./profile/profile.module').then(m => m.ProfileModule),
+      },
+      {
         path: '**',
         component: PageNotFoundComponent
       }

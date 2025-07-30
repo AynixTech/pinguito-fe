@@ -15,6 +15,7 @@ export interface ExperienceResponse {
 export interface LeaderboardUser {
     name: string;
     surname: string;
+    avatar: string;
     level: number;
     xp: number;
 }

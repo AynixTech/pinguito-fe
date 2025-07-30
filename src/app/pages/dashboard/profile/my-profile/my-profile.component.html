@@ -1,0 +1,47 @@
+<div class="profile-card" *ngIf="!loading && user">
+    <div class="profile-header">
+        <div class="avatar-wrapper">
+            <img [src]="'assets/avatars/' + (user.avatar || 'penguin_default') + '.png'" alt="Avatar" class="avatar" />
+            <button class="edit-avatar-btn" (click)="openAvatarModal()" title="Modifica avatar">
+                <i class="fa fa-edit"></i> <!-- Usa Font Awesome o altra icona -->
+            </button>
+        </div>
+
+        <div class="info">
+            <h2>{{ fullName }}</h2>
+            <p class="email">{{ user.email }}</p>
+            <p class="phone">{{ user.phone }}</p>
+        </div>
+    </div>
+
+    <div class="profile-body">
+        <div class="profile-item">
+            <span class="label">Esperienza:</span>
+            <span class="value">{{ user.xp }} XP</span>
+        </div>
+        <div class="profile-item">
+            <span class="label">Livello:</span>
+            <span class="value">Lv. {{ user.level }}</span>
+        </div>
+    </div>
+</div>
+
+<!-- MODALE AVATAR -->
+<div class="modal" *ngIf="showAvatarModal">
+    <div class="modal-content">
+        <h3>Seleziona un avatar</h3>
+        <div class="avatar-grid">
+            <img *ngFor="let avatar of availableAvatars" [src]="'assets/avatars/' + avatar + '.png'"
+                [class.selected]="selectedAvatar === avatar" (click)="selectAvatar(avatar)" class="avatar-option" />
+        </div>
+        <div class="modal-actions">
+            <button (click)="saveAvatar()">Salva</button>
+            <button (click)="closeAvatarModal()">Annulla</button>
+        </div>
+    </div>
+</div>
+
+<div class="loading" *ngIf="loading">
+    Caricamento profilo...
+</div>
+  

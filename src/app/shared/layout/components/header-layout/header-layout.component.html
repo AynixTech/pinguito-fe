@@ -21,7 +21,9 @@
     <i class="fa fa-moon icon"></i> -->
 
     <div class="profile" (click)="toggleDropdown()" [class.open]="isDropdownOpen">
-      <div class="avatar">{{ userInitials }}</div>
+      <div class="avatar">
+        <img [src]="'assets/avatars/' + (userAvatar || 'penguin_default')+'.png'" alt="Avatar" class="avatar" />
+      </div>
       <div class="profile-info">
         <span class="name">{{ userFullName }}</span>
         <span class="email">{{ userEmail }}</span>
@@ -30,6 +32,7 @@
 
       <!-- Dropdown menu -->
       <ul class="dropdown-menu" *ngIf="isDropdownOpen">
+        <li (click)="goToMyProfile()">Profile</li>
         <li (click)="logout()">Logout</li>
       </ul>
     </div>

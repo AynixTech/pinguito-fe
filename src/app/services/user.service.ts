@@ -16,6 +16,7 @@ export interface User {
     };
     xp?: number;
     level?: number;
+    avatar?: string;
 }
 
 @Injectable({
@@ -52,5 +53,13 @@ export class UserService {
     // ✅ Aggiorna un utente
     updateUser(id: string, data: any): Observable<any> {
         return this.http.put<any>(`${this.baseUrl}/${id}/updateUser`, data);
+    }
+    
+    getMyProfile(uuid: string): Observable<User> {
+        return this.http.get<User>(`${this.baseUrl}/${uuid}/myProfile`);
+    }
+
+    updateAvatar(uuid: string, avatar: string): Observable<any> {
+        return this.http.put<any>(`${this.baseUrl}/${uuid}/updateAvatar`, { avatar });
     }
 }

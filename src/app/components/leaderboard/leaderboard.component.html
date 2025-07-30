@@ -9,6 +9,9 @@
                         <div class="name">{{ user.name }} {{ user.surname }}</div>
                         <div class="stats">Level {{ user.level }} · {{ user.xp }} XP</div>
                     </div>
+                    <div class="avatar">
+                        <img [src]="'assets/avatars/' + (user?.avatar || 'penguin_default') + '.png'" alt="Avatar" />
+                    </div>
                 </li>
             </ul>
         </div>
