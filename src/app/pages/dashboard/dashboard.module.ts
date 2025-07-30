@@ -10,11 +10,13 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { CompaniesModule } from './companies/companies.module';
 import { ExperienceBarComponent } from '../../components/experience-bar/experience-bar.component';
 import { LeaderboardComponent } from '../../components/leaderboard/leaderboard.component';
+import { ConfirmationDialogComponent } from '../../components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
     ChartCampaignComponent,
     ExperienceBarComponent,
+    ConfirmationDialogComponent,
     LeaderboardComponent,
     DashboardComponent,
     LandingComponent,

@@ -10,6 +10,7 @@ import { AuthStoreService } from '../../../../services/auth-store.service';
 import { User } from '../../../../services/user.service';
 import { ExperienceService } from '../../../../services/experience.service';
 import { ExperienceStateService } from '../../../../services/experience-state.service';
+import { ConfirmationService } from '../../../../services/confirmation.service';
 
 @Component({
   selector: 'app-list-campaigns',
@@ -24,7 +25,7 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
   filterStatus: string = '';
 
   sortColumn: keyof Campaign = 'updatedAt'; // da 'name' a 'updatedAt'
-  sortDirection: 'asc' | 'desc' = 'desc'; 
+  sortDirection: 'asc' | 'desc' = 'desc';
 
   pageSize = 50;
   currentPage = 1;
@@ -46,6 +47,7 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
     private experienceService: ExperienceService,
     private experienceStateService: ExperienceStateService,
     private authStore: AuthStoreService,
+    private confirmationDialogService: ConfirmationService,
     private router: Router,
     private toast: ToastrService
   ) { }
@@ -202,14 +204,26 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard/campaigns/view', campaign.uuid]);
   }
 
-  deleteCampaign(uuid: string) {
-    this.campaignService.deleteCampaign(uuid).subscribe({
-      next: () => {
-        this.loadCampaigns();
-        this.toast.success('Campagna eliminata con successo', 'Successo');
-      },
-      error: () => {
-        this.toast.error('Errore durante l\'eliminazione della campagna', 'Errore');
+  deleteCampaign(campaign: Campaign) {
+    this.confirmationDialogService.open({
+      title: 'Eliminare elemento?',
+      message: 'Vuoi davvero eliminarlo?',
+      confirmText: 'Sì',
+      type: 'warning',
+      cancelText: 'Annulla'
+    }).subscribe(confirmed => {
+      if (confirmed) {
+        if (campaign && campaign.uuid) {
+          this.campaignService.deleteCampaign(campaign.uuid).subscribe({
+            next: () => {
+              this.loadCampaigns();
+              this.toast.success('Campagna eliminata con successo', 'Successo');
+            },
+            error: () => {
+              this.toast.error('Errore durante l\'eliminazione della campagna', 'Errore');
+            }
+          });
+        }
       }
     });
   }

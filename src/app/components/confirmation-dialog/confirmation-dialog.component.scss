@@ -1,0 +1,121 @@
+@import '../../shared/styles/colors.scss';
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: $color-black-opacity80;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dialog {
+  background: $color-white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  animation: fadeInScale 0.25s ease;
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: $brand-blue-dark;
+  }
+
+  p {
+    font-size: 1rem;
+    color: $grey-700;
+    line-height: 1.4;
+  }
+}
+
+.icon-wrapper {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+
+  &.success {
+    color: $color-success;
+  }
+
+  &.error {
+    color: $color-danger;
+  }
+
+  &.warning {
+    color: $color-warning;
+  }
+
+  &.info {
+    color: $brand-blue;
+  }
+
+  .icon {
+    display: inline-block;
+
+    &.icon-success::before {
+      content: '✔️';
+    }
+
+    &.icon-error::before {
+      content: '❌';
+    }
+
+    &.icon-warning::before {
+      content: '⚠️';
+    }
+
+    &.icon-info::before {
+      content: 'ℹ️';
+    }
+  }
+}
+
+.buttons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+
+  button {
+    padding: 0.5rem 1.4rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .confirm-btn {
+    background-color: $brand-blue;
+    color: $color-white;
+
+    &:hover {
+      background-color: $brand-blue-dark;
+    }
+  }
+
+  .cancel-btn {
+    background-color: $grey-300;
+    color: $grey-800;
+
+    &:hover {
+      background-color: $grey-400;
+    }
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

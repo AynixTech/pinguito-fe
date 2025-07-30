@@ -11,12 +11,11 @@ export class LoaderInterceptor implements HttpInterceptor {
     constructor(private loader: LoaderService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        // Avvia il loader subito e programma la chiusura forzata dopo 10 s
-        this.loader.startLoader(10000);
+        // Avvia il loader senza timeout hardcoded
+        this.loader.startLoader();
 
         return next.handle(req).pipe(
             finalize(() => {
-                // Alla fine della richiesta (ok o errore), chiudi il loader
                 this.loader.stopLoader();
             })
         );

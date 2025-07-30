@@ -1,3 +1,5 @@
+<app-confirmation-dialog [isVisible]="dialogVisible" [options]="dialogOptions"
+    (confirmed)="handleConfirm($event)"></app-confirmation-dialog>
 <app-experience-bar [response]="experienceResponse"></app-experience-bar>
 <app-leaderboard></app-leaderboard>
 <div class="page-layout">

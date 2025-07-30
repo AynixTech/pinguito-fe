@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Plan, PlanService } from '../../../../services/plan.service';
 import { AuthStoreService } from '../../../../services/auth-store.service';
+import { ConfirmationService } from '../../../../services/confirmation.service';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class ListCompaniesComponent implements OnInit {
   constructor(
     private companyService: CompanyService,
     private authStore: AuthStoreService,
+    private confirmationDialogService: ConfirmationService,
     private router: Router,
     private toast: ToastrService
   ) { }
@@ -142,13 +144,23 @@ export class ListCompaniesComponent implements OnInit {
   }
 
   deleteCompany(company: Company) {
-    this.companyService.deleteCompany(company.uuid).subscribe({
-      next: () => {
-        this.loadCompanies();
-        this.toast.success('Azienda eliminata con successo', 'Successo');
-      },
-      error: () => {
-        this.toast.error('Errore durante l\'eliminazione dell\'azienda', 'Errore');
+    this.confirmationDialogService.open({
+      title: 'Eliminare ' + company.name + '?',
+      message: 'Vuoi davvero eliminarlo?',
+      confirmText: 'Sì',
+      type: 'warning',
+      cancelText: 'Annulla'
+    }).subscribe(confirmed => {
+      if (confirmed) {
+        this.companyService.deleteCompany(company.uuid).subscribe({
+          next: () => {
+            this.loadCompanies();
+            this.toast.success('Azienda eliminata con successo', 'Successo');
+          },
+          error: () => {
+            this.toast.error('Errore durante l\'eliminazione dell\'azienda', 'Errore');
+          }
+        });
       }
     });
   }

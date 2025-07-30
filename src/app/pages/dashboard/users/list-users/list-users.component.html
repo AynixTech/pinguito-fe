@@ -42,12 +42,14 @@
                 <td>{{ user.xp || 0 }}</td>
                 <td>{{ user.level || 0 }}</td>
                 <td>
-                    <a  routerLink="edit/{{ user.uuid }}" title="Modifica">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a href="#" (click)="deleteUser(user)" title="Elimina">
-                        <i class="fa fa-trash"></i>
-                    </a>
+                    <div class="actions-buttons">
+                        <button type="button" [routerLink]="'edit/' + user.uuid" title="Modifica" class="action-btn">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button type="button" (click)="deleteUser(user)" title="Elimina" class="action-btn">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
 

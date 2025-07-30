@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User, UserService } from '../../../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ConfirmationService } from '../../../../services/confirmation.service';
 
 @Component({
   selector: 'app-list-users',
@@ -26,6 +27,7 @@ export class ListUsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private confirmationDialogService: ConfirmationService,
     private router: Router,
     private toast: ToastrService
   ) { }
@@ -131,15 +133,23 @@ export class ListUsersComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    if (!confirm(`Sei sicuro di voler eliminare l'utente ${user.name}?`)) return;
-
-    this.userService.deleteUser(user.uuid).subscribe({
-      next: () => {
-        this.toast.success('Utente eliminato con successo', 'Successo');
-        this.loadUsers();
-      },
-      error: () => {
-        this.toast.error('Errore durante l\'eliminazione dell\'utente', 'Errore');
+    this.confirmationDialogService.open({
+      title: 'Eliminare ' + user.name + ' ' + user.surname +'?',
+      message: 'Vuoi davvero eliminarlo?',
+      confirmText: 'Sì',
+      type: 'warning',
+      cancelText: 'Annulla'
+    }).subscribe(confirmed => {
+      if (confirmed) {
+        this.userService.deleteUser(user.uuid).subscribe({
+          next: () => {
+            this.toast.success('Utente eliminato con successo', 'Successo');
+            this.loadUsers();
+          },
+          error: () => {
+            this.toast.error('Errore durante l\'eliminazione dell\'utente', 'Errore');
+          }
+        });
       }
     });
   }

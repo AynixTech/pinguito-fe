@@ -43,15 +43,19 @@
                     <td>{{ company.vatNumber || '-' }}</td>
                     <td>{{ company.legalAddress || '-' }}</td>
                     <td>
-                        <a *ngIf="isAdmin" routerLink="detail/{{ company.uuid }}" title="Modifica">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                        <a *ngIf="!isAdmin" routerLink="detail/{{ company.uuid }}" title="Vedi dettagli">
-                            <i class="fa fa-eye"></i>
-                        </a>
-                        <a *ngIf="isAdmin" (click)="deleteCompany(company)" title="Elimina">
-                            <i class="fa fa-trash"></i>
-                        </a>
+                        <div class="actions-buttons">
+                            <button *ngIf="isAdmin" type="button" [routerLink]="'detail/' + company.uuid" title="Modifica" class="action-btn">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button *ngIf="!isAdmin" type="button" [routerLink]="'detail/' + company.uuid" title="Vedi dettagli" class="action-btn">
+                                <i class="fa fa-eye"></i>
+                            </button>
+
+                            <button *ngIf="isAdmin" type="button" (click)="deleteCompany(company)" title="Elimina"
+                                class="action-btn">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
 
