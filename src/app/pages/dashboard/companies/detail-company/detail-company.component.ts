@@ -408,9 +408,11 @@ export class DetailCompanyComponent implements OnInit {
     this.companyService.updateCompany(company).subscribe({
       next: () => {
         this.router.navigate(['/companies/list-companies']);
+        this.toast.success('Azienda aggiornata con successo', 'Successo');
       },
       error: err => {
         console.error('Errore durante aggiornamento:', err);
+        this.toast.error('Errore durante l\'aggiornamento dell\'azienda', 'Errore');
       }
     });
   }
