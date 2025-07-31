@@ -3,8 +3,6 @@
 .table-page-layout {
   color: darken($primary-color, 40%);
   padding: 1rem 2rem;
-  height: 100vh;
-  overflow-y: scroll;
 
   .filters {
     display: flex;

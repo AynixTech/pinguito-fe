@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company, CompanyService } from '@services/company.service';
-import { Plan, PlanService } from '@services/plan.service';
-import { User, UserService } from '@services/user.service';
-import { SocialMedia } from '@services/social-media.service';
 
 @Component({
   selector: 'app-create-company',

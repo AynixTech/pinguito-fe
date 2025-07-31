@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Company, CompanyService } from '@services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { Plan, PlanService } from '@services/plan.service';
 import { AuthStoreService } from '@services/auth-store.service';
 import { ConfirmationService } from '@services/confirmation.service';
 
