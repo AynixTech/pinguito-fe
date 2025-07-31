@@ -11,6 +11,7 @@ import { User } from '@services/user.service';
 import { ExperienceService } from '@services/experience.service';
 import { ExperienceStateService } from '@services/experience-state.service';
 import { ConfirmationService } from '@services/confirmation.service';
+import { ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-list-campaigns',
@@ -197,11 +198,11 @@ export class ListCampaignsComponent implements OnInit, OnDestroy {
   }
 
   editCampaign(campaign: Campaign) {
-    this.router.navigate(['/dashboard/campaigns/edit', campaign.uuid]);
+    this.router.navigate([ROUTES.CAMPAIGN.EDIT.replace(':uuid', campaign.uuid ?? '')]);
   }
 
   viewDetails(campaign: Campaign) {
-    this.router.navigate(['/dashboard/campaigns/view', campaign.uuid]);
+    this.router.navigate([ROUTES.CAMPAIGN.DETAILS.replace(':uuid', campaign.uuid ?? '')]);
   }
 
   deleteCampaign(campaign: Campaign) {

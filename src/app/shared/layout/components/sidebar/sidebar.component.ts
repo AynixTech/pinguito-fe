@@ -5,6 +5,7 @@ import { AuthStoreService } from '@services/auth-store.service';
 import { User } from '@services/user.service';
 import { ExperienceService, LeaderboardUser } from '@services/experience.service';
 import { SidebarStateService } from '@services/sidebar-state.service';
+import { ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-sidebar',
@@ -69,24 +70,24 @@ export class SidebarComponent implements OnInit {
             label: 'Gestione Utenti',
             icon: 'fa fa-users',
             children: [
-              { path: '/users/list-users', label: 'Lista utenti' },
-              { path: '/users/create-user', label: 'Crea utente' }
+              { path: ROUTES.USER.LIST, label: 'Lista utenti' },
+              { path: ROUTES.USER.CREATE, label: 'Crea utente' }
             ]
           },
           {
             label: 'Gestione Aziende',
             icon: 'fa fa-building',
             children: [
-              { path: '/companies/list-companies', label: 'Lista aziende' },
-              { path: '/companies/create-company', label: 'Crea azienda' }
+              { path: ROUTES.COMPANY.LIST, label: 'Lista aziende' },
+              { path: ROUTES.COMPANY.CREATE, label: 'Crea azienda' }
             ]
           },
           {
             label: 'Campagne',
             icon: 'fa fa-envelope',
             children: [
-              { path: 'campaigns/list-campaigns', label: 'Tutte le campagne' },
-              { path: 'campaigns/create-campaign', label: 'Crea campagna' }
+              { path: ROUTES.CAMPAIGN.LIST, label: 'Tutte le campagne' },
+              { path: ROUTES.CAMPAIGN.CREATE, label: 'Crea campagna' }
             ]
           },
           {

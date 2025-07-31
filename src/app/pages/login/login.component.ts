@@ -7,6 +7,7 @@ import { LoginResponse } from '@services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { ExperienceService } from '@services/experience.service';
 import { ExperienceStateService } from '@services/experience-state.service';
+import { ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-login',
@@ -90,7 +91,7 @@ export class LoginComponent {
         this.experienceService.getExperienceByUserUuid(user.uuid).subscribe(response => {
           this.experienceStateService.setExperience({ ...response }); // forza l'aggiornamento
         });
-        this.router.navigate(['/']);
+        this.router.navigate([ROUTES.HOME]);
       },
       error: (err: { error?: { message?: string } }) => {
         this.errorMessage = err?.error?.message || 'Login fallito. Controlla le credenziali.';

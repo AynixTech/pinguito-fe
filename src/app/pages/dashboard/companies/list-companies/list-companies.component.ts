@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthStoreService } from '@services/auth-store.service';
 import { ConfirmationService } from '@services/confirmation.service';
+import { ROUTES } from 'app/utils/constants';
 
 
 @Component({
@@ -137,7 +138,7 @@ export class ListCompaniesComponent implements OnInit {
       this.toast.error('Azienda non valida', 'Errore');
       return;
     }
-    this.router.navigate(['/companies/detail-company', company.uuid]);
+    this.router.navigate([ROUTES.COMPANY.DETAILS.replace(':uuid', company.uuid ?? '')]);
   }
 
 

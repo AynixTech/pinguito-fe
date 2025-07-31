@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@services/user.service';
+import { ROUTES } from 'app/utils/constants';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -107,7 +108,7 @@ export class CreateUserComponent implements OnInit {
     this.userService.createUser(newUser).subscribe({
       next: () => {
         this.toast.success('Utente creato con successo!', 'Successo');
-        this.router.navigate(['/users/list-users']);
+        this.router.navigate([ROUTES.USER.LIST]);
       },
       error: () => {
         this.toast.error('Errore durante la creazione dell\'utente!', 'Errore');

@@ -6,6 +6,7 @@ import { CompanyStoreService } from "@services/company-store.service";
 import { Company, CompanyService } from "@services/company.service";
 import { ExperienceStateService } from "@services/experience-state.service";
 import { SidebarStateService } from "@services/sidebar-state.service";
+import { ROUTES } from "app/utils/constants";
 
 @Component({
   selector: 'app-header',
@@ -99,13 +100,13 @@ export class HeaderLayoutComponent implements OnInit {
     }
   }
   goToMyProfile() {
-    this.router.navigate(['/profile/my-profile']);
+    this.router.navigate([ROUTES.PROFILE.MY_PROFILE]);
   }
 
   logout() {
     this.authStore.clearUser();
     this.companyStore.clearCompany();
     this.experienceStateService.clearExperience();
-    this.router.navigate(['/login']);
+    this.router.navigate([ROUTES.LOGIN]);
   }
 }

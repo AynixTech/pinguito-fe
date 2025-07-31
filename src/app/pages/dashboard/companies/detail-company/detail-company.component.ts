@@ -7,6 +7,7 @@ import { PlanService, Plan } from '@services/plan.service';
 import { AuthStoreService } from '@services/auth-store.service';
 import { SocialMediaService } from '@services/social-media.service';
 import { ToastrService } from 'ngx-toastr';
+import { ROUTES } from 'app/utils/constants';
 declare global {
   interface Window {
     fbAsyncInit: () => void;
@@ -407,7 +408,7 @@ export class DetailCompanyComponent implements OnInit {
 
     this.companyService.updateCompany(company).subscribe({
       next: () => {
-        this.router.navigate(['/companies/list-companies']);
+        this.router.navigate([ROUTES.COMPANY.LIST]);
         this.toast.success('Azienda aggiornata con successo', 'Successo');
       },
       error: err => {

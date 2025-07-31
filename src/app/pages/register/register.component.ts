@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-register',
@@ -36,7 +37,6 @@ export class RegisterComponent {
     this.submitted = true;
     if (this.registerForm.invalid) return;
 
-    // TODO: Call register API
-    this.router.navigate(['/home']);
+    this.router.navigate([ROUTES.HOME]);
   }
 }

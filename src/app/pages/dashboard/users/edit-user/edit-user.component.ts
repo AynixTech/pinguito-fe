@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService, User } from '@services/user.service';
+import { ROUTES } from 'app/utils/constants';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -86,7 +87,7 @@ export class EditUserComponent implements OnInit {
 
     this.userService.updatePassword(this.userUuid, { password: newPassword }).subscribe(() => {
       this.toast.success('Password aggiornata con successo!', 'Successo');
-      this.router.navigate(['/users']);
+      this.router.navigate([ROUTES.USER.LIST]);
     });
   }
 
@@ -169,7 +170,7 @@ export class EditUserComponent implements OnInit {
     this.userService.updateUser(this.userUuid, updatedUser).subscribe({
       next: () => {
         this.toast.success('Utente aggiornato con successo!', 'Successo');
-        this.router.navigate(['/users']);
+        this.router.navigate([ROUTES.USER.LIST]);
       },
       error: () => {
         this.toast.error('Errore durante l\'aggiornamento dell\'utente!', 'Errore');

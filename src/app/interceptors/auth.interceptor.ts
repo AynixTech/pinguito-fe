@@ -4,6 +4,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ROUTES } from 'app/utils/constants';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -18,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     localStorage.clear();
 
                     // Redirect to login or home
-                    this.router.navigate(['/login']);
+                    this.router.navigate([ROUTES.LOGIN]);
                 }
                 return throwError(() => err);
             })

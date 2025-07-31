@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-page-not-found',
@@ -10,6 +11,6 @@ export class PageNotFoundComponent {
   constructor(private router: Router) { }
 
   goHome() {
-    this.router.navigate(['/']);
+    this.router.navigate([ROUTES.HOME]);
   }
 }

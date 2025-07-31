@@ -3,6 +3,7 @@ import { User, UserService } from '@services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ConfirmationService } from '@services/confirmation.service';
+import { ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-list-users',
@@ -125,11 +126,11 @@ export class ListUsersComponent implements OnInit {
   }
 
   editUser(user: User) {
-    this.router.navigate(['/dashboard/users/edit', user.uuid]);
+    this.router.navigate([ROUTES.USER.EDIT.replace(':uuid', user.uuid ?? '')]);
   }
 
   viewUser(user: User) {
-    this.router.navigate(['/dashboard/users/view', user.uuid]);
+    this.router.navigate([ROUTES.USER.DETAILS.replace(':uuid', user.uuid ?? '')]);
   }
 
   deleteUser(user: User) {

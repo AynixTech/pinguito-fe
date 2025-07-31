@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 
+import { ROUTES } from 'app/utils/constants';
 @Injectable({
     providedIn: 'root'
 })
@@ -13,7 +14,7 @@ export class AuthGuard implements CanActivate {
         const userString = localStorage.getItem('user');
 
         if (!token || !userString) {
-            return this.router.parseUrl('/login');
+            return this.router.parseUrl(ROUTES.LOGIN);
         }
 
         const user = JSON.parse(userString);
@@ -29,7 +30,7 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
-        return this.router.parseUrl('/access-denied');
+        return this.router.parseUrl(ROUTES.ACCESS_DENIED);
     }
     
 }
