@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User, UserService } from '../../../../services/user.service';
+import { User, UserService } from '@services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { ConfirmationService } from '../../../../services/confirmation.service';
+import { ConfirmationService } from '@services/confirmation.service';
 
 @Component({
   selector: 'app-list-users',
@@ -134,7 +134,7 @@ export class ListUsersComponent implements OnInit {
 
   deleteUser(user: User) {
     this.confirmationDialogService.open({
-      title: 'Eliminare ' + user.name + ' ' + user.surname +'?',
+      title: 'Eliminare ' + user.name + ' ' + user.surname + '?',
       message: 'Vuoi davvero eliminarlo?',
       confirmText: 'Sì',
       type: 'warning',

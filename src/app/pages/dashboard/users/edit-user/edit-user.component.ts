@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService, User } from '../../../../services/user.service';
+import { UserService, User } from '@services/user.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -107,7 +107,7 @@ export class EditUserComponent implements OnInit {
     this.checkPasswordStrength();
     this.toast.success('Password generata automaticamente');
   }
-  
+
 
   checkPasswordStrength() {
     const password = this.userForm.get('newPassword')?.value || '';
@@ -148,7 +148,7 @@ export class EditUserComponent implements OnInit {
         break;
     }
   }
-  
+
   onSubmit() {
     if (this.userForm.invalid) return;
 
@@ -168,11 +168,11 @@ export class EditUserComponent implements OnInit {
 
     this.userService.updateUser(this.userUuid, updatedUser).subscribe({
       next: () => {
-      this.toast.success('Utente aggiornato con successo!', 'Successo');
-      this.router.navigate(['/users']);
+        this.toast.success('Utente aggiornato con successo!', 'Successo');
+        this.router.navigate(['/users']);
       },
       error: () => {
-      this.toast.error('Errore durante l\'aggiornamento dell\'utente!', 'Errore');
+        this.toast.error('Errore durante l\'aggiornamento dell\'utente!', 'Errore');
       }
     });
   }

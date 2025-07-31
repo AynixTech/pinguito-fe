@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AiService } from '../../../../services/ai.service';
-import { Company } from '../../../../services/company.service';
+import { AiService } from '@services/ai.service';
+import { Company } from '@services/company.service';
 import { Subscription } from 'rxjs';
-import { CompanyStoreService } from '../../../../services/company-store.service';
-import { CampaignService, CreateCampaignRequest } from '../../../../services/campaign.service';
+import { CompanyStoreService } from '@services/company-store.service';
+import { CampaignService, CreateCampaignRequest } from '@services/campaign.service';
 import { ToastrService } from 'ngx-toastr';
-import { LoaderService } from '../../../../services/loader.service';
-import { ExperienceService } from '../../../../services/experience.service';
-import { AuthStoreService } from '../../../../services/auth-store.service';
-import { User } from '../../../../services/user.service';
-import { ExperienceStateService } from '../../../../services/experience-state.service';
+import { LoaderService } from '@services/loader.service';
+import { ExperienceService } from '@services/experience.service';
+import { AuthStoreService } from '@services/auth-store.service';
+import { User } from '@services/user.service';
+import { ExperienceStateService } from '@services/experience-state.service';
 
 @Component({
   selector: 'app-create-campaign',
@@ -193,7 +193,7 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
       }
     });
   }
-  callGiveExperience(action:string): void {
+  callGiveExperience(action: string): void {
     if (this.currentUser) {
       this.experienceService.giveExperience(this.currentUser?.uuid, action).subscribe({
         next: (res) => {

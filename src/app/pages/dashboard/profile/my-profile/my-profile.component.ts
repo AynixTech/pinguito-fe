@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User, UserService } from '../../../../services/user.service';
-import { AuthStoreService } from '../../../../services/auth-store.service';
-import { Company } from '../../../../services/company.service';
+import { User, UserService } from '@services/user.service';
+import { AuthStoreService } from '@services/auth-store.service';
+import { Company } from '@services/company.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -18,7 +18,7 @@ export class MyProfileComponent implements OnInit {
   selectedAvatar: string = '';
   availableAvatars: string[] = [
     'penguin_default', 'penguin_girl', 'penguin_rapper', 'penguin_programmer', 'penguin_business', 'penguin_hero',
-    'penguin_robot','penguin_jedi','penguin_gandalf','penguin_onepiece','penguin_zombie'
+    'penguin_robot', 'penguin_jedi', 'penguin_gandalf', 'penguin_onepiece', 'penguin_zombie'
   ]; // aggiungi gli avatar disponibili
 
   constructor(
@@ -32,7 +32,7 @@ export class MyProfileComponent implements OnInit {
         this.userService.getMyProfile(currentUser.uuid).subscribe({
           next: (profile: User) => {
             this.user = profile;
-            this.companies= this.user.companies || [];
+            this.companies = this.user.companies || [];
             this.loading = false;
           },
           error: (err) => {

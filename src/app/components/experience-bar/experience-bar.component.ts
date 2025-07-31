@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ExperienceResponse } from '../../services/experience.service';
+import { ExperienceResponse } from '@services/experience.service';
 
 @Component({
   selector: 'app-experience-bar',

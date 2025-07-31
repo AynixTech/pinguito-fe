@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ExperienceService, LeaderboardUser } from '../../services/experience.service';
+import { ExperienceService, LeaderboardUser } from '@services/experience.service';
 
 @Component({
   selector: 'app-leaderboard',

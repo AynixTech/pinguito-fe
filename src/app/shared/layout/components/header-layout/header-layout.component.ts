@@ -1,11 +1,11 @@
 import { Component, HostListener, OnInit } from "@angular/core";
-import { AuthStoreService } from "../../../../services/auth-store.service";
+import { AuthStoreService } from "@services/auth-store.service";
 import { Router } from "@angular/router";
-import { User } from "../../../../services/user.service";
-import { CompanyStoreService } from "../../../../services/company-store.service";
-import { Company, CompanyService } from "../../../../services/company.service";
-import { ExperienceStateService } from "../../../../services/experience-state.service";
-import { SidebarStateService } from "../../../../services/sidebar-state.service";
+import { User } from "@services/user.service";
+import { CompanyStoreService } from "@services/company-store.service";
+import { Company, CompanyService } from "@services/company.service";
+import { ExperienceStateService } from "@services/experience-state.service";
+import { SidebarStateService } from "@services/sidebar-state.service";
 
 @Component({
   selector: 'app-header',
@@ -23,7 +23,7 @@ export class HeaderLayoutComponent implements OnInit {
   userCompanies: Company[] = [];
   currentUserUuid: string | null = null;
   companies: Company[] = [];
-  userAvatar: string='';
+  userAvatar: string = '';
 
   constructor(private authStore: AuthStoreService, private sidebarStateService: SidebarStateService, private experienceStateService: ExperienceStateService, private companyService: CompanyService, private companyStore: CompanyStoreService, private router: Router) { }
 
@@ -64,11 +64,11 @@ export class HeaderLayoutComponent implements OnInit {
       }
     });
   }
-  
+
   trackByCompanyUuid(index: number, company: Company): string {
     return company.uuid;
   }
-  
+
 
 
   onCompanyChange() {
@@ -81,13 +81,13 @@ export class HeaderLayoutComponent implements OnInit {
       console.log('Company changed to: tutte');
     }
   }
-  
+
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
   toggleSidebar() {
-    console.log('Toggling sidebar');  
+    console.log('Toggling sidebar');
     this.sidebarStateService.toggleSidebar();
   }
 

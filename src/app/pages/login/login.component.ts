@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { AuthStoreService } from '../../services/auth-store.service';
+import { AuthService } from '@services/auth.service';
+import { AuthStoreService } from '@services/auth-store.service';
 import { LoginResponse } from '../../models/auth.model';
 import { ToastrService } from 'ngx-toastr';
-import { ExperienceService } from '../../services/experience.service';
-import { ExperienceStateService } from '../../services/experience-state.service';
+import { ExperienceService } from '@services/experience.service';
+import { ExperienceStateService } from '@services/experience-state.service';
 
 @Component({
   selector: 'app-login',

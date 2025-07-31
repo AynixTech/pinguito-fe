@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Campaign, CampaignService } from '../../../../services/campaign.service';
+import { Campaign, CampaignService } from '@services/campaign.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { CompanyStoreService } from '../../../../services/company-store.service';
-import { Company } from '../../../../services/company.service';
+import { CompanyStoreService } from '@services/company-store.service';
+import { Company } from '@services/company.service';
 import { Subscription } from 'rxjs';
-import { SocialMediaService } from '../../../../services/social-media.service';
-import { AuthStoreService } from '../../../../services/auth-store.service';
-import { User } from '../../../../services/user.service';
-import { ExperienceService } from '../../../../services/experience.service';
-import { ExperienceStateService } from '../../../../services/experience-state.service';
-import { ConfirmationService } from '../../../../services/confirmation.service';
+import { SocialMediaService } from '@services/social-media.service';
+import { AuthStoreService } from '@services/auth-store.service';
+import { User } from '@services/user.service';
+import { ExperienceService } from '@services/experience.service';
+import { ExperienceStateService } from '@services/experience-state.service';
+import { ConfirmationService } from '@services/confirmation.service';
 
 @Component({
   selector: 'app-list-campaigns',

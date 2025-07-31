@@ -6,7 +6,7 @@ import { ListCampaignsComponent } from './list-campaigns/list-campaigns.componen
 import { EditCampaignComponent } from './edit-campaign/edit-campaign.component';
 import { CampaignRoutingModule } from './campaign-routing.module';
 import { CreateCampaignComponent } from './create-campaign/create-campaign.component';
-import { AiService } from '../../../services/ai.service';
+import { AiService } from '@services/ai.service';
 
 
 @NgModule({

@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ExperienceStateService } from '../../services/experience-state.service';
-import { ExperienceResponse } from '../../services/experience.service';
-import { ConfirmationService } from '../../services/confirmation.service';
+import { ExperienceStateService } from '@services/experience-state.service';
+import { ExperienceResponse } from '@services/experience.service';
+import { ConfirmationService } from '@services/confirmation.service';
 import { ConfirmationDialogOptions } from '../../components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({

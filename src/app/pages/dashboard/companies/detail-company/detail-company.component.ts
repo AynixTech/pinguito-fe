@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CompanyService, Company } from '../../../../services/company.service';
-import { UserService, User } from '../../../../services/user.service';
-import { PlanService, Plan } from '../../../../services/plan.service';
-import { AuthStoreService } from '../../../../services/auth-store.service';
-import { SocialMediaService } from '../../../../services/social-media.service';
+import { CompanyService, Company } from '@services/company.service';
+import { UserService, User } from '@services/user.service';
+import { PlanService, Plan } from '@services/plan.service';
+import { AuthStoreService } from '@services/auth-store.service';
+import { SocialMediaService } from '@services/social-media.service';
 import { ToastrService } from 'ngx-toastr';
 declare global {
   interface Window {

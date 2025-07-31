@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Company, CompanyService } from '../../../../services/company.service';
+import { Company, CompanyService } from '@services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { Plan, PlanService } from '../../../../services/plan.service';
-import { AuthStoreService } from '../../../../services/auth-store.service';
-import { ConfirmationService } from '../../../../services/confirmation.service';
+import { Plan, PlanService } from '@services/plan.service';
+import { AuthStoreService } from '@services/auth-store.service';
+import { ConfirmationService } from '@services/confirmation.service';
 
 
 @Component({
@@ -44,7 +44,7 @@ export class ListCompaniesComponent implements OnInit {
     this.authStore.user$.subscribe((user: any) => {
       this.isAdmin = user?.role?.name === 'admin'; // Imposta isAdmin se il ruolo è admin
     });
-    
+
     this.loadCompanies();
   }
 
@@ -134,7 +134,7 @@ export class ListCompaniesComponent implements OnInit {
   }
 
   detailCompany(company: Company) {
-    if(!company || !company.uuid) {
+    if (!company || !company.uuid) {
       this.toast.error('Azienda non valida', 'Errore');
       return;
     }

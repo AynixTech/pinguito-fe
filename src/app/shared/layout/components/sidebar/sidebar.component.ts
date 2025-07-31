@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { AuthStoreService } from '../../../../services/auth-store.service';
-import { User } from '../../../../services/user.service';
-import { ExperienceService, LeaderboardUser } from '../../../../services/experience.service';
-import { SidebarStateService } from '../../../../services/sidebar-state.service';
+import { AuthStoreService } from '@services/auth-store.service';
+import { User } from '@services/user.service';
+import { ExperienceService, LeaderboardUser } from '@services/experience.service';
+import { SidebarStateService } from '@services/sidebar-state.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -35,7 +35,7 @@ export class SidebarComponent implements OnInit {
     ).subscribe((event: NavigationEnd) => {
       this.setExpandedItemBasedOnRoute(event.urlAfterRedirects);
     });
-   
+
   }
 
   setExpandedItemBasedOnRoute(currentPath: string) {
@@ -59,7 +59,7 @@ export class SidebarComponent implements OnInit {
     if (!item.children) return false;
     return item.children.some((child: any) => this.router.isActive(child.path, true));
   }
-  
+
   setMenuItemsByRole(roleId: number): void {
     switch (roleId) {
       case 1: // Admin
