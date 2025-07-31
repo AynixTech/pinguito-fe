@@ -12,7 +12,7 @@
     transform: rotate(360deg);
   }
 }
-.btn-connect-meta{
+.btn-connect-meta {
   background-color: #1877f2;
   color: white;
   border: none;
@@ -30,7 +30,7 @@
     background-color: darken(#1877f2, 5%);
   }
 }
-.btn-save-page{
+.btn-save-page {
   background-color: #1999d5;
   color: white;
   border: none;
@@ -55,8 +55,9 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   margin-top: 2rem;
 
-  h2, h3 {
-    color: #1999D5;
+  h2,
+  h3 {
+    color: #1999d5;
     margin-bottom: 1rem;
   }
 
@@ -99,7 +100,7 @@
     margin-bottom: 0.75rem;
     padding: 0.5rem;
     background-color: #f5f7fa;
-    border-left: 4px solid #1999D5;
+    border-left: 4px solid #1999d5;
     border-radius: 6px;
 
     strong {

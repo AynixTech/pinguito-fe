@@ -50,13 +50,9 @@
                     <td>{{ company.legalAddress || '-' }}</td>
                     <td>
                         <div class="actions-buttons">
-                            <button *ngIf="isAdmin" type="button" [routerLink]="'detail/' + company.uuid" title="Modifica" class="action-btn">
+                            <button *ngIf="isAdmin" type="button" (click)="detailCompany(company)" title="Modifica" class="action-btn">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <button *ngIf="!isAdmin" type="button" [routerLink]="'detail/' + company.uuid" title="Vedi dettagli" class="action-btn">
-                                <i class="fa fa-eye"></i>
-                            </button>
-
                             <button *ngIf="isAdmin" type="button" (click)="deleteCompany(company)" title="Elimina"
                                 class="action-btn">
                                 <i class="fa fa-trash"></i>

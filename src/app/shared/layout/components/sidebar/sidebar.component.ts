@@ -66,11 +66,19 @@ export class SidebarComponent implements OnInit {
         this.menuItems = [
           { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
           {
-            label: 'Gestione',
+            label: 'Gestione Utenti',
             icon: 'fa fa-users',
             children: [
-              { path: '/users', label: 'Lista utenti' },
-              { path: '/companies', label: 'Lista aziende', icon: 'fa fa-building' },
+              { path: '/users/list-users', label: 'Lista utenti' },
+              { path: '/users/create-user', label: 'Crea utente' }
+            ]
+          },
+          {
+            label: 'Gestione Aziende',
+            icon: 'fa fa-building',
+            children: [
+              { path: '/companies/list-companies', label: 'Lista aziende' },
+              { path: '/companies/create-company', label: 'Crea azienda' }
             ]
           },
           {
@@ -78,7 +86,8 @@ export class SidebarComponent implements OnInit {
             icon: 'fa fa-envelope',
             children: [
               { path: 'campaigns/list-campaigns', label: 'Tutte le campagne' },
-              { path: 'campaigns/create-campaign', label: 'Crea campagna' }  ]
+              { path: 'campaigns/create-campaign', label: 'Crea campagna' }
+            ]
           },
           {
             label: 'Campagne Social',

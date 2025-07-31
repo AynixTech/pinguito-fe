@@ -6,12 +6,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ListCompaniesComponent } from './list-companies/list-companies.component';
 import { DetailCompanyComponent } from './detail-company/detail-company.component';
 import { CompanyRoutingModule } from './companies-routing.module';
+import { CreateCompanyComponent } from './create-company/create-company.component';
 
 
 
 @NgModule({
     declarations: [
         ListCompaniesComponent,
+        CreateCompanyComponent,
         DetailCompanyComponent
     ],
     imports: [

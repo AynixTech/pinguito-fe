@@ -133,15 +133,14 @@ export class ListCompaniesComponent implements OnInit {
     if (this.currentPage < this.totalPages) this.currentPage++;
   }
 
-  editCompany(company: Company) {
-
-    this.router.navigate(['/dashboard/companies/edit', company.uuid]);
-
+  detailCompany(company: Company) {
+    if(!company || !company.uuid) {
+      this.toast.error('Azienda non valida', 'Errore');
+      return;
+    }
+    this.router.navigate(['/companies/detail-company', company.uuid]);
   }
 
-  viewDetails(company: Company) {
-    console.log('Vedi dettagli:', company);
-  }
 
   deleteCompany(company: Company) {
     this.confirmationDialogService.open({

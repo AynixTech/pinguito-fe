@@ -1,0 +1,72 @@
+.plan-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-height: 500px; // Altezza fissa con scroll
+  overflow-y: auto;
+  padding-right: 0.5rem; // Spazio per scrollbar
+  background: #f9faff;
+  border: 1px solid #e0e6f0;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.plan-card {
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+
+  &:hover {
+    border-color: #1999d5;
+    box-shadow: 0 4px 15px rgb(25 153 213 / 0.4);
+    transform: translateY(-4px);
+  }
+
+  &.selected {
+    border-color: #b7cfdb;
+    box-shadow: 0 0 20px #1999d5;
+    background: #e6f2fa;
+  }
+
+  h4 {
+    margin: 0 0 0.6rem 0;
+    font-size: 1.25rem;
+    color: #0a3d62;
+    font-weight: 700;
+  }
+
+  .description {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 1rem;
+    min-height: 42px; // mantiene altezza uniforme anche senza descrizione
+  }
+
+  p {
+    margin: 0.3rem 0;
+    font-size: 0.9rem;
+    color: #333;
+
+    strong {
+      color: #315a6e;
+      font-weight: 600;
+    }
+  }
+
+  span.active {
+    color: #28a745;
+    font-weight: 700;
+  }
+
+  span.inactive {
+    color: #dc3545;
+    font-weight: 700;
+  }
+}

@@ -51,6 +51,10 @@ export class UserService {
     updatePassword(uuid: string, data: any): Observable<any> {
         return this.http.put<any>(`${this.baseUrl}/${uuid}/updatePassword`, data);
     }
+    
+    createUser(data: any): Observable<any> {
+        return this.http.post<any>(`${this.baseUrl}/createUser`, data);
+    }
 
     // ✅ Aggiorna un utente
     updateUser(id: string, data: any): Observable<any> {

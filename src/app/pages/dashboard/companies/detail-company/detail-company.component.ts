@@ -407,7 +407,7 @@ export class DetailCompanyComponent implements OnInit {
 
     this.companyService.updateCompany(company).subscribe({
       next: () => {
-        this.router.navigate(['/companies']);
+        this.router.navigate(['/companies/list-companies']);
       },
       error: err => {
         console.error('Errore durante aggiornamento:', err);
