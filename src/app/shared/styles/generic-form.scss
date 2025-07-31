@@ -6,9 +6,8 @@
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   max-width: 1000px;
-  margin: 2rem auto;
   font-family: "Segoe UI", sans-serif;
-
+  margin: 1rem 2rem;
   .tabs {
     display: flex;
     gap: 1rem;
@@ -118,7 +117,7 @@
         background-color: darken($primary-color, 10%);
       }
     }
-    .btn-secondary{
+    .btn-secondary {
       background-color: #f0f0f0;
       color: #333;
       border: none;
