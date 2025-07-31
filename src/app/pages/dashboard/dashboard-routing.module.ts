@@ -5,6 +5,7 @@ import { CompaniesComponent } from './companies/companies.component';
 import { LandingComponent } from './landing/landing.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from '../../guard/auth.guard';
+import { LogsComponent } from './logs/logs.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,12 @@ const routes: Routes = [
         path: 'profile',
         loadChildren: () =>
           import('./profile/profile.module').then(m => m.ProfileModule),
+      },
+      {
+        path: 'logs',
+        component: LogsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['admin'] }
       },
       {
         path: '**',

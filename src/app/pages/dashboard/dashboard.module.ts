@@ -11,6 +11,7 @@ import { CompaniesModule } from './companies/companies.module';
 import { ExperienceBarComponent } from '../../components/experience-bar/experience-bar.component';
 import { LeaderboardComponent } from '../../components/leaderboard/leaderboard.component';
 import { ConfirmationDialogComponent } from '../../components/confirmation-dialog/confirmation-dialog.component';
+import { LogsComponent } from './logs/logs.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ConfirmationDialogComponent } from '../../components/confirmation-dialo
     LeaderboardComponent,
     DashboardComponent,
     LandingComponent,
+    LogsComponent,
     PageNotFoundComponent,
   ],
   imports: [

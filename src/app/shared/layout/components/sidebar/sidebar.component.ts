@@ -117,13 +117,6 @@ export class SidebarComponent implements OnInit {
             ]
           },
           {
-            label: 'Monitoraggi',
-            icon: 'fa fa-eye',
-            children: [
-              { path: '/monitoring/assign', label: 'Assegna monitoraggi' }
-            ]
-          },
-          {
             label: 'Impostazioni',
             icon: 'fa fa-cog',
             children: [
@@ -133,6 +126,7 @@ export class SidebarComponent implements OnInit {
             ]
           },
           { path: ROUTES.PROFILE.MY_PROFILE, label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
+          { path: '/logs', label: 'Log attività', icon: 'fa fa-file-alt' },
           { path: '/support', label: 'Supporto', icon: 'fa fa-life-ring' }
         ];
         break;

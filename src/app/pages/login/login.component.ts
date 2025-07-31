@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ExperienceService } from '@services/experience.service';
 import { ExperienceStateService } from '@services/experience-state.service';
 import { ROUTES } from 'app/utils/constants';
+import { LogService } from '@services/log.service';
 
 @Component({
   selector: 'app-login',
@@ -40,6 +41,7 @@ export class LoginComponent {
     private authService: AuthService,
     private toastr: ToastrService,
     private experienceService: ExperienceService,
+    private logService: LogService,
     private experienceStateService: ExperienceStateService,
     private authStore: AuthStoreService
   ) {
@@ -91,6 +93,12 @@ export class LoginComponent {
         this.experienceService.getExperienceByUserUuid(user.uuid).subscribe(response => {
           this.experienceStateService.setExperience({ ...response }); // forza l'aggiornamento
         });
+        this.logService.createLogAction({
+          userUuid: user.uuid,
+          action: 'LOGIN',
+          details: 'Utente ha effettuato l’accesso'
+        }).subscribe();
+        
         this.router.navigate([ROUTES.HOME]);
       },
       error: (err: { error?: { message?: string } }) => {

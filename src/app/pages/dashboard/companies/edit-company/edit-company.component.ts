@@ -372,6 +372,7 @@ export class EditCompanyComponent implements OnInit {
   }
 
   toggleAccordion(section: keyof typeof this.opened): void {
+    console.log('Toggling section:', section);
     this.opened[section] = !this.opened[section];
   }
 

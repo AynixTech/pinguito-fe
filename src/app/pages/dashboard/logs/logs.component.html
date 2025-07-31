@@ -1,0 +1,57 @@
+<div class="logs table-page-layout">
+    <div class="filters">
+        <input type="text" placeholder="Cerca per azione, utente, dettagli..." [(ngModel)]="searchTerm"
+            (input)="onSearchChange()" />
+    </div>
+
+    <table class="elements-table" border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th (click)="toggleSort('user.name')">
+                    <div class="sortable-header">
+                        Nome
+                        <span *ngIf="sortColumn === 'user.name'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
+                </th>
+                <th (click)="toggleSort('user.email')">
+                    <div class="sortable-header">
+                        Email
+                        <span *ngIf="sortColumn === 'user.email'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
+                </th>
+                <th (click)="toggleSort('action')">
+                    <div class="sortable-header">
+                        Azione
+                        <span *ngIf="sortColumn === 'action'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
+                </th>
+                <th>Dettagli</th>
+                <th (click)="toggleSort('timestamp')">
+                    <div class="sortable-header">
+                        Data e ora
+                        <span *ngIf="sortColumn === 'timestamp'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let log of paginatedLogs">
+                <td>{{ log.user?.name }} {{ log.user?.surname }}</td>
+                <td>{{ log.user?.email }}</td>
+                <td>{{ log.action }}</td>
+                <td>{{ log.details || '-' }}</td>
+                <td>{{ log.timestamp | date:'dd/MM/yyyy HH:mm' }}</td>
+            </tr>
+
+            <tr *ngIf="filteredLogs.length === 0">
+                <td colspan="5" style="text-align:center;">Nessun log trovato.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Precedente</button>
+        <span>Pagina {{ currentPage }} di {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Successiva</button>
+    </div>
+</div>
