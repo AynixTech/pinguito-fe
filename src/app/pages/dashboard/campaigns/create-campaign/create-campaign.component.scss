@@ -41,9 +41,7 @@
 .post-container {
     margin: 1.5rem 0;
     padding: 1rem;
-    background-color: #f9fbfd;
     border-radius: 8px;
-    box-shadow: 0 3px 6px rgb(0 0 0 / 0.1);
     max-width: 700px;
 
     .post {
@@ -141,7 +139,6 @@
 
     .btn-add-post {
         display: block;
-        margin: 0 auto;
         background-color: #1999d5;
         border: none;
         color: white;
@@ -151,7 +148,6 @@
         font-size: 1rem;
         font-weight: 700;
         transition: background-color 0.3s ease;
-        box-shadow: 0 4px 8px rgb(25 151 213 / 0.35);
 
         &:hover {
             background-color: #137bbf;
