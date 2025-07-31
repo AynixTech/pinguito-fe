@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListCompaniesComponent } from './list-companies/list-companies.component';
-import { DetailCompanyComponent } from './detail-company/detail-company.component';
+import { EditCompanyComponent } from './edit-company/edit-company.component';
 import { CreateCompanyComponent } from './create-company/create-company.component';
 
 const routes: Routes = [
@@ -17,8 +17,8 @@ const routes: Routes = [
                 component: CreateCompanyComponent
             },
             {
-                path: 'detail-company/:uuid',
-                component: DetailCompanyComponent // modifica company esistente
+                path: 'edit-company/:uuid',
+                component: EditCompanyComponent // modifica company esistente
             }
         ]
     }

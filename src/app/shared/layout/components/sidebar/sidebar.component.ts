@@ -132,7 +132,7 @@ export class SidebarComponent implements OnInit {
               { path: '/settings/logs', label: 'Log attività' }
             ]
           },
-          { path: '/profile/my-profile', label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
+          { path: ROUTES.PROFILE.MY_PROFILE, label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
           { path: '/support', label: 'Supporto', icon: 'fa fa-life-ring' }
         ];
         break;
@@ -140,13 +140,13 @@ export class SidebarComponent implements OnInit {
       case 3: // Monitoraggio
         this.menuItems = [
           { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
-          { path: '/companies', label: 'Le mie aziende', icon: 'fa fa-building' },
+          { path: ROUTES.COMPANY.LIST, label: 'Le mie aziende', icon: 'fa fa-building' },
           {
             label: 'Campagne',
             icon: 'fa fa-envelope',
             children: [
-              { path: 'campaigns/list-campaigns', label: 'Tutte le campagne' },
-              { path: 'campaigns/create-campaign', label: 'Crea campagna' }
+              { path: ROUTES.CAMPAIGN.LIST, label: 'Tutte le campagne' },
+              { path: ROUTES.CAMPAIGN.CREATE, label: 'Crea campagna' }
             ]
           },
           {
@@ -167,7 +167,7 @@ export class SidebarComponent implements OnInit {
             ]
           },
           { path: '/notes', label: 'Note e osservazioni', icon: 'fa fa-book' },
-          { path: '/profile/my-profile', label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
+          { path: ROUTES.PROFILE.MY_PROFILE, label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
           { path: '/support', label: 'Supporto', icon: 'fa fa-life-ring' }
         ];
         break;

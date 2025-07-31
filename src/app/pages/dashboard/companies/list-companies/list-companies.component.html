@@ -50,7 +50,8 @@
                     <td>{{ company.legalAddress || '-' }}</td>
                     <td>
                         <div class="actions-buttons">
-                            <button *ngIf="isAdmin" type="button" (click)="detailCompany(company)" title="Modifica" class="action-btn">
+                            <button *ngIf="isAdmin" type="button" (click)="editCompany(company)" title="Modifica"
+                                class="action-btn">
                                 <i class="fa fa-edit"></i>
                             </button>
                             <button *ngIf="isAdmin" type="button" (click)="deleteCompany(company)" title="Elimina"
@@ -73,7 +74,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div *ngIf="company.plan" class="plan-info" >
+                            <div *ngIf="company.plan" class="plan-info">
                                 <strong>Piano:</strong> {{ company?.plan?.name }}
                                 <span *ngIf="company?.plan?.price"> - €{{ company?.plan?.price }}</span>
                             </div>

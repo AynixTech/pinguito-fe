@@ -40,11 +40,11 @@ declare namespace fb {
   }
 }
 @Component({
-  selector: 'app-detail-company',
-  templateUrl: './detail-company.component.html',
-  styleUrls: ['./detail-company.component.scss']
+  selector: 'app-edit-company',
+  templateUrl: './edit-company.component.html',
+  styleUrls: ['./edit-company.component.scss']
 })
-export class DetailCompanyComponent implements OnInit {
+export class EditCompanyComponent implements OnInit {
   companyForm!: FormGroup;
   companyUuid = '';
   usersMonitoring: User[] = [];

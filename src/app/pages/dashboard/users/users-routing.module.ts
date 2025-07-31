@@ -14,7 +14,7 @@ const routes: Routes = [
         component: CreateUserComponent // creazione nuova company
     },
     {
-        path: 'edit/:uuid',
+        path: 'edit-user/:uuid',
         component: EditUserComponent // modifica company esistente
     }
 ];

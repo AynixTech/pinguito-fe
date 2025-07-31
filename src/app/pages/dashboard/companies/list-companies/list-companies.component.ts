@@ -133,12 +133,8 @@ export class ListCompaniesComponent implements OnInit {
     if (this.currentPage < this.totalPages) this.currentPage++;
   }
 
-  detailCompany(company: Company) {
-    if (!company || !company.uuid) {
-      this.toast.error('Azienda non valida', 'Errore');
-      return;
-    }
-    this.router.navigate([ROUTES.COMPANY.DETAILS.replace(':uuid', company.uuid ?? '')]);
+  editCompany(company: Company) {
+    this.router.navigate([ROUTES.COMPANY.EDIT.replace(':uuid', company.uuid ?? '')]);
   }
 
 

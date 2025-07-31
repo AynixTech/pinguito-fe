@@ -6,21 +6,22 @@ export const ROUTES = {
     },
     COMPANY: {
         LIST: '/companies/list-companies',
-        CREATE: '/companies/create',
-        EDIT: '/companies/edit/:uuid',
+        CREATE: '/companies/create-company',
+        EDIT: '/companies/edit-company/:uuid',
         DETAILS: '/companies/details/:uuid'
     },
-    ACCESS_DENIED: '/access-denied',
     USER: {
         LIST: '/users/list-users',
         CREATE: '/users/create-user',
-        EDIT: '/users/edit/:uuid',
+        EDIT: '/users/edit-user/:uuid',
         DETAILS: '/users/details/:uuid'
     },
     CAMPAIGN: {
         LIST: '/campaigns/list-campaigns',
-        CREATE: '/campaigns/create',
-        EDIT: '/campaigns/edit/:uuid',
+        CREATE: '/campaigns/create-campaign',
+        EDIT: '/campaigns/edit-campaign/:uuid',
         DETAILS: '/campaigns/details/:uuid'
     },
+    ACCESS_DENIED: '/access-denied',
+
 }
