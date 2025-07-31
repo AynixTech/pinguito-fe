@@ -59,6 +59,7 @@ export class SidebarComponent implements OnInit {
     if (!item.children) return false;
     return item.children.some((child: any) => this.router.isActive(child.path, true));
   }
+  
   setMenuItemsByRole(roleId: number): void {
     switch (roleId) {
       case 1: // Admin

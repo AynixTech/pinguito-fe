@@ -19,15 +19,16 @@
                         {{ item.label }}
                     </a>
 
-                    <!-- Link genitore con submenu -->
-                    <div *ngIf="item.children" class="parent-link" (click)="toggleItem(item.label)">
+                    <!-- Link genitore -->
+                    <div *ngIf="item.children" class="parent-link" [class.expanded]="isExpanded(item.label)"
+                        (click)="toggleItem(item.label)">
                         <i class="{{ item.icon }}"></i>
                         {{ item.label }}
-                        <i class="fa fa-chevron-right chevron-icon" [class.rotate]="isExpanded(item.label)"></i>
+                        <i class="fa fa-chevron-right chevron-icon"></i>
                     </div>
 
-                    <!-- Submenu -->
-                    <ul *ngIf="item.children && isExpanded(item.label)" class="submenu">
+                    <!-- Submenu animato -->
+                    <ul class="submenu">
                         <li *ngFor="let child of item.children" [class.active]="router.isActive(child.path, false)">
                             <a [routerLink]="child.path" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{ exact: false }">
@@ -35,10 +36,10 @@
                             </a>
                         </li>
                     </ul>
+
                 </li>
             </ul>
-
-
         </div>
     </nav>
 </div>
+  
