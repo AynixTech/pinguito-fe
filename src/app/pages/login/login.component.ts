@@ -87,10 +87,6 @@ export class LoginComponent {
     this.authService.login({ email, password }).subscribe({
       next: ({ token, user }: LoginResponse) => {
         this.authStore.setAuth(user, token);
-        // Show success toastr
-        // Assuming you have ngx-toastr installed and injected as toastr: ToastrService
-        // Add private toastr: ToastrService to the constructor
-        // this.toastr.success('Login effettuato con successo!', 'Successo');
         this.experienceService.getExperienceByUserUuid(user.uuid).subscribe(response => {
           this.experienceStateService.setExperience({ ...response }); // forza l'aggiornamento
         });
