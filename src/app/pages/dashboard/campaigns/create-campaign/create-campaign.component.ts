@@ -234,7 +234,6 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
         this.channels = [];
         //Add experience to user
         this.callGiveExperience('create_campaign');
-
         localStorage.removeItem(this.localStorageKey); // pulisco i dati salvati
       },
       error: (err) => {
