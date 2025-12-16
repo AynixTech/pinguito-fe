@@ -25,7 +25,7 @@ export class LandingComponent {
 
 
   campaigns = [
-    { email: "Scopri le nostre offerte", title: 'Promo Pasqua', city: 'Milano', date: '15/04/2025 14:30', status: 'Inviata', emailsSent: 5200, emailsOpened: 31 },
+    { email: "Scopri le nostre offerte", title: 'Promo Pasqua', city: 'Milano', date: '15/04/2025 14:30', status: 'Inviata', emailsSent: 57200, emailsOpened: 31 },
     { email: "Sconto 20% su tutti i prodotti", title: 'Promo Estate', city: 'Roma', date: '10/04/2025 09:00', status: 'Inviata', emailsSent: 7200, emailsOpened: 42 },
     { email: "Ultimi giorni per il Black Friday", title: 'Black Friday', city: 'Napoli', date: '05/04/2025 12:15', status: 'Inviata', emailsSent: 6800, emailsOpened: 37 },
     { email: "Nuovi arrivi in negozio", title: 'Promo Primavera', city: 'Torino', date: '01/04/2025 10:45', status: 'Inviata', emailsSent: 7900, emailsOpened: 46 },
