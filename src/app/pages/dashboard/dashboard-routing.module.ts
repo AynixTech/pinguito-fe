@@ -6,6 +6,7 @@ import { LandingComponent } from './landing/landing.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from '../../guard/auth.guard';
 import { LogsComponent } from './logs/logs.component';
+import { EmailTestComponent } from './email-test/email-test.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,12 @@ const routes: Routes = [
       {
         path: 'logs',
         component: LogsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['admin'] }
+      },
+      {
+        path: 'email-test',
+        component: EmailTestComponent,
         canActivate: [AuthGuard],
         data: { roles: ['admin'] }
       },

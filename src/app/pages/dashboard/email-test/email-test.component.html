@@ -1,0 +1,102 @@
+<div class="email-test-container">
+  <div class="page-header">
+    <h1><i class="fas fa-envelope"></i> Test Invio Email</h1>
+    <p class="subtitle">Invia email di test utilizzando il sistema di mailer</p>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="to">
+            <i class="fas fa-at"></i> Destinatario
+            <span class="required">*</span>
+          </label>
+          <input 
+            type="email" 
+            id="to"
+            formControlName="to"
+            class="form-control"
+            placeholder="esempio@email.com"
+            [class.is-invalid]="to?.invalid && to?.touched"
+          />
+          <div class="invalid-feedback" *ngIf="to?.invalid && to?.touched">
+            <span *ngIf="to?.errors?.['required']">Email richiesta</span>
+            <span *ngIf="to?.errors?.['email']">Email non valida</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">
+            <i class="fas fa-heading"></i> Oggetto
+            <span class="required">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="subject"
+            formControlName="subject"
+            class="form-control"
+            placeholder="Oggetto dell'email"
+            [class.is-invalid]="subject?.invalid && subject?.touched"
+          />
+          <div class="invalid-feedback" *ngIf="subject?.invalid && subject?.touched">
+            Oggetto richiesto
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            <i class="fas fa-comment-alt"></i> Messaggio
+            <span class="required">*</span>
+          </label>
+          <textarea 
+            id="message"
+            formControlName="message"
+            class="form-control"
+            rows="8"
+            placeholder="Contenuto del messaggio..."
+            [class.is-invalid]="message?.invalid && message?.touched"
+          ></textarea>
+          <div class="invalid-feedback" *ngIf="message?.invalid && message?.touched">
+            Messaggio richiesto
+          </div>
+          <small class="form-text text-muted">
+            <i class="fas fa-info-circle"></i> Il messaggio sarà inserito nel template email predefinito
+          </small>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            [disabled]="loading || emailForm.invalid"
+          >
+            <i class="fas fa-paper-plane" *ngIf="!loading"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="loading"></i>
+            <span *ngIf="!loading">Invia Email</span>
+            <span *ngIf="loading">Invio in corso...</span>
+          </button>
+          
+          <button 
+            type="button" 
+            class="btn btn-secondary"
+            (click)="emailForm.reset()"
+            [disabled]="loading"
+          >
+            <i class="fas fa-redo"></i> Reset
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <h3><i class="fas fa-info-circle"></i> Informazioni</h3>
+    <ul>
+      <li><i class="fas fa-check"></i> L'email verrà inviata utilizzando il template predefinito del sistema</li>
+      <li><i class="fas fa-check"></i> Il nome utente sarà estratto automaticamente dall'email del destinatario</li>
+      <li><i class="fas fa-check"></i> Tutte le email inviate vengono registrate nel sistema</li>
+      <li><i class="fas fa-shield-alt"></i> Endpoint: <code>/api/email/test</code></li>
+    </ul>
+  </div>
+</div>

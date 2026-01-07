@@ -12,6 +12,7 @@ import { ExperienceBarComponent } from '../../components/experience-bar/experien
 import { LeaderboardComponent } from '../../components/leaderboard/leaderboard.component';
 import { ConfirmationDialogComponent } from '../../components/confirmation-dialog/confirmation-dialog.component';
 import { LogsComponent } from './logs/logs.component';
+import { EmailTestComponent } from './email-test/email-test.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { LogsComponent } from './logs/logs.component';
     DashboardComponent,
     LandingComponent,
     LogsComponent,
+    EmailTestComponent,
     PageNotFoundComponent,
   ],
   imports: [

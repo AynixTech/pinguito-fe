@@ -122,7 +122,8 @@ export class SidebarComponent implements OnInit {
             children: [
               { path: '/settings/plans', label: 'Piani e abbonamenti' },
               { path: '/settings/api', label: 'API & integrazioni' },
-              { path: '/settings/logs', label: 'Log attività' }
+              { path: '/settings/logs', label: 'Log attività' },
+              { path: '/email-test', label: 'Test Email' }
             ]
           },
           { path: ROUTES.PROFILE.MY_PROFILE, label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
