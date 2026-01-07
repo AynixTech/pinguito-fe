@@ -54,11 +54,13 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
       name: ['', Validators.required],
       budget: ['', Validators.required],
       description: [''],
+      targetAudience: [''],
       startDate: [null, Validators.required],
       endDate: [null, Validators.required],
       channels: [[], Validators.required],
       status: ['planned', Validators.required],
       aiContentPrompt: ['', Validators.required],
+      generateAiImages: [false],
       numberPosts: [2, [Validators.required, Validators.min(1)]], // Numero di post per giorno
       facebookPosts: this.fb.array([]),
       instagramPosts: this.fb.array([]),
