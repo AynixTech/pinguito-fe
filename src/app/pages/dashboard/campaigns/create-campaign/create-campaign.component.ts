@@ -180,6 +180,7 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
+    this.loader.startLoader(60000); // 60 secondi di timeout per le chiamate AI
     let channels = this.campaignForm.get('channels')?.value || [];
     let postPerDays = this.campaignForm.get('numberPosts')?.value || 0;
 
@@ -191,6 +192,7 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Errore AI:', err);
+        this.loader.stopLoader();
         this.loading = false;
       }
     });

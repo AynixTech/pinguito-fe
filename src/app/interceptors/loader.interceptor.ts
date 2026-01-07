@@ -11,6 +11,12 @@ export class LoaderInterceptor implements HttpInterceptor {
     constructor(private loader: LoaderService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // Escludi le chiamate AI che hanno già il loader gestito manualmente
+        if (req.url.includes('/ai/generate-ai-campaign') || 
+            req.url.includes('/ai/generate-image')) {
+            return next.handle(req);
+        }
+
         // Avvia il loader senza timeout hardcoded
         this.loader.startLoader();
 
