@@ -122,26 +122,106 @@
         <!-- Campi AI generati -->
         <div class="form-group col-100">
             <div class="post-container" *ngIf="channels.includes('facebook')" formArrayName="facebookPosts">
-                <div class="post facebook-post" *ngFor="let post of facebookPosts.controls; let i = index"
-                    [formGroupName]="i">
-                    <h3>Post Facebook {{ i + 1 }}</h3>
+                <h3 class="section-title">
+                    <i class="fab fa-facebook"></i> Post Facebook ({{ facebookPosts.controls.length }})
+                </h3>
+                
+                <div class="posts-grid">
+                    <div class="post-card" *ngFor="let post of facebookPosts.controls; let i = index" [formGroupName]="i">
+                        <div class="post-header" (click)="togglePost('fb-' + i)">
+                            <h4>
+                                <i class="fas fa-calendar-alt"></i>
+                                Post {{ i + 1 }}
+                                <span class="post-date" *ngIf="post.get('scheduledDate')?.value">
+                                    - {{ post.get('scheduledDate')?.value | date:'dd/MM/yyyy HH:mm' }}
+                                </span>
+                            </h4>
+                            <div class="post-actions">
+                                <button class="btn-icon btn-remove" type="button" (click)="removeFacebookPost(i); $event.stopPropagation()" title="Rimuovi">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                <i class="fas" [ngClass]="isPostExpanded('fb-' + i) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                            </div>
+                        </div>
 
-                    <label>Contenuto </label>
-                    <textarea formControlName="aiGeneratedContent" rows="5"></textarea>
+                        <div class="post-body" [class.expanded]="isPostExpanded('fb-' + i)">
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label>Contenuto</label>
+                                    <textarea formControlName="aiGeneratedContent" rows="4"></textarea>
+                                </div>
+                            </div>
 
-                    <label>Sintesi</label>
-                    <textarea formControlName="aiSummary" rows="3"></textarea>
+                            <div class="form-row two-cols">
+                                <div class="form-field">
+                                    <label>Sintesi</label>
+                                    <textarea formControlName="aiSummary" rows="2"></textarea>
+                                </div>
+                                <div class="form-field">
+                                    <label>Parole Chiave</label>
+                                    <input formControlName="aiKeywords" type="text" />
+                                </div>
+                            </div>
 
-                    <label>Parole Chiave</label>
-                    <input formControlName="aiKeywords" type="text" />
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label>Data Programmazione</label>
+                                    <input formControlName="scheduledDate" type="datetime-local" />
+                                </div>
+                            </div>
 
-                    <label>Data Programmazione</label>
-                    <input formControlName="scheduledDate" type="datetime-local" />
-
-                    <button class="btn-remove-post" type="button" (click)="removeFacebookPost(i)">Rimuovi post</button>
-                    <hr />
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label>Immagine</label>
+                                    <div class="image-upload-container">
+                                        <input 
+                                            type="file" 
+                                            #fileInput
+                                            accept="image/*"
+                                            (change)="onFileSelected($event, i)"
+                                            style="display: none"
+                                        />
+                                        
+                                        <button 
+                                            type="button" 
+                                            class="btn-upload"
+                                            (click)="fileInput.click()"
+                                            *ngIf="!post.get('imageUrl')?.value"
+                                        >
+                                            <i class="fas fa-image"></i> Sfoglia immagine
+                                        </button>
+                                        
+                                        <div class="image-preview" *ngIf="post.get('imageUrl')?.value">
+                                            <img [src]="post.get('imageUrl')?.value" alt="Preview" />
+                                            <div class="image-actions">
+                                                <button 
+                                                    type="button" 
+                                                    class="btn-change-image"
+                                                    (click)="fileInput.click()"
+                                                    title="Cambia immagine"
+                                                >
+                                                    <i class="fas fa-sync-alt"></i>
+                                                </button>
+                                                <button 
+                                                    type="button" 
+                                                    class="btn-remove-image"
+                                                    (click)="removeImage(i)"
+                                                    title="Rimuovi immagine"
+                                                >
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button class="btn-add-post" type="button" (click)="addFacebookPost()">Aggiungi post Facebook</button>
+
+                <button class="btn-add-post" type="button" (click)="addFacebookPost()">
+                    <i class="fas fa-plus"></i> Aggiungi post Facebook
+                </button>
             </div>
         </div>
         <div class="buttons col-100">

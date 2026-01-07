@@ -23,6 +23,7 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
   currentCompany: Company | null = null;
   channels: string[] = [];
   currentUser: User | null = null;
+  expandedPosts: Set<string> = new Set(); // Per gestire l'espansione dei post
 
   private companySubscription?: Subscription;
   private formChangesSubscription?: Subscription;
@@ -143,7 +144,9 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
       aiGeneratedContent: [post.aiGeneratedContent || ''],
       aiSummary: [post.aiSummary || ''],
       aiKeywords: [post.aiKeywords || ''],
-      scheduledDate: [post.scheduledDate ? new Date(post.scheduledDate).toISOString().substring(0, 16) : '']
+      scheduledDate: [post.scheduledDate ? new Date(post.scheduledDate).toISOString().substring(0, 16) : ''],
+      imageUrl: [post.imageUrl || ''],
+      imageFile: [null]
     });
   }
 
@@ -163,6 +166,43 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
 
   removeFacebookPost(index: number) {
     this.facebookPosts.removeAt(index);
+    // Rimuovi anche dallo stato espanso
+    this.expandedPosts.delete('fb-' + index);
+  }
+
+  togglePost(postId: string): void {
+    if (this.expandedPosts.has(postId)) {
+      this.expandedPosts.delete(postId);
+    } else {
+      this.expandedPosts.add(postId);
+    }
+  }
+
+  isPostExpanded(postId: string): boolean {
+    return this.expandedPosts.has(postId);
+  }
+
+  onFileSelected(event: any, postIndex: number): void {
+    const file = event.target.files[0];
+    if (file) {
+      const post = this.facebookPosts.at(postIndex);
+      post.patchValue({ imageFile: file });
+
+      // Crea preview dell'immagine
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        post.patchValue({ imageUrl: e.target.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeImage(postIndex: number): void {
+    const post = this.facebookPosts.at(postIndex);
+    post.patchValue({ 
+      imageFile: null,
+      imageUrl: '' 
+    });
   }
 
   generateAIContent(): void {
@@ -225,9 +265,10 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
       endDate: data.endDate ? new Date(data.endDate) : undefined,
       budget: data.budget,
       status: data.status,
-      channels: JSON.stringify(data.channels),
-      facebookPosts: data.facebookPosts,
-      instagramPosts: data.instagramPosts,
+      channels: data.channels, // Non più JSON.stringify, il service lo gestisce
+      facebookPosts: data.facebookPosts || [],
+      instagramPosts: data.instagramPosts || [],
+      tiktokVideos: data.tiktokVideos || []
     };
 
     this.campaignService.createCampaign(saveData).subscribe({
@@ -242,7 +283,8 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Errore durante la creazione della campagna:', err);
-        this.toast.error('Errore durante la creazione della campagna', 'Errore');
+        const errorMsg = err.error?.message || 'Errore durante la creazione della campagna';
+        this.toast.error(errorMsg, 'Errore');
       }
     });
   }
