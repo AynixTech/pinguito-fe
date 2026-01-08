@@ -1,0 +1,94 @@
+<div class="deletion-container">
+  <h1>🗑️ Cancellazione Dati Utente</h1>
+
+  <div class="intro">
+    <p><strong>Attenzione:</strong> La cancellazione dei dati è permanente e irreversibile.</p>
+    <p>
+      Tutti i tuoi dati personali, campagne, statistiche e connessioni ai social media verranno
+      eliminati definitivamente dal nostro sistema entro 30 giorni dalla richiesta.
+    </p>
+  </div>
+
+  <form [formGroup]="deletionForm" (ngSubmit)="onSubmit()" class="deletion-form">
+    <h2>Richiesta di Cancellazione</h2>
+
+    <div class="form-group">
+      <label for="email">Email Account *</label>
+      <input 
+        type="email" 
+        id="email" 
+        formControlName="email"
+        placeholder="your-email@example.com"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="reason">Motivo della Cancellazione (Opzionale)</label>
+      <textarea 
+        id="reason" 
+        formControlName="reason"
+        placeholder="Aiutaci a migliorare: perché vuoi cancellare il tuo account?"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input 
+          type="checkbox" 
+          id="confirmDelete" 
+          formControlName="confirmDelete"
+          required
+        />
+        <label for="confirmDelete">
+          Confermo di voler eliminare definitivamente tutti i miei dati da Pinguito.
+          Comprendo che questa azione è irreversibile.
+        </label>
+      </div>
+    </div>
+
+    <button 
+      type="submit" 
+      class="submit-btn"
+      [disabled]="deletionForm.invalid || submitted"
+    >
+      {{ submitted ? 'Richiesta Inviata' : 'Invia Richiesta di Cancellazione' }}
+    </button>
+  </form>
+
+  <div class="info-section">
+    <h2>Cosa Verrà Eliminato</h2>
+    <ul>
+      <li>Tutti i dati del tuo account utente</li>
+      <li>Informazioni aziendali associate</li>
+      <li>Campagne create e relative statistiche</li>
+      <li>Token di accesso ai social media</li>
+      <li>Log e cronologia attività</li>
+      <li>Dati di fatturazione (conservati solo per obblighi fiscali)</li>
+    </ul>
+  </div>
+
+  <div class="info-section">
+    <h2>Tempistiche</h2>
+    <ul>
+      <li><strong>Entro 24 ore:</strong> Riceverai conferma via email della ricezione della richiesta</li>
+      <li><strong>Entro 7 giorni:</strong> Il tuo account verrà disabilitato</li>
+      <li><strong>Entro 30 giorni:</strong> Tutti i dati verranno eliminati definitivamente</li>
+    </ul>
+  </div>
+
+  <div class="alternative">
+    <h3>💡 Preferisci Scollegare Solo i Social Media?</h3>
+    <p>
+      Se desideri semplicemente revocare l'accesso di Pinguito ai tuoi account social senza
+      eliminare il tuo profilo, puoi:
+    </p>
+    <ul>
+      <li><strong>Da Facebook:</strong> Impostazioni → App e siti web → Rimuovi Pinguito</li>
+      <li><strong>Da Pinguito:</strong> Dashboard → Modifica Azienda → Social Media → Scollega</li>
+    </ul>
+    <p>
+      Oppure contattaci a <strong>support&#64;pinguito.com</strong> per assistenza.
+    </p>
+  </div>
+</div>

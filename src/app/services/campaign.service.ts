@@ -104,7 +104,7 @@ export class CampaignService {
         // Funzione helper per preparare i post senza i file
         const preparePostsWithoutFiles = (posts: any[]) => {
             return posts.map(post => {
-                const { imageFile, ...postData } = post;
+                const { imageFile, imageUrl, ...postData } = post;
                 return postData;
             });
         };

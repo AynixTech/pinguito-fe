@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './shared/layout/layout.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import { DataDeletionComponent } from './pages/data-deletion/data-deletion.component';
 import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
@@ -13,6 +15,14 @@ const routes: Routes = [
     {
         path: 'register',
         component: RegisterComponent,
+    },
+    {
+        path: 'privacy-policy',
+        component: PrivacyPolicyComponent,
+    },
+    {
+        path: 'data-deletion',
+        component: DataDeletionComponent,
     },
     {
         path: '',

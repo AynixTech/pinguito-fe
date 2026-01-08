@@ -29,6 +29,11 @@ export class SocialMediaService {
         return this.http.post(url, data);
     }
 
+    getMetaAppCredentials(companyUuid: string): Observable<any> {
+        const url = `${this.baseUrl}/meta/app-credentials/${companyUuid}`;
+        return this.http.get(url);
+    }
+
     syncMetaToken(data: any): Observable<any> {
         const url = `${this.baseUrl}/meta/sync-meta-token`;
         return this.http.post(url, data);

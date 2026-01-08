@@ -252,7 +252,30 @@ export class CreateCampaignComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.campaignForm.invalid) return;
+    console.log('Submit triggered!');
+    console.log('Form valid:', this.campaignForm.valid);
+    console.log('Form errors:', this.campaignForm.errors);
+    console.log('Form value:', this.campaignForm.value);
+    
+    // Controllo specifico per companyUuid
+    const companyUuid = this.campaignForm.get('companyUuid');
+    if (!companyUuid?.value) {
+      this.toast.warning('Selezionare azienda dal menu in alto', 'Attenzione');
+      return;
+    }
+    
+    // Mostra quali campi sono invalidi
+    Object.keys(this.campaignForm.controls).forEach(key => {
+      const control = this.campaignForm.get(key);
+      if (control?.invalid) {
+        console.log(`Campo invalido: ${key}`, control.errors);
+      }
+    });
+
+    if (this.campaignForm.invalid) {
+      this.toast.error('Compila tutti i campi obbligatori correttamente', 'Form non valido');
+      return;
+    }
 
     const data = this.campaignForm.value;
     console.log('Campagna da salvare:', data);

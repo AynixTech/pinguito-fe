@@ -8,6 +8,7 @@ import { AuthStoreService } from '@services/auth-store.service';
 import { SocialMediaService } from '@services/social-media.service';
 import { ToastrService } from 'ngx-toastr';
 import { ROUTES } from 'app/utils/constants';
+import { environment } from '../../../../../environments/environment';
 declare global {
   interface Window {
     fbAsyncInit: () => void;
@@ -146,14 +147,15 @@ export class EditCompanyComponent implements OnInit {
 
   // 1. Carica SDK di Facebook una sola volta
   async loginWithFacebook() {
-    const appId = this.companyForm.get('metaAppId')?.value;
-    const appSecret = this.companyForm.get('metaAppSecret')?.value;
     const companyId = this.companyUuid || this.route.snapshot.paramMap.get('uuid');
 
-    if (!appId || !appSecret || !companyId) {
-      alert('Compila tutti i campi del form.');
+    if (!companyId) {
+      this.toast.error('Seleziona un\'azienda prima di procedere', 'Errore');
       return;
     }
+
+    this.syncStatus['meta'] = 'loading';
+    const appId = environment.metaAppId; // App ID pubblico da environment
 
     // Carica l'SDK solo se non già caricato
     if (!this.fbSdkLoaded) {
@@ -163,29 +165,39 @@ export class EditCompanyComponent implements OnInit {
     // Login con Facebook
     window.FB.login((response: fb.StatusResponse) => {
       if (response.status === 'connected') {
-        const shortToken = response.authResponse.accessToken;
-        console.log('Short Token:', shortToken);
-        this.syncFacebookToken({ shortToken, companyUuid: this.companyUuid, appId: appId, appSecret: appSecret });
+        const accessToken = response.authResponse.accessToken;
+        console.log('User Access Token:', accessToken);
+        this.syncFacebookToken({ accessToken, companyUuid: companyId });
       } else {
-        alert('Login Facebook annullato o fallito.');
+        this.toast.warning('Login Facebook annullato o fallito', 'Attenzione');
+        this.syncStatus['meta'] = 'error';
       }
     }, {
-      scope: 'pages_show_list,pages_manage_posts,pages_read_engagement,pages_manage_metadata'
+      scope: 'public_profile,email'
     });
   }
-  syncFacebookToken(data: { shortToken: string, companyUuid: string, appId: string, appSecret: string }) {
-
+  syncFacebookToken(data: { accessToken: string, companyUuid: string }) {
     this.SocialMediaService.syncMetaToken(data).subscribe({
       next: (response: any) => {
         console.log('Sincronizzazione Meta riuscita:', response);
+        
+        // Parsa le pagine dalla risposta
+        if (response.metaPagesResponse) {
+          this.metaPageData = JSON.parse(response.metaPagesResponse);
+          console.log('Pagine Facebook:', this.metaPageData);
+        }
+        
         this.companyForm.patchValue({
-          metaShortToken: response.metaShortToken,
+          metaAccessToken: response.metaAccessToken,
         });
-        // this.loadSocialMediaCredentials(companyUuid);
+        
+        this.syncStatus['meta'] = 'success';
+        this.toast.success('Pagine Facebook caricate! Seleziona una pagina.', 'Successo');
       },
       error: (error: MetaSyncError) => {
         console.error('Errore sincronizzazione Meta:', error);
-        alert('Errore durante la sincronizzazione con Facebook.');
+        this.toast.error('Errore durante la sincronizzazione con Facebook', 'Errore');
+        this.syncStatus['meta'] = 'error';
       }
     });
   }

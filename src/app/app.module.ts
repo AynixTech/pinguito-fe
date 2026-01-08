@@ -17,6 +17,8 @@ import localeEs from '@angular/common/locales/es';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import { DataDeletionComponent } from './pages/data-deletion/data-deletion.component';
 import { ToastrModule } from 'ngx-toastr';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
@@ -29,6 +31,8 @@ registerLocaleData(localeEs);
     declarations: [
         LoginComponent,
         RegisterComponent,
+        PrivacyPolicyComponent,
+        DataDeletionComponent,
         LoaderComponent,
         AppComponent
     ],
