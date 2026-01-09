@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmailCampaignService, EmailTemplate } from '../../../../services/email-campaign.service';
 import { CompanyStoreService } from '../../../../services/company-store.service';
 import { ToastService } from '../../../../services/toast.service';
+import { AiService } from '../../../../services/ai.service';
 
 @Component({
   selector: 'app-email-templates',
@@ -16,6 +17,11 @@ export class EmailTemplatesComponent implements OnInit {
   showCreateForm = false;
   editingTemplate: EmailTemplate | null = null;
   isLoading = false;
+  showAiDialog = false;
+  aiPrompt = '';
+  aiTone = 'professional';
+  aiLength = 'medium';
+  generatingAi = false;
   
   templateForm: FormGroup;
   companyUuid: string | null = null;
@@ -26,7 +32,8 @@ export class EmailTemplatesComponent implements OnInit {
     private fb: FormBuilder,
     private emailCampaignService: EmailCampaignService,
     private companyStore: CompanyStoreService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private aiService: AiService
   ) {
     this.templateForm = this.fb.group({
       name: ['', Validators.required],
@@ -197,5 +204,50 @@ export class EmailTemplatesComponent implements OnInit {
     this.editingTemplate = null;
     this.showCreateForm = true;
     this.previewHtml = template.htmlContent;
+  }
+
+  openAiDialog(): void {
+    this.showAiDialog = true;
+    this.aiPrompt = '';
+    this.aiTone = 'professional';
+    this.aiLength = 'medium';
+  }
+
+  closeAiDialog(): void {
+    this.showAiDialog = false;
+    this.aiPrompt = '';
+  }
+
+  generateWithAi(): void {
+    if (!this.aiPrompt.trim()) {
+      this.toastService.showToast('Inserisci una descrizione per generare il template', 'warning');
+      return;
+    }
+
+    this.generatingAi = true;
+    this.aiService.generateEmailTemplate(this.aiPrompt, this.aiTone, this.aiLength).subscribe({
+      next: (result) => {
+        this.generatingAi = false;
+        this.showAiDialog = false;
+        
+        // Popola il form con i dati generati dall'AI
+        this.templateForm.patchValue({
+          name: result.summary || 'Template generato da AI',
+          subject: result.subject,
+          htmlContent: result.htmlContent,
+          variables: result.variables || []
+        });
+        
+        this.previewHtml = result.htmlContent;
+        this.showCreateForm = true;
+        
+        this.toastService.showToast('Template generato con successo dall\'AI!', 'success');
+      },
+      error: (err) => {
+        this.generatingAi = false;
+        console.error('Error generating AI template:', err);
+        this.toastService.showToast('Errore nella generazione del template con AI', 'error');
+      }
+    });
   }
 }

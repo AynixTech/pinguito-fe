@@ -34,4 +34,14 @@ export class AiService {
             { prompt }
         );
     }
+
+    generateEmailTemplate(prompt: string, tone: string = 'professional', length: string = 'medium'): Observable<any> {
+        if (!prompt?.trim()) {
+            throw new Error('Prompt cannot be empty');
+        }
+        return this.http.post<any>(
+            `${this.baseUrl}/generate-email-template`,
+            { prompt, tone, length }
+        );
+    }
 }

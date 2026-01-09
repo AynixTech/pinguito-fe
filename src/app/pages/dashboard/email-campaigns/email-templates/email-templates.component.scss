@@ -41,6 +41,11 @@
       }
     }
   }
+
+  .header-actions {
+    display: flex;
+    gap: 12px;
+  }
 }
 
 .search-box {
@@ -321,6 +326,20 @@
   color: white;
 }
 
+.btn-ai {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
 .empty-state {
   text-align: center;
   padding: 60px 20px;
@@ -336,5 +355,133 @@
   p {
     font-size: 18px;
     margin-bottom: 20px;
+  }
+}
+
+// AI Dialog Styles
+.ai-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.ai-dialog {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+
+  .ai-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 2px solid #e2e8f0;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+
+    h2 {
+      font-size: 22px;
+      color: white;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      i {
+        font-size: 20px;
+      }
+    }
+
+    .btn-close {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .ai-dialog-content {
+    padding: 24px;
+    overflow-y: auto;
+    max-height: calc(90vh - 180px);
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .ai-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 16px;
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      border-radius: 8px;
+      margin-top: 15px;
+
+      i {
+        color: #3b82f6;
+        font-size: 18px;
+        margin-top: 2px;
+      }
+
+      span {
+        color: #1e40af;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+    }
+  }
+
+  .ai-dialog-footer {
+    padding: 20px 24px;
+    border-top: 2px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    background: #f7fafc;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
