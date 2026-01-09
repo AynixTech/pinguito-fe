@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { ListEmailCampaignsComponent } from './list-email-campaigns/list-email-campaigns.component';
 import { CreateEmailCampaignComponent } from './create-email-campaign/create-email-campaign.component';
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
+import { CampaignDetailComponent } from './campaign-detail/campaign-detail.component';
 
 const routes: Routes = [
   { path: 'list', component: ListEmailCampaignsComponent },
   { path: 'create', component: CreateEmailCampaignComponent },
   { path: 'templates', component: EmailTemplatesComponent },
+  { path: ':uuid', component: CampaignDetailComponent },
   { path: '', redirectTo: 'list', pathMatch: 'full' }
 ];
 

@@ -78,6 +78,10 @@ export class EmailCampaignService {
     return this.http.post(`${this.apiUrl}/${uuid}/test`, { testEmail });
   }
 
+  getCampaignLogs(uuid: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${uuid}/logs`);
+  }
+
   // Email Templates
   getAllTemplates(): Observable<EmailTemplate[]> {
     return this.http.get<EmailTemplate[]>(this.templatesUrl);

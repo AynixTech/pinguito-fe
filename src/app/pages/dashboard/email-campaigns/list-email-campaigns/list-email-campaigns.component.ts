@@ -14,6 +14,7 @@ export class ListEmailCampaignsComponent implements OnInit {
   searchTerm = '';
   statusFilter = '';
   companyUuid: string | null = null;
+  companyName: string | null = null;
 
   constructor(
     private emailCampaignService: EmailCampaignService,
@@ -25,6 +26,7 @@ export class ListEmailCampaignsComponent implements OnInit {
     this.companyStore.companyData$.subscribe(company => {
       if (company) {
         this.companyUuid = company.uuid;
+        this.companyName = company.name;
         this.loadCampaigns();
       }
     });
@@ -104,5 +106,27 @@ export class ListEmailCampaignsComponent implements OnInit {
       failed: 'Fallita'
     };
     return labels[status] || status;
+  }
+
+  getFailedCount(campaign: EmailCampaign): number {
+    return (campaign.recipientCount || 0) - (campaign.sentCount || 0);
+  }
+
+  getOpenRate(campaign: EmailCampaign): number {
+    if (!campaign.sentCount || campaign.sentCount === 0) return 0;
+    return Math.round(((campaign.openedCount || 0) / campaign.sentCount) * 100);
+  }
+
+  getClickRate(campaign: EmailCampaign): number {
+    if (!campaign.sentCount || campaign.sentCount === 0) return 0;
+    return Math.round(((campaign.clickedCount || 0) / campaign.sentCount) * 100);
+  }
+
+  showStats(campaign: EmailCampaign): boolean {
+    return ['sent', 'sending', 'failed'].includes(campaign.status);
+  }
+
+  viewCampaign(uuid: string): void {
+    this.router.navigate(['/dashboard/email-campaigns', uuid]);
   }
 }

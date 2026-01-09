@@ -3,6 +3,9 @@
     <h1>
       <i class="fas fa-envelope-open-text"></i>
       Campagne Email
+      <span class="company-badge" *ngIf="companyName">
+        <i class="fas fa-building"></i> {{ companyName }}
+      </span>
     </h1>
     <button class="btn btn-primary" routerLink="/dashboard/email-campaigns/create">
       <i class="fas fa-plus"></i>
@@ -44,7 +47,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let campaign of filteredCampaigns">
+        <tr *ngFor="let campaign of filteredCampaigns" class="clickable-row" (click)="viewCampaign(campaign.uuid!)">
           <td><strong>{{ campaign.name }}</strong></td>
           <td>{{ campaign.subject }}</td>
           <td>{{ campaign.recipientCount || 0 }}</td>
@@ -54,12 +57,37 @@
             </span>
           </td>
           <td>
-            <div class="stats" *ngIf="campaign.status === 'sent'">
-              <span title="Inviati">📧 {{ campaign.sentCount || 0 }}</span>
-              <span title="Aperti">👁 {{ campaign.openedCount || 0 }}</span>
-              <span title="Click">🖱 {{ campaign.clickedCount || 0 }}</span>
+            <div class="stats" *ngIf="showStats(campaign)">
+              <div class="stat-item">
+                <i class="fas fa-paper-plane stat-icon success"></i>
+                <div class="stat-content">
+                  <span class="stat-value">{{ campaign.sentCount || 0 }}</span>
+                  <span class="stat-label">Inviate</span>
+                </div>
+              </div>
+              <div class="stat-item" *ngIf="getFailedCount(campaign) > 0">
+                <i class="fas fa-times-circle stat-icon danger"></i>
+                <div class="stat-content">
+                  <span class="stat-value">{{ getFailedCount(campaign) }}</span>
+                  <span class="stat-label">Non inviate</span>
+                </div>
+              </div>
+              <div class="stat-item" *ngIf="campaign.sentCount && campaign.sentCount > 0">
+                <i class="fas fa-envelope-open stat-icon info"></i>
+                <div class="stat-content">
+                  <span class="stat-value">{{ campaign.openedCount || 0 }} ({{ getOpenRate(campaign) }}%)</span>
+                  <span class="stat-label">Aperte</span>
+                </div>
+              </div>
+              <div class="stat-item" *ngIf="campaign.clickedCount && campaign.clickedCount > 0">
+                <i class="fas fa-mouse-pointer stat-icon warning"></i>
+                <div class="stat-content">
+                  <span class="stat-value">{{ campaign.clickedCount || 0 }} ({{ getClickRate(campaign) }}%)</span>
+                  <span class="stat-label">Click</span>
+                </div>
+              </div>
             </div>
-            <span *ngIf="campaign.status !== 'sent'">-</span>
+            <span class="no-stats" *ngIf="!showStats(campaign)">-</span>
           </td>
           <td>{{ (campaign.sentAt || campaign.createdAt) | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>

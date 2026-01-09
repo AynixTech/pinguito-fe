@@ -5,12 +5,14 @@ import { EmailCampaignsRoutingModule } from './email-campaigns-routing.module';
 import { ListEmailCampaignsComponent } from './list-email-campaigns/list-email-campaigns.component';
 import { CreateEmailCampaignComponent } from './create-email-campaign/create-email-campaign.component';
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
+import { CampaignDetailComponent } from './campaign-detail/campaign-detail.component';
 
 @NgModule({
   declarations: [
     ListEmailCampaignsComponent,
     CreateEmailCampaignComponent,
-    EmailTemplatesComponent
+    EmailTemplatesComponent,
+    CampaignDetailComponent
   ],
   imports: [
     CommonModule,
