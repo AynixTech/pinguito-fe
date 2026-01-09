@@ -1,4 +1,136 @@
 <div class="templates-container">
-  <h1>Template Email</h1>
-  <p>Funzionalità in sviluppo...</p>
+  <div class="header">
+    <h1>
+      <i class="fas fa-file-code"></i>
+      Template Email
+      <span class="company-badge" *ngIf="companyName">
+        <i class="fas fa-building"></i> {{ companyName }}
+      </span>
+    </h1>
+    <button class="btn btn-primary" (click)="openCreateForm()">
+      <i class="fas fa-plus"></i>
+      Nuovo Template
+    </button>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-box" *ngIf="!showCreateForm">
+    <i class="fas fa-search"></i>
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm" 
+      (input)="filterTemplates()"
+      placeholder="Cerca template per nome o oggetto...">
+  </div>
+
+  <!-- Templates List -->
+  <div class="templates-grid" *ngIf="!showCreateForm">
+    <div class="template-card" *ngFor="let template of filteredTemplates">
+      <div class="template-header">
+        <h3>{{ template.name }}</h3>
+        <div class="template-actions">
+          <button class="btn-icon" (click)="openEditForm(template)" title="Modifica">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn-icon" (click)="duplicateTemplate(template)" title="Duplica">
+            <i class="fas fa-copy"></i>
+          </button>
+          <button class="btn-icon btn-delete" (click)="deleteTemplate(template.uuid!)" title="Elimina">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="template-subject">
+        <strong>Oggetto:</strong> {{ template.subject }}
+      </div>
+
+      <div class="template-preview" [innerHTML]="template.htmlContent"></div>
+
+      <div class="template-meta">
+        <span *ngIf="template.variables && template.variables.length > 0">
+          <i class="fas fa-tags"></i>
+          Variabili: {{ template.variables.join(', ') }}
+        </span>
+        <span>
+          <i class="fas fa-calendar"></i>
+          {{ template.createdAt | date: 'dd/MM/yyyy' }}
+        </span>
+      </div>
+    </div>
+
+    <div *ngIf="filteredTemplates.length === 0" class="empty-state">
+      <i class="fas fa-file-code"></i>
+      <p>Nessun template trovato</p>
+      <button class="btn btn-primary" (click)="openCreateForm()">
+        Crea il tuo primo template
+      </button>
+    </div>
+  </div>
+
+  <!-- Create/Edit Form -->
+  <div class="template-form" *ngIf="showCreateForm">
+    <div class="form-header">
+      <h2>
+        <i class="fas fa-file-code"></i>
+        {{ editingTemplate ? 'Modifica Template' : 'Nuovo Template' }}
+      </h2>
+      <button class="btn-close" (click)="closeForm()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="templateForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Nome Template *</label>
+          <input 
+            type="text" 
+            id="name" 
+            formControlName="name" 
+            placeholder="Es: Newsletter Benvenuto"
+            class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Oggetto Email *</label>
+          <input 
+            type="text" 
+            id="subject" 
+            formControlName="subject" 
+            placeholder="Es: Benvenuto in Pinguito!"
+            class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="htmlContent">Contenuto HTML *</label>
+        <textarea 
+          id="htmlContent" 
+          formControlName="htmlContent" 
+          (input)="updatePreview()"
+          rows="15"
+          placeholder="<h1>Ciao {{'{{'}}firstName{{'}}'}}</h1><p>Benvenuto!</p>"
+          class="form-control code-editor"></textarea>
+        <small>
+          Variabili disponibili: {{'{{'}}firstName{{'}}'}}, {{'{{'}}lastName{{'}}'}}, {{'{{'}}company{{'}}'}}, {{'{{'}}email{{'}}'}}
+        </small>
+      </div>
+
+      <div class="preview-section" *ngIf="previewHtml">
+        <h3>Anteprima</h3>
+        <div class="preview-box" [innerHTML]="previewHtml"></div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn" (click)="closeForm()">
+          Annulla
+        </button>
+        <button type="button" class="btn btn-primary" (click)="saveTemplate()" [disabled]="!templateForm.valid">
+          <i class="fas fa-save"></i>
+          {{ editingTemplate ? 'Aggiorna' : 'Crea' }} Template
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

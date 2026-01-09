@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 
 export interface EmailTemplate {
   uuid?: string;
+  companyUuid?: string;
   name: string;
   subject: string;
   htmlContent: string;
@@ -15,6 +16,7 @@ export interface EmailTemplate {
 
 export interface EmailCampaign {
   uuid?: string;
+  companyUuid?: string;
   name: string;
   subject: string;
   templateUuid?: string;

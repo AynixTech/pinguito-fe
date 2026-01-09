@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EmailCampaignService, EmailTemplate } from '../../../../services/email-campaign.service';
 import { ContactService } from '../../../../services/contact.service';
+import { CompanyStoreService } from '../../../../services/company-store.service';
 
 @Component({
   selector: 'app-create-email-campaign',
@@ -26,12 +27,14 @@ export class CreateEmailCampaignComponent implements OnInit {
   previewHtml = '';
   loading = false;
   recipientCount = 0;
+  companyUuid: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private emailCampaignService: EmailCampaignService,
     private contactService: ContactService,
-    private router: Router
+    private router: Router,
+    private companyStore: CompanyStoreService
   ) {
     this.campaignForm = this.fb.group({
       name: ['', Validators.required],
@@ -51,8 +54,13 @@ export class CreateEmailCampaignComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadTemplates();
-    this.loadContacts();
+    this.companyStore.companyData$.subscribe(company => {
+      if (company) {
+        this.companyUuid = company.uuid;
+        this.loadTemplates();
+        this.loadContacts();
+      }
+    });
   }
 
   loadTemplates(): void {
@@ -190,8 +198,14 @@ export class CreateEmailCampaignComponent implements OnInit {
   }
 
   saveDraft(): void {
+    if (!this.companyUuid) {
+      alert('Seleziona una company dal menu in alto a destra');
+      return;
+    }
+
     const campaign = {
       ...this.campaignForm.value,
+      companyUuid: this.companyUuid,
       status: 'draft' as const,
       selectedContactUuids: this.selectedContacts.map(c => c.uuid),
       filters: this.filterForm.value,
@@ -214,12 +228,18 @@ export class CreateEmailCampaignComponent implements OnInit {
   }
 
   sendCampaign(): void {
+    if (!this.companyUuid) {
+      alert('Seleziona una company dal menu in alto a destra');
+      return;
+    }
+
     if (!confirm(`Sei sicuro di voler inviare questa campagna a ${this.recipientCount} contatti?`)) {
       return;
     }
 
     const campaign = {
       ...this.campaignForm.value,
+      companyUuid: this.companyUuid,
       status: 'sending' as const,
       selectedContactUuids: this.selectedContacts.map(c => c.uuid),
       filters: this.filterForm.value,

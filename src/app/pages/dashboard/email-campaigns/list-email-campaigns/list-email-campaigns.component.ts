@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmailCampaignService, EmailCampaign } from '../../../../services/email-campaign.service';
+import { CompanyStoreService } from '../../../../services/company-store.service';
 
 @Component({
   selector: 'app-list-email-campaigns',
@@ -12,21 +13,30 @@ export class ListEmailCampaignsComponent implements OnInit {
   filteredCampaigns: EmailCampaign[] = [];
   searchTerm = '';
   statusFilter = '';
+  companyUuid: string | null = null;
 
   constructor(
     private emailCampaignService: EmailCampaignService,
-    private router: Router
+    private router: Router,
+    private companyStore: CompanyStoreService
   ) {}
 
   ngOnInit(): void {
-    this.loadCampaigns();
+    this.companyStore.companyData$.subscribe(company => {
+      if (company) {
+        this.companyUuid = company.uuid;
+        this.loadCampaigns();
+      }
+    });
   }
 
   loadCampaigns(): void {
+    if (!this.companyUuid) return;
+
     this.emailCampaignService.getAllCampaigns().subscribe({
       next: (campaigns) => {
-        this.campaigns = campaigns;
-        this.filteredCampaigns = campaigns;
+        this.campaigns = campaigns.filter(c => c.companyUuid === this.companyUuid);
+        this.filteredCampaigns = this.campaigns;
       },
       error: (err) => console.error('Error loading campaigns:', err)
     });
