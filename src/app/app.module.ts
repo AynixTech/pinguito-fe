@@ -19,6 +19,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { DataDeletionComponent } from './pages/data-deletion/data-deletion.component';
+import { TermsOfServiceComponent } from './pages/terms-of-service/terms-of-service.component';
 import { ToastrModule } from 'ngx-toastr';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
@@ -33,6 +34,7 @@ registerLocaleData(localeEs);
         RegisterComponent,
         PrivacyPolicyComponent,
         DataDeletionComponent,
+        TermsOfServiceComponent,
         LoaderComponent,
         AppComponent
     ],

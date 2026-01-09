@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { DataDeletionComponent } from './pages/data-deletion/data-deletion.component';
+import { TermsOfServiceComponent } from './pages/terms-of-service/terms-of-service.component';
 import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
@@ -23,6 +24,10 @@ const routes: Routes = [
     {
         path: 'data-deletion',
         component: DataDeletionComponent,
+    },
+    {
+        path: 'terms-of-service',
+        component: TermsOfServiceComponent,
     },
     {
         path: '',
