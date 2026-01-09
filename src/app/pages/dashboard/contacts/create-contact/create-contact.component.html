@@ -1,0 +1,154 @@
+<div class="create-contact-container">
+  <div class="header">
+    <h1>Nuovo Contatto</h1>
+    <button class="btn btn-outline" (click)="cancel()">
+      <i class="fa fa-arrow-left"></i> Indietro
+    </button>
+  </div>
+
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+    
+    <div class="section">
+      <h3><i class="fa fa-user"></i> Informazioni Personali</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nome *</label>
+          <input type="text" formControlName="firstName" placeholder="Mario">
+          <div class="error" *ngIf="submitted && f['firstName'].errors?.['required']">
+            Il nome è obbligatorio
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Cognome *</label>
+          <input type="text" formControlName="lastName" placeholder="Rossi">
+          <div class="error" *ngIf="submitted && f['lastName'].errors?.['required']">
+            Il cognome è obbligatorio
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Data di Nascita</label>
+          <input type="date" formControlName="dateOfBirth">
+        </div>
+
+        <div class="form-group">
+          <label>Genere</label>
+          <select formControlName="gender">
+            <option value="">Seleziona</option>
+            <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><i class="fa fa-envelope"></i> Contatti</h3>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Email *</label>
+          <input type="email" formControlName="email" placeholder="mario.rossi@email.com">
+          <div class="error" *ngIf="submitted && f['email'].errors?.['required']">
+            L'email è obbligatoria
+          </div>
+          <div class="error" *ngIf="submitted && f['email'].errors?.['email']">
+            Inserisci un'email valida
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Prefisso *</label>
+          <select formControlName="phonePrefix">
+            <option *ngFor="let prefix of phonePrefixes" [value]="prefix">{{ prefix }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Numero di Telefono *</label>
+          <input type="tel" formControlName="phoneNumber" placeholder="3331234567">
+          <div class="error" *ngIf="submitted && f['phoneNumber'].errors?.['required']">
+            Il numero è obbligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><i class="fa fa-map-marker-alt"></i> Indirizzo</h3>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Indirizzo</label>
+          <input type="text" formControlName="address" placeholder="Via Roma, 123">
+        </div>
+
+        <div class="form-group">
+          <label>Città *</label>
+          <input type="text" formControlName="city" placeholder="Milano">
+          <div class="error" *ngIf="submitted && f['city'].errors?.['required']">
+            La città è obbligatoria
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>CAP</label>
+          <input type="text" formControlName="zipCode" placeholder="20100">
+        </div>
+
+        <div class="form-group">
+          <label>Paese *</label>
+          <select formControlName="country">
+            <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+          </select>
+          <div class="error" *ngIf="submitted && f['country'].errors?.['required']">
+            Il paese è obbligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><i class="fa fa-briefcase"></i> Informazioni Professionali</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Azienda</label>
+          <input type="text" formControlName="company" placeholder="Nome Azienda">
+        </div>
+
+        <div class="form-group">
+          <label>Posizione Lavorativa</label>
+          <input type="text" formControlName="jobTitle" placeholder="Marketing Manager">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><i class="fa fa-tags"></i> Campagne Marketing</h3>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Interessi</label>
+          <textarea formControlName="interests" rows="3" placeholder="Sport, Tecnologia, Viaggi..."></textarea>
+        </div>
+
+        <div class="form-group full-width">
+          <label>Note</label>
+          <textarea formControlName="notes" rows="3" placeholder="Note aggiuntive sul contatto..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" formControlName="subscribed" id="subscribed">
+            <label for="subscribed">Iscritto alle newsletter</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" (click)="cancel()">Annulla</button>
+      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+        <i class="fa fa-save"></i>
+        {{ isLoading ? 'Salvataggio...' : 'Salva Contatto' }}
+      </button>
+    </div>
+  </form>
+</div>

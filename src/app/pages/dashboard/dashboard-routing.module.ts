@@ -48,6 +48,13 @@ const routes: Routes = [
           import('./profile/profile.module').then(m => m.ProfileModule),
       },
       {
+        path: 'contacts',
+        loadChildren: () =>
+          import('./contacts/contacts.module').then(m => m.ContactsModule),
+        canActivate: [AuthGuard],
+        data: { roles: ['admin', 'monitoring'] }
+      },
+      {
         path: 'logs',
         component: LogsComponent,
         canActivate: [AuthGuard],

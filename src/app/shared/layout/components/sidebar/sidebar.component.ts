@@ -83,6 +83,14 @@ export class SidebarComponent implements OnInit {
             ]
           },
           {
+            label: 'Rubrica Contatti',
+            icon: 'fa fa-address-book',
+            children: [
+              { path: '/dashboard/contacts/list-contacts', label: 'Lista contatti' },
+              { path: '/dashboard/contacts/create-contact', label: 'Nuovo contatto' }
+            ]
+          },
+          {
             label: 'Campagne',
             icon: 'fa fa-envelope',
             children: [

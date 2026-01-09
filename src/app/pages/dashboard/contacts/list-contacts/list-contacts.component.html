@@ -1,0 +1,108 @@
+<div class="contacts-container">
+  <div class="header">
+    <h1>Rubrica Contatti</h1>
+    <div class="actions">
+      <input type="file" #fileInput accept=".csv,.xlsx" (change)="onFileSelected($event)" style="display: none">
+      <button class="btn btn-outline" (click)="fileInput.click()">
+        <i class="fa fa-upload"></i> Importa
+      </button>
+      <button class="btn btn-outline" (click)="exportContacts()">
+        <i class="fa fa-download"></i> Esporta
+      </button>
+      <button class="btn btn-primary" (click)="createContact()">
+        <i class="fa fa-plus"></i> Nuovo Contatto
+      </button>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm" 
+      (input)="filterContacts()"
+      placeholder="Cerca per nome, email, città o azienda..."
+      class="search-input"
+    >
+    <i class="fa fa-search search-icon"></i>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <i class="fa fa-users"></i>
+      <div>
+        <div class="stat-number">{{ contacts.length }}</div>
+        <div class="stat-label">Totale Contatti</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="fa fa-check-circle"></i>
+      <div>
+        <div class="stat-number">{{ selectedContacts.size }}</div>
+        <div class="stat-label">Selezionati</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container" *ngIf="!isLoading">
+    <table class="contacts-table">
+      <thead>
+        <tr>
+          <th>
+            <input 
+              type="checkbox" 
+              [checked]="selectedContacts.size === filteredContacts.length && filteredContacts.length > 0"
+              (change)="toggleSelectAll()"
+            >
+          </th>
+          <th>Nome</th>
+          <th>Cognome</th>
+          <th>Email</th>
+          <th>Telefono</th>
+          <th>Città</th>
+          <th>Paese</th>
+          <th>Azienda</th>
+          <th>Stato</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of filteredContacts">
+          <td>
+            <input 
+              type="checkbox" 
+              [checked]="selectedContacts.has(contact.uuid!)"
+              (change)="toggleSelection(contact.uuid!)"
+            >
+          </td>
+          <td>{{ contact.firstName }}</td>
+          <td>{{ contact.lastName }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.phonePrefix }} {{ contact.phoneNumber }}</td>
+          <td>{{ contact.city }}</td>
+          <td>{{ contact.country }}</td>
+          <td>{{ contact.company || '-' }}</td>
+          <td>
+            <span class="badge" [class.subscribed]="contact.subscribed" [class.unsubscribed]="!contact.subscribed">
+              {{ contact.subscribed ? 'Iscritto' : 'Non iscritto' }}
+            </span>
+          </td>
+          <td class="actions-cell">
+            <button class="btn-icon" (click)="editContact(contact.uuid!)" title="Modifica">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn-icon btn-danger" (click)="deleteContact(contact.uuid!)" title="Elimina">
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredContacts.length === 0">
+          <td colspan="10" class="no-data">Nessun contatto trovato</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <i class="fa fa-spinner fa-spin"></i> Caricamento contatti...
+  </div>
+</div>
