@@ -145,60 +145,103 @@
 <div class="ai-dialog-overlay" *ngIf="showAiDialog" (click)="closeAiDialog()">
   <div class="ai-dialog" (click)="$event.stopPropagation()">
     <div class="ai-dialog-header">
-      <h2>
-        <i class="fas fa-magic"></i>
-        Genera Template con AI
-      </h2>
+      <div class="header-content">
+        <div class="ai-icon-wrapper">
+          <i class="fas fa-magic"></i>
+        </div>
+        <div class="header-text">
+          <h2>Genera Template con AI</h2>
+          <p>Crea email professionali in pochi secondi usando l'intelligenza artificiale</p>
+        </div>
+      </div>
       <button class="btn-close" (click)="closeAiDialog()">
         <i class="fas fa-times"></i>
       </button>
     </div>
 
     <div class="ai-dialog-content">
-      <div class="form-group">
-        <label for="aiPrompt">Descrizione del template email *</label>
-        <textarea 
-          id="aiPrompt" 
-          [(ngModel)]="aiPrompt" 
-          rows="4"
-          placeholder="Es: Email di benvenuto per nuovi clienti che si sono registrati al servizio, include un pulsante call-to-action per iniziare"
-          class="form-control"
-          [disabled]="generatingAi"></textarea>
-        <small>Descrivi dettagliatamente il tipo di email che vuoi generare</small>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="aiTone">Tono</label>
-          <select id="aiTone" [(ngModel)]="aiTone" class="form-control" [disabled]="generatingAi">
-            <option value="professional">Professionale</option>
-            <option value="friendly">Amichevole</option>
-            <option value="enthusiastic">Entusiasta</option>
-            <option value="informative">Informativo</option>
-          </select>
+      <!-- Prompt Section -->
+      <div class="ai-section">
+        <div class="section-header">
+          <i class="fas fa-lightbulb"></i>
+          <h3>Descrizione del Template</h3>
         </div>
-
         <div class="form-group">
-          <label for="aiLength">Lunghezza</label>
-          <select id="aiLength" [(ngModel)]="aiLength" class="form-control" [disabled]="generatingAi">
-            <option value="short">Breve</option>
-            <option value="medium">Media</option>
-            <option value="long">Lunga</option>
-          </select>
+          <textarea 
+            id="aiPrompt" 
+            [(ngModel)]="aiPrompt" 
+            rows="5"
+            placeholder="Esempio: Email di benvenuto per nuovi clienti che si sono registrati al servizio. Include un messaggio caloroso, presenta i principali benefici del servizio e un pulsante call-to-action per iniziare il primo progetto."
+            class="form-control ai-textarea"
+            [disabled]="generatingAi"></textarea>
+          <div class="input-hint">
+            <i class="fas fa-info-circle"></i>
+            <span>Più dettagli fornisci, migliore sarà il risultato. Descrivi lo scopo, il pubblico target e gli elementi chiave da includere.</span>
+          </div>
         </div>
       </div>
 
-      <div class="ai-info">
-        <i class="fas fa-info-circle"></i>
-        <span>L'AI genererà un template HTML completo con stili inline, ottimizzato per i client email.</span>
+      <!-- Settings Section -->
+      <div class="ai-section">
+        <div class="section-header">
+          <i class="fas fa-sliders-h"></i>
+          <h3>Personalizza Stile</h3>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="aiTone">
+              <i class="fas fa-comment-dots"></i>
+              Tono di Voce
+            </label>
+            <select id="aiTone" [(ngModel)]="aiTone" class="form-control select-modern" [disabled]="generatingAi">
+              <option value="professional">🎯 Professionale - Formale e affidabile</option>
+              <option value="friendly">😊 Amichevole - Casual e accessibile</option>
+              <option value="enthusiastic">🎉 Entusiasta - Energico e coinvolgente</option>
+              <option value="informative">📚 Informativo - Chiaro e educativo</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="aiLength">
+              <i class="fas fa-ruler-horizontal"></i>
+              Lunghezza Contenuto
+            </label>
+            <select id="aiLength" [(ngModel)]="aiLength" class="form-control select-modern" [disabled]="generatingAi">
+              <option value="short">📝 Breve - 2-3 paragrafi</option>
+              <option value="medium">📄 Media - 4-5 paragrafi</option>
+              <option value="long">📋 Lunga - 6-8 paragrafi</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features Info -->
+      <div class="ai-features">
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>HTML ottimizzato per email client</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Stili inline responsive</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Variabili personalizzabili incluse</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Design moderno e professionale</span>
+        </div>
       </div>
     </div>
 
     <div class="ai-dialog-footer">
-      <button class="btn" (click)="closeAiDialog()" [disabled]="generatingAi">
+      <button class="btn btn-secondary" (click)="closeAiDialog()" [disabled]="generatingAi">
+        <i class="fas fa-times"></i>
         Annulla
       </button>
-      <button class="btn btn-ai" (click)="generateWithAi()" [disabled]="!aiPrompt.trim() || generatingAi">
+      <button class="btn btn-ai-primary" (click)="generateWithAi()" [disabled]="!aiPrompt.trim() || generatingAi">
         <i class="fas fa-spinner fa-spin" *ngIf="generatingAi"></i>
         <i class="fas fa-magic" *ngIf="!generatingAi"></i>
         {{ generatingAi ? 'Generazione in corso...' : 'Genera Template' }}
