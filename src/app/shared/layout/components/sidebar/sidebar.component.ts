@@ -91,8 +91,17 @@ export class SidebarComponent implements OnInit {
             ]
           },
           {
-            label: 'Campagne',
-            icon: 'fa fa-envelope',
+            label: 'Campagne Email',
+            icon: 'fa fa-envelope-open-text',
+            children: [
+              { path: '/dashboard/email-campaigns/list', label: 'Tutte le campagne' },
+              { path: '/dashboard/email-campaigns/create', label: 'Nuova campagna' },
+              { path: '/dashboard/email-campaigns/templates', label: 'Template' }
+            ]
+          },
+          {
+            label: 'Campagne Social',
+            icon: 'fa fa-share-alt',
             children: [
               { path: ROUTES.CAMPAIGN.LIST, label: 'Tutte le campagne' },
               { path: ROUTES.CAMPAIGN.CREATE, label: 'Crea campagna' }
@@ -145,19 +154,27 @@ export class SidebarComponent implements OnInit {
           { path: '/dashboard', label: 'Dashboard', icon: 'fa fa-home' },
           { path: ROUTES.COMPANY.LIST, label: 'Le mie aziende', icon: 'fa fa-building' },
           {
-            label: 'Campagne',
-            icon: 'fa fa-envelope',
+            label: 'Rubrica Contatti',
+            icon: 'fa fa-address-book',
             children: [
-              { path: ROUTES.CAMPAIGN.LIST, label: 'Tutte le campagne' },
-              { path: ROUTES.CAMPAIGN.CREATE, label: 'Crea campagna' }
+              { path: '/dashboard/contacts/list-contacts', label: 'Lista contatti' },
+              { path: '/dashboard/contacts/create-contact', label: 'Nuovo contatto' }
+            ]
+          },
+          {
+            label: 'Campagne Email',
+            icon: 'fa fa-envelope-open-text',
+            children: [
+              { path: '/dashboard/email-campaigns/list', label: 'Tutte le campagne' },
+              { path: '/dashboard/email-campaigns/create', label: 'Nuova campagna' }
             ]
           },
           {
             label: 'Campagne Social',
-            icon: 'fa fa-bullhorn',
+            icon: 'fa fa-share-alt',
             children: [
-              { path: '/dashboard/campaigns/social/fb-ig', label: 'Facebook / Instagram' },
-              { path: '/dashboard/campaigns/social/tiktok', label: 'TikTok' }
+              { path: ROUTES.CAMPAIGN.LIST, label: 'Tutte le campagne' },
+              { path: ROUTES.CAMPAIGN.CREATE, label: 'Crea campagna' }
             ]
           },
           {

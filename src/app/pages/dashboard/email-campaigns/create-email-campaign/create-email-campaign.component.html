@@ -1,0 +1,280 @@
+<div class="email-campaign-container">
+  <div class="header">
+    <h1>
+      <i class="fas fa-envelope"></i>
+      Crea Campagna Email
+    </h1>
+    <div class="steps">
+      <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+        <span class="step-number">1</span>
+        <span class="step-label">Dettagli</span>
+      </div>
+      <div class="step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
+        <span class="step-number">2</span>
+        <span class="step-label">Destinatari</span>
+      </div>
+      <div class="step" [class.active]="currentStep === 3">
+        <span class="step-number">3</span>
+        <span class="step-label">Verifica & Invia</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 1: Campaign Details -->
+  <div class="step-content" *ngIf="currentStep === 1">
+    <div class="card">
+      <h2>Dettagli Campagna</h2>
+      <form [formGroup]="campaignForm">
+        <div class="form-group">
+          <label for="name">Nome Campagna *</label>
+          <input 
+            type="text" 
+            id="name" 
+            formControlName="name" 
+            placeholder="Es: Newsletter Gennaio 2026"
+            class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Oggetto Email *</label>
+          <input 
+            type="text" 
+            id="subject" 
+            formControlName="subject" 
+            placeholder="Es: Offerte Speciali solo per te!"
+            class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" formControlName="useTemplate">
+            Usa un template esistente
+          </label>
+        </div>
+
+        <div class="form-group" *ngIf="campaignForm.get('useTemplate')?.value">
+          <label for="templateUuid">Seleziona Template</label>
+          <select 
+            id="templateUuid" 
+            formControlName="templateUuid" 
+            (change)="onTemplateChange()"
+            class="form-control">
+            <option value="">-- Seleziona un template --</option>
+            <option *ngFor="let template of templates" [value]="template.uuid">
+              {{ template.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="!campaignForm.get('useTemplate')?.value">
+          <label for="htmlContent">Contenuto HTML *</label>
+          <textarea 
+            id="htmlContent" 
+            formControlName="htmlContent" 
+            rows="10"
+            placeholder="<h1>Ciao {{'{{'}}firstName{{'}}'}}</h1><p>Il tuo contenuto qui...</p>"
+            class="form-control"></textarea>
+          <small>Puoi usare variabili: {{'{{'}}firstName{{'}}'}}, {{'{{'}}lastName{{'}}'}}, {{'{{'}}company{{'}}'}}</small>
+        </div>
+
+        <div class="preview-section" *ngIf="previewHtml">
+          <h3>Anteprima</h3>
+          <div class="preview-box" [innerHTML]="previewHtml"></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" (click)="nextStep()" [disabled]="!campaignForm.valid">
+        Avanti: Seleziona Destinatari
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 2: Select Recipients -->
+  <div class="step-content" *ngIf="currentStep === 2">
+    <div class="card">
+      <h2>Seleziona Destinatari</h2>
+      
+      <div class="filters-section">
+        <h3>Filtri</h3>
+        <form [formGroup]="filterForm">
+          <div class="filters-grid">
+            <div class="form-group">
+              <label for="subscribed">Stato Iscrizione</label>
+              <select id="subscribed" formControlName="subscribed" (change)="applyFilters()" class="form-control">
+                <option [ngValue]="null">Tutti</option>
+                <option [ngValue]="true">Solo iscritti</option>
+                <option [ngValue]="false">Solo disiscritti</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="country">Paese</label>
+              <select id="country" formControlName="country" (change)="applyFilters()" class="form-control">
+                <option value="">Tutti</option>
+                <option *ngFor="let country of availableCountries" [value]="country">{{ country }}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="city">Città</label>
+              <select id="city" formControlName="city" (change)="applyFilters()" class="form-control">
+                <option value="">Tutte</option>
+                <option *ngFor="let city of availableCities" [value]="city">{{ city }}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="interests">Interessi (ricerca)</label>
+              <input 
+                type="text" 
+                id="interests" 
+                formControlName="interests" 
+                (input)="applyFilters()"
+                placeholder="Es: tecnologia, sport..."
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tags</label>
+            <div class="tags-container">
+              <label *ngFor="let tag of availableTags" class="tag-checkbox">
+                <input 
+                  type="checkbox" 
+                  [value]="tag"
+                  (change)="applyFilters()">
+                {{ tag }}
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="recipients-header">
+        <div class="stats">
+          <span class="stat">
+            <strong>{{ filteredContacts.length }}</strong> contatti filtrati
+          </span>
+          <span class="stat selected">
+            <strong>{{ selectedContacts.length }}</strong> selezionati
+          </span>
+        </div>
+        <div class="bulk-actions">
+          <button class="btn btn-sm" (click)="selectAllFiltered()">
+            <i class="fas fa-check-square"></i> Seleziona tutti filtrati
+          </button>
+          <button class="btn btn-sm" (click)="deselectAll()">
+            <i class="fas fa-square"></i> Deseleziona tutti
+          </button>
+        </div>
+      </div>
+
+      <div class="contacts-list">
+        <div 
+          *ngFor="let contact of filteredContacts" 
+          class="contact-item"
+          [class.selected]="isContactSelected(contact)"
+          (click)="toggleContactSelection(contact)">
+          <div class="contact-checkbox">
+            <input type="checkbox" [checked]="isContactSelected(contact)" (click)="$event.stopPropagation()">
+          </div>
+          <div class="contact-info">
+            <strong>{{ contact.firstName }} {{ contact.lastName }}</strong>
+            <span class="email">{{ contact.email }}</span>
+            <div class="contact-meta">
+              <span *ngIf="contact.city">{{ contact.city }}, {{ contact.country }}</span>
+              <span *ngIf="contact.company">{{ contact.company }}</span>
+            </div>
+            <div class="contact-tags" *ngIf="contact.tags && contact.tags.length > 0">
+              <span class="tag" *ngFor="let tag of contact.tags">{{ tag }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="filteredContacts.length === 0" class="empty-state">
+          <i class="fas fa-filter"></i>
+          <p>Nessun contatto corrisponde ai filtri selezionati</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" (click)="prevStep()">
+        <i class="fas fa-arrow-left"></i>
+        Indietro
+      </button>
+      <button class="btn btn-primary" (click)="nextStep()" [disabled]="selectedContacts.length === 0">
+        Avanti: Verifica & Invia
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 3: Review & Send -->
+  <div class="step-content" *ngIf="currentStep === 3">
+    <div class="card">
+      <h2>Verifica & Invia</h2>
+      
+      <div class="summary">
+        <div class="summary-item">
+          <strong>Nome Campagna:</strong>
+          <span>{{ campaignForm.get('name')?.value }}</span>
+        </div>
+        <div class="summary-item">
+          <strong>Oggetto:</strong>
+          <span>{{ campaignForm.get('subject')?.value }}</span>
+        </div>
+        <div class="summary-item">
+          <strong>Destinatari:</strong>
+          <span class="highlight">{{ recipientCount }} contatti</span>
+        </div>
+      </div>
+
+      <div class="preview-section">
+        <h3>Anteprima Email</h3>
+        <div class="email-preview">
+          <div class="email-header">
+            <strong>Da:</strong> info&#64;pinguito.click<br>
+            <strong>Oggetto:</strong> {{ campaignForm.get('subject')?.value }}
+          </div>
+          <div class="email-body" [innerHTML]="campaignForm.get('htmlContent')?.value || previewHtml"></div>
+        </div>
+      </div>
+
+      <div class="recipient-sample">
+        <h3>Primi 10 destinatari</h3>
+        <ul>
+          <li *ngFor="let contact of selectedContacts.slice(0, 10)">
+            {{ contact.firstName }} {{ contact.lastName }} &lt;{{ contact.email }}&gt;
+          </li>
+        </ul>
+        <p *ngIf="selectedContacts.length > 10">
+          ... e altri {{ selectedContacts.length - 10 }} destinatari
+        </p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" (click)="prevStep()">
+        <i class="fas fa-arrow-left"></i>
+        Indietro
+      </button>
+      <button class="btn btn-secondary" (click)="saveDraft()" [disabled]="loading">
+        <i class="fas fa-save"></i>
+        Salva come Bozza
+      </button>
+      <button class="btn btn-success" (click)="sendCampaign()" [disabled]="loading">
+        <i class="fas fa-paper-plane"></i>
+        Invia Ora
+      </button>
+    </div>
+
+    <div class="loading-overlay" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Invio in corso...</p>
+    </div>
+  </div>
+</div>

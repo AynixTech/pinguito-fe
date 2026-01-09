@@ -55,6 +55,13 @@ const routes: Routes = [
         data: { roles: ['admin', 'monitoring'] }
       },
       {
+        path: 'email-campaigns',
+        loadChildren: () =>
+          import('./email-campaigns/email-campaigns.module').then(m => m.EmailCampaignsModule),
+        canActivate: [AuthGuard],
+        data: { roles: ['admin', 'monitoring'] }
+      },
+      {
         path: 'logs',
         component: LogsComponent,
         canActivate: [AuthGuard],
