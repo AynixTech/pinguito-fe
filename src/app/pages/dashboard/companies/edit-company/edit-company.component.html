@@ -144,27 +144,39 @@
 
                         <div class="form-group col-100 instructions">
                             <p>
-                                Clicca su "Collega Facebook" per avviare il processo di autenticazione con Meta.
+                                <strong>Per far funzionare il collegamento automatico:</strong>
                             </p>
+                            <ol style="text-align: left; margin-left: 20px;">
+                                <li>Vai su <a href="https://developers.facebook.com/apps" target="_blank" style="color: #4267B2;">Facebook Developers</a></li>
+                                <li>Seleziona la tua app (App ID: {{ companyForm.get('metaAppId')?.value || environment.metaAppId }})</li>
+                                <li>Vai su <strong>Roles → Test Users</strong> o <strong>Roles → Administrators</strong></li>
+                                <li>Aggiungi il tuo account come <strong>Administrator</strong> o <strong>Developer</strong></li>
+                                <li>Poi clicca sul pulsante qui sotto per collegarti</li>
+                            </ol>
                         </div>
 
-                        <button type="button" class="btn-connect-meta" (click)="loginWithFacebook()">🔗 Collega
-                            Facebook</button>
-
-
-
-                        <div class="form-group col-100">
-                            <label>META Short Token</label>
-                            <input type="text" formControlName="metaShortToken" />
+                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                            <button type="button" class="btn-connect-meta" (click)="loginWithFacebook()">
+                                🔗 Collega Facebook
+                            </button>
+                            
+                            <button type="button" class="btn-connect-meta" (click)="testFacebookPages()" 
+                                    style="background-color: #42a5f5;">
+                                🔍 Test Pagine
+                            </button>
                         </div>
+
+
+
                         <div class="form-group col-100">
                             <label>META Access Token</label>
-                            <input type="text" formControlName="metaAccessToken" />
+                            <input type="text" formControlName="metaAccessToken" readonly 
+                                   placeholder="Generato automaticamente dopo il collegamento" />
                         </div>
+                        
                         <div class="form-group col-50 instructions">
                             <p>
-                                Dopo aver inserito il token, seleziona una pagina Facebook per ottenere le
-                                informazioni del token.
+                                Dopo aver cliccato "Collega Facebook", seleziona una pagina dalla lista qui sotto.
                             </p>
                         </div>
                         <div class="form-group col-100">
@@ -177,6 +189,15 @@
                                     {{ page.name }} ({{ page.id }})
                                 </option>
                             </select>
+                            
+                            <div *ngIf="metaPageData && metaPageData.length === 0" style="color: #f44336; margin-top: 10px;">
+                                ⚠️ Nessuna pagina trovata. Possibili cause:
+                                <ul>
+                                    <li>Essere amministratore di almeno una pagina Facebook</li>
+                                    <li>Aver accettato tutti i permessi durante il login</li>
+                                    <li>Cliccare sul pulsante "🔍 Test Pagine Facebook" per verificare</li>
+                                </ul>
+                            </div>
                         </div>
 
                         <div class="form-group col-100">

@@ -1,0 +1,132 @@
+<div class="landing-page">
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="assets/images/logo.png" alt="Pinguito" class="logo-img" />
+          <span class="logo-text">Pinguito</span>
+        </div>
+        <nav class="nav">
+          <button class="btn btn-outline" (click)="navigateToLogin()">Accedi</button>
+          <button class="btn btn-primary" (click)="navigateToRegister()">Inizia Gratis</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Gestisci le tue campagne pubblicitarie
+          <span class="highlight">come un professionista</span>
+        </h1>
+        <p class="hero-subtitle">
+          Pinguito è la piattaforma all-in-one per creare, monitorare e ottimizzare
+          le tue campagne marketing su tutti i canali social. Risparmia tempo e massimizza i risultati.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" (click)="navigateToRegister()">
+            Inizia Gratuitamente
+          </button>
+          <button class="btn btn-outline btn-lg" (click)="navigateToLogin()">
+            Scopri di più
+          </button>
+        </div>
+        <p class="hero-note">✓ Nessuna carta di credito richiesta · ✓ Setup in 2 minuti</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">Tutto ciò di cui hai bisogno, in un'unica piattaforma</h2>
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let feature of features">
+          <div class="feature-icon">{{ feature.icon }}</div>
+          <h3 class="feature-title">{{ feature.title }}</h3>
+          <p class="feature-description">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">1000+</div>
+          <div class="stat-label">Campagne Attive</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Clienti Soddisfatti</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">95%</div>
+          <div class="stat-label">ROI Medio</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Supporto</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Pronto a far crescere il tuo business?</h2>
+        <p class="cta-subtitle">
+          Unisciti a centinaia di aziende che hanno già scelto Pinguito per le loro campagne
+        </p>
+        <button class="btn btn-primary btn-lg" (click)="navigateToRegister()">
+          Inizia Ora
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="logo">
+            <span class="logo-text">Pinguito</span>
+          </div>
+          <p class="footer-description">
+            La piattaforma completa per la gestione delle tue campagne pubblicitarie
+          </p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Prodotto</h4>
+            <ul>
+              <li><a href="/privacy-policy">Privacy Policy</a></li>
+              <li><a href="/terms-of-service">Termini di Servizio</a></li>
+              <li><a href="/data-deletion">Cancellazione Dati</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Azienda</h4>
+            <ul>
+              <li><a (click)="navigateToLogin()">Chi Siamo</a></li>
+              <li><a (click)="navigateToLogin()">Contatti</a></li>
+              <li><a (click)="navigateToLogin()">Blog</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Pinguito. Tutti i diritti riservati.</p>
+      </div>
+    </div>
+  </footer>
+</div>

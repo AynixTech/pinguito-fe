@@ -1,27 +1,27 @@
 export const ROUTES = {
     LOGIN: '/login',
-    HOME: '/',
+    HOME: '/dashboard',
     PROFILE:{
-        MY_PROFILE: '/profile/my-profile',
+        MY_PROFILE: '/dashboard/profile/my-profile',
     },
     COMPANY: {
-        LIST: '/companies/list-companies',
-        CREATE: '/companies/create-company',
-        EDIT: '/companies/edit-company/:uuid',
-        DETAILS: '/companies/details/:uuid'
+        LIST: '/dashboard/companies/list-companies',
+        CREATE: '/dashboard/companies/create-company',
+        EDIT: '/dashboard/companies/edit-company/:uuid',
+        DETAILS: '/dashboard/companies/details/:uuid'
     },
     USER: {
-        LIST: '/users/list-users',
-        CREATE: '/users/create-user',
-        EDIT: '/users/edit-user/:uuid',
-        DETAILS: '/users/details/:uuid'
+        LIST: '/dashboard/users/list-users',
+        CREATE: '/dashboard/users/create-user',
+        EDIT: '/dashboard/users/edit-user/:uuid',
+        DETAILS: '/dashboard/users/details/:uuid'
     },
     CAMPAIGN: {
-        LIST: '/campaigns/list-campaigns',
-        CREATE: '/campaigns/create-campaign',
-        EDIT: '/campaigns/edit-campaign/:uuid',
-        DETAILS: '/campaigns/details/:uuid'
+        LIST: '/dashboard/campaigns/list-campaigns',
+        CREATE: '/dashboard/campaigns/create-campaign',
+        EDIT: '/dashboard/campaigns/edit-campaign/:uuid',
+        DETAILS: '/dashboard/campaigns/details/:uuid'
     },
-    ACCESS_DENIED: '/access-denied',
+    ACCESS_DENIED: '/dashboard/access-denied',
 
 }

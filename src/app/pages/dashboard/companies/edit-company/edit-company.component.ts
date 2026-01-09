@@ -54,9 +54,12 @@ export class EditCompanyComponent implements OnInit {
   isLoading = true;
   readonlyMode = false;
   activeTab: 'info' | 'plan' | 'monitoring' | 'social-media' = 'info';
+  
+  // Esponi environment al template
+  environment = environment;
 
   opened: Record<string, boolean> = {
-    meta: false,
+    meta: true,
     tiktok: false,
   };
 
@@ -166,33 +169,89 @@ export class EditCompanyComponent implements OnInit {
     window.FB.login((response: fb.StatusResponse) => {
       if (response.status === 'connected') {
         const accessToken = response.authResponse.accessToken;
+        console.log('=== FACEBOOK LOGIN SUCCESSO ===');
         console.log('User Access Token:', accessToken);
+        console.log('Company UUID:', companyId);
+        console.log('Auth Response:', response.authResponse);
+        
         this.syncFacebookToken({ accessToken, companyUuid: companyId });
       } else {
+        console.warn('Login Facebook fallito. Status:', response.status);
         this.toast.warning('Login Facebook annullato o fallito', 'Attenzione');
         this.syncStatus['meta'] = 'error';
       }
     }, {
-      scope: 'public_profile,email'
+      scope: 'public_profile',
+      auth_type: 'rerequest' // Forza a richiedere di nuovo i permessi se precedentemente negati
     });
   }
   syncFacebookToken(data: { accessToken: string, companyUuid: string }) {
+    console.log('=== INVIO AL BACKEND ===');
+    console.log('Payload:', data);
+    
     this.SocialMediaService.syncMetaToken(data).subscribe({
       next: (response: any) => {
-        console.log('Sincronizzazione Meta riuscita:', response);
+        console.log('=== RISPOSTA COMPLETA DAL BACKEND ===');
+        console.log('Response completa:', response);
+        console.log('Type of response:', typeof response);
+        console.log('Response keys:', Object.keys(response));
         
         // Parsa le pagine dalla risposta
         if (response.metaPagesResponse) {
-          this.metaPageData = JSON.parse(response.metaPagesResponse);
-          console.log('Pagine Facebook:', this.metaPageData);
+          console.log('metaPagesResponse trovato:', response.metaPagesResponse);
+          console.log('Type of metaPagesResponse:', typeof response.metaPagesResponse);
+          
+          // Verifica se è già un array o una stringa JSON
+          this.metaPageData = typeof response.metaPagesResponse === 'string' 
+            ? JSON.parse(response.metaPagesResponse) 
+            : response.metaPagesResponse;
+          
+          console.log('Pagine Facebook parsate:', this.metaPageData);
+          console.log('Numero di pagine:', Array.isArray(this.metaPageData) ? this.metaPageData.length : 'Non è un array');
+          
+          // Se metaPageData è un oggetto con una proprietà 'data', usa quella
+          if (this.metaPageData && this.metaPageData.data && Array.isArray(this.metaPageData.data)) {
+            this.metaPageData = this.metaPageData.data;
+            console.log('Estratto array da .data:', this.metaPageData);
+          }
+        } else {
+          console.warn('metaPagesResponse NON trovato nella risposta');
+        }
+        
+        // Parsa anche il metaSyncResponse per avere i dettagli del token
+        if (response.metaSyncResponse) {
+          console.log('metaSyncResponse trovato:', response.metaSyncResponse);
+          console.log('Type of metaSyncResponse:', typeof response.metaSyncResponse);
+          
+          this.metaTokenData = typeof response.metaSyncResponse === 'string'
+            ? JSON.parse(response.metaSyncResponse)
+            : response.metaSyncResponse;
+          
+          console.log('metaTokenData parsato:', this.metaTokenData);
+          
+          if (this.metaTokenData) {
+            this.expiresAtDate = this.formatDate(this.metaTokenData.expires_at);
+            this.dataAccessExpiresAtDate = this.formatDate(this.metaTokenData.data_access_expires_at);
+            console.log('Date formattate - expires_at:', this.expiresAtDate, 'data_access_expires_at:', this.dataAccessExpiresAtDate);
+          }
+        } else {
+          console.warn('metaSyncResponse NON trovato nella risposta');
         }
         
         this.companyForm.patchValue({
+          metaShortToken: response.metaShortToken || data.accessToken,
           metaAccessToken: response.metaAccessToken,
         });
         
+        console.log('Form aggiornato con - shortToken:', response.metaShortToken || data.accessToken, 'accessToken:', response.metaAccessToken);
+        
         this.syncStatus['meta'] = 'success';
-        this.toast.success('Pagine Facebook caricate! Seleziona una pagina.', 'Successo');
+        
+        if (this.metaPageData && Array.isArray(this.metaPageData) && this.metaPageData.length > 0) {
+          this.toast.success(`${this.metaPageData.length} pagine Facebook caricate! Seleziona una pagina.`, 'Successo');
+        } else {
+          this.toast.warning('Nessuna pagina Facebook trovata. Verifica i permessi.', 'Attenzione');
+        }
       },
       error: (error: MetaSyncError) => {
         console.error('Errore sincronizzazione Meta:', error);
@@ -363,6 +422,54 @@ export class EditCompanyComponent implements OnInit {
         this.toast.error('Errore durante il salvataggio della pagina', 'Errore');
       }
     });
+  }
+
+  // Metodo per testare direttamente le pagine da Facebook SDK
+  testFacebookPages(): void {
+    if (!this.fbSdkLoaded) {
+      this.toast.error('SDK Facebook non caricato. Clicca prima su "Collega Facebook"', 'Errore');
+      return;
+    }
+
+    window.FB.api('/me/accounts', (response: any) => {
+      console.log('=== TEST DIRETTO PAGINE FACEBOOK ===');
+      console.log('Response completa:', response);
+      
+      if (response && !response.error) {
+        console.log('Numero di pagine trovate:', response.data?.length || 0);
+        console.log('Pagine:', response.data);
+        
+        if (response.data && response.data.length > 0) {
+          this.toast.success(`${response.data.length} pagine trovate!`, 'Successo');
+        } else {
+          this.toast.warning('Nessuna pagina trovata. Verifica di essere admin di almeno una pagina Facebook.', 'Attenzione');
+        }
+      } else {
+        console.error('Errore:', response.error);
+        this.toast.error('Errore nel recupero delle pagine: ' + (response.error?.message || 'Sconosciuto'), 'Errore');
+      }
+    });
+  }
+
+  // Metodo per estendere il token e caricare le pagine manualmente
+  extendTokenAndGetPages(): void {
+    const shortToken = this.companyForm.get('metaAccessToken')?.value;
+    
+    if (!shortToken) {
+      this.toast.error('Inserisci prima il token da Graph API Explorer', 'Errore');
+      return;
+    }
+    
+    const companyId = this.companyUuid || this.route.snapshot.paramMap.get('uuid');
+    if (!companyId) {
+      this.toast.error('Seleziona un\'azienda prima di procedere', 'Errore');
+      return;
+    }
+    
+    this.syncStatus['meta'] = 'loading';
+    this.toast.info('Estensione token in corso...', 'Info');
+    
+    this.syncFacebookToken({ accessToken: shortToken, companyUuid: companyId });
   }
 
 

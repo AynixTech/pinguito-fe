@@ -65,7 +65,7 @@ export class SidebarComponent implements OnInit {
     switch (roleId) {
       case 1: // Admin
         this.menuItems = [
-          { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
+          { path: '/dashboard', label: 'Dashboard', icon: 'fa fa-home' },
           {
             label: 'Gestione Utenti',
             icon: 'fa fa-users',
@@ -94,47 +94,47 @@ export class SidebarComponent implements OnInit {
             label: 'Campagne Social',
             icon: 'fa fa-bullhorn',
             children: [
-              { path: '/campaigns/social/fb-ig', label: 'Facebook / Instagram' },
-              { path: '/campaigns/social/tiktok', label: 'TikTok' },
-              { path: '/campaigns/social/create', label: 'Crea campagna social' }
+              { path: '/dashboard/campaigns/social/fb-ig', label: 'Facebook / Instagram' },
+              { path: '/dashboard/campaigns/social/tiktok', label: 'TikTok' },
+              { path: '/dashboard/campaigns/social/create', label: 'Crea campagna social' }
             ]
           },
           {
             label: 'Templates',
             icon: 'fa fa-file',
             children: [
-              { path: '/templates/email', label: 'Email Templates' },
-              { path: '/templates/social', label: 'Social Templates' }
+              { path: '/dashboard/templates/email', label: 'Email Templates' },
+              { path: '/dashboard/templates/social', label: 'Social Templates' }
             ]
           },
           {
             label: 'Report',
             icon: 'fa fa-chart-line',
             children: [
-              { path: '/reports/email', label: 'Email' },
-              { path: '/reports/social', label: 'Social' },
-              { path: '/reports/export', label: 'Export' }
+              { path: '/dashboard/reports/email', label: 'Email' },
+              { path: '/dashboard/reports/social', label: 'Social' },
+              { path: '/dashboard/reports/export', label: 'Export' }
             ]
           },
           {
             label: 'Impostazioni',
             icon: 'fa fa-cog',
             children: [
-              { path: '/settings/plans', label: 'Piani e abbonamenti' },
-              { path: '/settings/api', label: 'API & integrazioni' },
-              { path: '/settings/logs', label: 'Log attività' },
-              { path: '/email-test', label: 'Test Email' }
+              { path: '/dashboard/settings/plans', label: 'Piani e abbonamenti' },
+              { path: '/dashboard/settings/api', label: 'API & integrazioni' },
+              { path: '/dashboard/settings/logs', label: 'Log attività' },
+              { path: '/dashboard/email-test', label: 'Test Email' }
             ]
           },
           { path: ROUTES.PROFILE.MY_PROFILE, label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
-          { path: '/logs', label: 'Log attività', icon: 'fa fa-file-alt' },
-          { path: '/support', label: 'Supporto', icon: 'fa fa-life-ring' }
+          { path: '/dashboard/logs', label: 'Log attività', icon: 'fa fa-file-alt' },
+          { path: '/dashboard/support', label: 'Supporto', icon: 'fa fa-life-ring' }
         ];
         break;
 
       case 3: // Monitoraggio
         this.menuItems = [
-          { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
+          { path: '/dashboard', label: 'Dashboard', icon: 'fa fa-home' },
           { path: ROUTES.COMPANY.LIST, label: 'Le mie aziende', icon: 'fa fa-building' },
           {
             label: 'Campagne',
@@ -148,62 +148,62 @@ export class SidebarComponent implements OnInit {
             label: 'Campagne Social',
             icon: 'fa fa-bullhorn',
             children: [
-              { path: '/campaigns/social/fb-ig', label: 'Facebook / Instagram' },
-              { path: '/campaigns/social/tiktok', label: 'TikTok' }
+              { path: '/dashboard/campaigns/social/fb-ig', label: 'Facebook / Instagram' },
+              { path: '/dashboard/campaigns/social/tiktok', label: 'TikTok' }
             ]
           },
           {
             label: 'Report',
             icon: 'fa fa-chart-line',
             children: [
-              { path: '/reports/email', label: 'Email' },
-              { path: '/reports/social', label: 'Social' },
-              { path: '/reports/export', label: 'Esporta' }
+              { path: '/dashboard/reports/email', label: 'Email' },
+              { path: '/dashboard/reports/social', label: 'Social' },
+              { path: '/dashboard/reports/export', label: 'Esporta' }
             ]
           },
-          { path: '/notes', label: 'Note e osservazioni', icon: 'fa fa-book' },
+          { path: '/dashboard/notes', label: 'Note e osservazioni', icon: 'fa fa-book' },
           { path: ROUTES.PROFILE.MY_PROFILE, label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
-          { path: '/support', label: 'Supporto', icon: 'fa fa-life-ring' }
+          { path: '/dashboard/support', label: 'Supporto', icon: 'fa fa-life-ring' }
         ];
         break;
 
       case 2: // Azienda
         this.menuItems = [
-          { path: '/', label: 'Dashboard', icon: 'fa fa-home' },
+          { path: '/dashboard', label: 'Dashboard', icon: 'fa fa-home' },
           {
             label: 'Campagne Email',
             icon: 'fa fa-envelope',
             children: [
-              { path: '/campaigns/email/my', label: 'Le mie campagne' }
+              { path: '/dashboard/campaigns/email/my', label: 'Le mie campagne' }
             ]
           },
           {
             label: 'Campagne Social',
             icon: 'fa fa-bullhorn',
             children: [
-              { path: '/campaigns/social/fb-ig', label: 'Facebook / Instagram' },
-              { path: '/campaigns/social/tiktok', label: 'TikTok' }
+              { path: '/dashboard/campaigns/social/fb-ig', label: 'Facebook / Instagram' },
+              { path: '/dashboard/campaigns/social/tiktok', label: 'TikTok' }
             ]
           },
           {
             label: 'Report',
             icon: 'fa fa-chart-line',
             children: [
-              { path: '/reports/progress', label: 'Andamento campagne' },
-              { path: '/reports/download', label: 'Scarica report' }
+              { path: '/dashboard/reports/progress', label: 'Andamento campagne' },
+              { path: '/dashboard/reports/download', label: 'Scarica report' }
             ]
           },
           {
             label: 'Pagamenti & Piano',
             icon: 'fa fa-credit-card',
             children: [
-              { path: '/billing/invoices', label: 'Fatture' },
-              { path: '/billing/plans', label: 'Piani attivi' }
+              { path: '/dashboard/billing/invoices', label: 'Fatture' },
+              { path: '/dashboard/billing/plans', label: 'Piani attivi' }
             ]
           },
-          { path: '/campaigns/request', label: 'Richiedi una campagna', icon: 'fa fa-plus-circle' },
-          { path: '/profile/my-profile', label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
-          { path: '/support', label: 'Supporto', icon: 'fa fa-life-ring' }
+          { path: '/dashboard/campaigns/request', label: 'Richiedi una campagna', icon: 'fa fa-plus-circle' },
+          { path: '/dashboard/profile/my-profile', label: 'Profilo & Sicurezza', icon: 'fa fa-lock' },
+          { path: '/dashboard/support', label: 'Supporto', icon: 'fa fa-life-ring' }
         ];
         break;
 

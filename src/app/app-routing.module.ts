@@ -6,9 +6,14 @@ import { RegisterComponent } from './pages/register/register.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { DataDeletionComponent } from './pages/data-deletion/data-deletion.component';
 import { TermsOfServiceComponent } from './pages/terms-of-service/terms-of-service.component';
+import { LandingComponent } from './pages/landing/landing.component';
 import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
+    {
+        path: '',
+        component: LandingComponent,
+    },
     {
         path: 'login',
         component: LoginComponent,
@@ -30,7 +35,7 @@ const routes: Routes = [
         component: TermsOfServiceComponent,
     },
     {
-        path: '',
+        path: 'dashboard',
         component: LayoutComponent,
         canActivate: [AuthGuard],
         children: [
@@ -43,7 +48,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'login',
+        redirectTo: '',
     }
 ];
 

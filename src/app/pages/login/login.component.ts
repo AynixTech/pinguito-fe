@@ -46,7 +46,11 @@ export class LoginComponent {
     private authStore: AuthStoreService
   ) {
     // 👉 Se l'utente è già autenticato, reindirizza
-
+    this.authStore.user$.subscribe(user => {
+      if (user) {
+        this.router.navigate([ROUTES.HOME]);
+      }
+    });
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
