@@ -110,16 +110,43 @@
       </div>
 
       <div class="form-group">
-        <label for="htmlContent">Contenuto HTML *</label>
+        <div class="editor-header">
+          <label for="htmlContent">
+            <i class="fas fa-edit"></i>
+            Contenuto Email *
+          </label>
+          <div class="editor-actions">
+            <button type="button" class="btn-editor-mode" (click)="toggleEditorMode()" title="Mostra codice HTML">
+              <i class="fas fa-code"></i>
+              {{ showHtmlCode ? 'Visual' : 'HTML' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Editor WYSIWYG -->
+        <div class="quill-editor-wrapper" *ngIf="!showHtmlCode">
+          <quill-editor 
+            formControlName="htmlContent"
+            [modules]="editorModules"
+            [styles]="editorStyle"
+            (onContentChanged)="onEditorContentChanged($event)"
+            placeholder="Inizia a scrivere il contenuto della tua email...">
+          </quill-editor>
+        </div>
+
+        <!-- Visualizzazione codice HTML -->
         <textarea 
+          *ngIf="showHtmlCode"
           id="htmlContent" 
           formControlName="htmlContent" 
           (input)="updatePreview()"
           rows="15"
           placeholder="<h1>Ciao {{'{{'}}firstName{{'}}'}}</h1><p>Benvenuto!</p>"
           class="form-control code-editor"></textarea>
+          
         <small>
-          Variabili disponibili: {{'{{'}}firstName{{'}}'}}, {{'{{'}}lastName{{'}}'}}, {{'{{'}}company{{'}}'}}, {{'{{'}}email{{'}}'}}
+          <i class="fas fa-info-circle"></i>
+          Puoi usare variabili: {{'{{'}}firstName{{'}}'}}, {{'{{'}}lastName{{'}}'}}, {{'{{'}}company{{'}}'}}, {{'{{'}}email{{'}}'}}
         </small>
       </div>
 

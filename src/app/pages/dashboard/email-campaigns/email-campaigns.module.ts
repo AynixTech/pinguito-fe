@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill';
 import { EmailCampaignsRoutingModule } from './email-campaigns-routing.module';
 import { ListEmailCampaignsComponent } from './list-email-campaigns/list-email-campaigns.component';
 import { CreateEmailCampaignComponent } from './create-email-campaign/create-email-campaign.component';
@@ -18,7 +19,8 @@ import { CampaignDetailComponent } from './campaign-detail/campaign-detail.compo
     CommonModule,
     EmailCampaignsRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    QuillModule.forRoot()
   ]
 })
 export class EmailCampaignsModule { }

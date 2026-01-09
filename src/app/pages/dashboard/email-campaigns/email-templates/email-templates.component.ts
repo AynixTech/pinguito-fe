@@ -28,6 +28,31 @@ export class EmailTemplatesComponent implements OnInit {
   companyName: string | null = null;
   previewHtml = '';
 
+  // Configurazione editor Quill
+  editorModules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'align': [] }],
+      ['link', 'image', 'video'],
+      ['clean']
+    ]
+  };
+
+  editorStyle = {
+    height: '400px',
+    backgroundColor: '#ffffff'
+  };
+
+  showHtmlCode = false;
+
   constructor(
     private fb: FormBuilder,
     private emailCampaignService: EmailCampaignService,
@@ -130,6 +155,14 @@ export class EmailTemplatesComponent implements OnInit {
 
   updatePreview(): void {
     this.previewHtml = this.templateForm.get('htmlContent')?.value || '';
+  }
+
+  toggleEditorMode(): void {
+    this.showHtmlCode = !this.showHtmlCode;
+  }
+
+  onEditorContentChanged(event: any): void {
+    this.updatePreview();
   }
 
   saveTemplate(): void {
