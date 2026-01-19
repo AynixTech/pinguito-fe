@@ -1,4 +1,32 @@
-<div>
+<div class="dashboard-container">
+    <!-- Company Header -->
+    <div class="company-header">
+        <div class="company-logo">
+            <i class="fa fa-building"></i>
+        </div>
+        <div class="company-info">
+            <h1>{{ company?.name || 'Dashboard' }}</h1>
+            <p *ngIf="company?.industry">{{ company?.industry }}</p>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-navigation">
+        <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'socials'"
+            (click)="switchTab('socials')">
+            <i class="fa fa-share-alt"></i> Social Media
+        </button>
+        <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'emails'"
+            (click)="switchTab('emails')">
+            <i class="fa fa-envelope"></i> Email Marketing
+        </button>
+    </div>
+
+    <!-- Stats Boxes -->
     <div class="stats">
         <div class="stat" *ngFor="let stat of stats">
             <div class="icon-container" [style.backgroundColor]="stat.color">
@@ -7,46 +35,216 @@
                 </div>
             </div>
             <h3>{{ stat.label }}</h3>
-            <p>{{ stat.value }}</p>
+            <p>
+                {{ stat.value }}
+                <span class="trend-indicator" *ngIf="stat.trend === 'up'">
+                    <i class="fa fa-arrow-up"></i>
+                </span>
+            </p>
         </div>
     </div>
 
-    <div class="chart">
-        <app-chart-campaign [categories]="months" [openRate]="openRateData" [ctr]="ctrData"
-            [bounceRate]="bounceRateData"></app-chart-campaign>
+    <!-- Audience Demographics for Social (Meta Data) -->
+    <div class="audience-section" *ngIf="activeTab === 'socials'">
+        <h2>Dati Pubblico Meta</h2>
+        <div class="audience-grid">
+            <div class="audience-card">
+                <h3><i class="fa fa-birthday-cake"></i> Età</h3>
+                <div class="demographic-list">
+                    <div class="demographic-item" *ngFor="let age of audienceData.age">
+                        <span class="label">{{ age.range }}</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" [style.width.%]="age.percentage"></div>
+                        </div>
+                        <span class="percentage">{{ age.percentage }}%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="audience-card">
+                <h3><i class="fa fa-globe"></i> Paesi</h3>
+                <div class="demographic-list">
+                    <div class="demographic-item" *ngFor="let country of audienceData.countries">
+                        <span class="label">{{ country.name }}</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" [style.width.%]="country.percentage"></div>
+                        </div>
+                        <span class="percentage">{{ country.percentage }}%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="audience-card">
+                <h3><i class="fa fa-venus-mars"></i> Genere</h3>
+                <div class="demographic-list">
+                    <div class="demographic-item" *ngFor="let gender of audienceData.gender">
+                        <span class="label">{{ gender.type }}</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" [style.width.%]="gender.percentage"></div>
+                        </div>
+                        <span class="percentage">{{ gender.percentage }}%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Email Content -->
+    <div *ngIf="activeTab === 'emails'">
+        <!-- KPI Info Box -->
+        <div class="kpi-info-box">
+            <h3><i class="fa fa-info-circle"></i> KPI - Significato e Valori Indicativi</h3>
+            <div class="kpi-grid">
+                <div class="kpi-item">
+                    <strong>Open Rate:</strong>
+                    <span>Percentuale di email aperte. <em>Buono: >20%</em></span>
+                </div>
+                <div class="kpi-item">
+                    <strong>CTR (Click-Through Rate):</strong>
+                    <span>Percentuale di clic sui link. <em>Buono: >3%</em></span>
+                </div>
+                <div class="kpi-item">
+                    <strong>Bounce Rate:</strong>
+                    <span>Email non consegnate. <em>Buono: <2%</em></span>
+                </div>
+                <div class="kpi-item">
+                    <strong>Click Rate:</strong>
+                    <span>Email cliccate sul totale inviate. <em>Buono: >10%</em></span>
+                </div>
+            </div>
+        </div>
 
-    <div class="campaigns">
-        <h4>Ultime Email</h4>
-        <table>
-            <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Titolo</th>
-                    <th>Città</th>
-                    <th>Data Invio</th>
-                    <th>Status</th>
-                    <th>Email mandate</th>
-                    <th>Email aperte</th>
+        <!-- Chart -->
+        <div class="chart">
+            <app-chart-campaign [categories]="months" [openRate]="openRateData" [ctr]="ctrData"
+                [bounceRate]="bounceRateData"></app-chart-campaign>
+        </div>
 
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let c of campaigns">
-                    <td>{{ c.email }}</td>
-                    <td>{{ c.title }}</td>
-                    <td>{{ c.city }}</td>
-                    <td>{{ c.date }}</td>
-                    <td>
-                        <span class="status-chip" [ngClass]="c?.status?.toLowerCase()">
-                            {{ c?.status }}
-                        </span>
-                    </td>
-                    <td>{{ c?.emailsSent }}</td>
-                    <td>{{ c?.emailsOpened }} %</td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Email Campaigns Table -->
+        <div class="campaigns">
+            <div class="campaigns-header">
+                <h4>Ultime Email</h4>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label><i class="fa fa-map-marker-alt"></i> Città:</label>
+                        <select [(ngModel)]="selectedCity" (change)="filterCampaigns()">
+                            <option value="">Tutte le città</option>
+                            <option *ngFor="let city of availableCities" [value]="city">{{ city }}</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label><i class="fa fa-filter"></i> Status:</label>
+                        <select [(ngModel)]="selectedStatus" (change)="filterCampaigns()">
+                            <option value="">Tutti gli stati</option>
+                            <option *ngFor="let status of availableStatuses" [value]="status">{{ status }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Titolo</th>
+                        <th>Città</th>
+                        <th>Data Invio</th>
+                        <th>Status</th>
+                        <th>Email mandate</th>
+                        <th>% Aperte</th>
+                        <th>% Cliccate</th>
+                        <th>% Non Consegnate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of campaigns">
+                        <td>{{ c.email }}</td>
+                        <td>{{ c.title }}</td>
+                        <td><i class="fa fa-map-marker-alt"></i> {{ c.city }}</td>
+                        <td>{{ c.date }}</td>
+                        <td>
+                            <span class="status-chip" [ngClass]="c?.status?.toLowerCase()">
+                                {{ c?.status }}
+                            </span>
+                        </td>
+                        <td>{{ c?.emailsSent }}</td>
+                        <td class="metric-good">{{ c?.emailsOpened }}%</td>
+                        <td class="metric-excellent">{{ c?.emailsClicked }}%</td>
+                        <td class="metric-warning">{{ c?.emailsNotDelivered }}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <!-- Social Content - Placeholder for future social campaigns table -->
+    <div *ngIf="activeTab === 'socials'" class="social-content">
+        <div class="campaigns">
+            <div class="campaigns-header">
+                <h4>Ultime Campagne Social</h4>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label><i class="fa fa-share-alt"></i> Piattaforma:</label>
+                        <select [(ngModel)]="selectedPlatform" (change)="filterSocialCampaigns()">
+                            <option value="">Tutte le piattaforme</option>
+                            <option *ngFor="let platform of availablePlatforms" [value]="platform">{{ platform }}</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label><i class="fa fa-filter"></i> Status:</label>
+                        <select [(ngModel)]="selectedSocialStatus" (change)="filterSocialCampaigns()">
+                            <option value="">Tutti gli stati</option>
+                            <option *ngFor="let status of availableSocialStatuses" [value]="status">{{ status }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Contenuto</th>
+                        <th>Titolo</th>
+                        <th>Piattaforma</th>
+                        <th>Data Pubblicazione</th>
+                        <th>Status</th>
+                        <th>Impressioni</th>
+                        <th>Mi Piace</th>
+                        <th>Commenti</th>
+                        <th>Condivisioni</th>
+                        <th>% Engagement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of socialCampaigns">
+                        <td class="content-cell">{{ c.content }}</td>
+                        <td>{{ c.title }}</td>
+                        <td>
+                            <span class="platform-badge" [ngClass]="c.platform.toLowerCase()">
+                                <i class="fa" 
+                                   [ngClass]="{
+                                     'fa-facebook': c.platform === 'Facebook',
+                                     'fa-instagram': c.platform === 'Instagram',
+                                     'fa-tiktok': c.platform === 'TikTok',
+                                     'fa-linkedin': c.platform === 'LinkedIn'
+                                   }"></i>
+                                {{ c.platform }}
+                            </span>
+                        </td>
+                        <td>{{ c.date }}</td>
+                        <td>
+                            <span class="status-chip" [ngClass]="c.status.toLowerCase()">
+                                {{ c.status }}
+                            </span>
+                        </td>
+                        <td class="metric-number">{{ c.impressions | number }}</td>
+                        <td class="metric-good">{{ c.likes | number }}</td>
+                        <td class="metric-excellent">{{ c.comments | number }}</td>
+                        <td class="metric-info">{{ c.shares | number }}</td>
+                        <td class="metric-engagement">{{ c.engagement }}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+</div>
