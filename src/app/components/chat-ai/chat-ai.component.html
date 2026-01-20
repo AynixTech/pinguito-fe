@@ -1,0 +1,96 @@
+<div class="chat-ai-container">
+  <!-- Chat Toggle Button -->
+  <button class="chat-toggle-btn" (click)="toggleChat()" [class.open]="isOpen">
+    <i class="fa" [ngClass]="isOpen ? 'fa-times' : 'fa-comments'"></i>
+    <span class="badge" *ngIf="!isOpen && messages.length === 0">Nuovo!</span>
+  </button>
+
+  <!-- Chat Window -->
+  <div class="chat-window" [class.open]="isOpen">
+    <div class="chat-header">
+      <div class="header-content">
+        <div class="avatar">
+          <i class="fa fa-robot"></i>
+        </div>
+        <div class="header-text">
+          <h3>Assistente AI</h3>
+          <span class="status">
+            <span class="status-dot"></span>
+            Online
+          </span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" (click)="clearChat()" title="Nuova conversazione">
+          <i class="fa fa-redo"></i>
+        </button>
+        <button class="btn-icon" (click)="toggleChat()" title="Chiudi">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="chat-messages">
+      <div 
+        class="message" 
+        *ngFor="let message of messages"
+        [class.user-message]="message.isUser"
+        [class.ai-message]="!message.isUser">
+        
+        <div class="message-avatar" *ngIf="!message.isUser">
+          <i class="fa fa-robot"></i>
+        </div>
+        
+        <div class="message-content">
+          <div class="message-bubble">
+            <p [innerHTML]="message.text | nl2br"></p>
+            
+            <!-- Quick suggestions -->
+            <div class="suggestions" *ngIf="message.suggestions && message.suggestions.length > 0">
+              <button 
+                class="suggestion-chip"
+                *ngFor="let suggestion of message.suggestions"
+                (click)="useSuggestion(suggestion)">
+                {{ suggestion }}
+              </button>
+            </div>
+          </div>
+          <span class="message-time">{{ message.timestamp | date:'HH:mm' }}</span>
+        </div>
+
+        <div class="message-avatar" *ngIf="message.isUser">
+          <i class="fa fa-user"></i>
+        </div>
+      </div>
+
+      <!-- Typing indicator -->
+      <div class="message ai-message" *ngIf="isTyping">
+        <div class="message-avatar">
+          <i class="fa fa-robot"></i>
+        </div>
+        <div class="message-content">
+          <div class="message-bubble typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <input 
+        type="text" 
+        [(ngModel)]="userInput"
+        (keydown.enter)="sendMessage()"
+        placeholder="Scrivi un messaggio..."
+        [disabled]="isTyping">
+      <button 
+        class="send-btn" 
+        (click)="sendMessage()"
+        [disabled]="!userInput.trim() || isTyping">
+        <i class="fa fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>

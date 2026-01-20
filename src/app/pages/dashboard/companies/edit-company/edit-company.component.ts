@@ -53,7 +53,7 @@ export class EditCompanyComponent implements OnInit {
   plans: Plan[] = [];
   isLoading = true;
   readonlyMode = false;
-  activeTab: 'info' | 'plan' | 'monitoring' | 'social-media' = 'info';
+  activeTab: 'info' | 'plan' | 'brand' | 'monitoring' | 'social-media' = 'info';
   
   // Esponi environment al template
   environment = environment;
@@ -145,6 +145,16 @@ export class EditCompanyComponent implements OnInit {
       metaSyncResponse: [''],
       metaPageId: [null],
       metaPageAccessToken: [''],
+      // Brand fields
+      brandLogo: [''],
+      brandPrimaryFont: [''],
+      brandSecondaryFont: [''],
+      brandPrimaryColor: ['#667eea'],
+      brandSecondaryColor: ['#764ba2'],
+      brandAccentColor: ['#10b981'],
+      brandMission: [''],
+      brandVision: [''],
+      brandEthics: [''],
     });
   }
 
@@ -536,5 +546,39 @@ export class EditCompanyComponent implements OnInit {
         this.toast.error('Errore durante l\'aggiornamento dell\'azienda', 'Errore');
       }
     });
+  }
+
+  // Brand methods
+  onLogoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      
+      // Validate file size (max 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        this.toast.error('Il file è troppo grande. Dimensione massima: 2MB', 'Errore');
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        this.toast.error('Il file deve essere un\'immagine', 'Errore');
+        return;
+      }
+
+      // Read file as base64
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const base64String = e.target?.result as string;
+        this.companyForm.patchValue({ brandLogo: base64String });
+        this.toast.success('Logo caricato con successo', 'Successo');
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeLogo(): void {
+    this.companyForm.patchValue({ brandLogo: '' });
+    this.toast.info('Logo rimosso', 'Info');
   }
 }

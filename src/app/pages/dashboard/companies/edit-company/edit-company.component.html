@@ -4,6 +4,7 @@
     <nav class="tabs">
         <button type="button" [class.active]="activeTab === 'info'" (click)="activeTab = 'info'">Info</button>
         <button type="button" [class.active]="activeTab === 'plan'" (click)="activeTab = 'plan'">Plan</button>
+        <button type="button" [class.active]="activeTab === 'brand'" (click)="activeTab = 'brand'">Brand</button>
         <button type="button" [class.active]="activeTab === 'monitoring'" (click)="activeTab = 'monitoring'">Monitoring
             user</button>
         <button type="button" [class.active]="activeTab === 'social-media'" (click)="activeTab = 'social-media'">Social
@@ -83,6 +84,143 @@
                             </span>
                         </p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Brand Tab -->
+        <div *ngIf="activeTab === 'brand'" class="tab-content">
+            <div class="form-grid">
+                <div class="form-group col-100">
+                    <h4 class="section-title"><i class="fa fa-palette"></i> Identità Visiva</h4>
+                </div>
+                
+                <div class="form-group col-100">
+                    <label>Logo Aziendale</label>
+                    <div class="logo-upload-container">
+                        <input 
+                            type="file" 
+                            #logoInput
+                            accept="image/*"
+                            (change)="onLogoSelected($event)"
+                            style="display: none"
+                        />
+                        
+                        <div class="logo-preview" *ngIf="companyForm.get('brandLogo')?.value">
+                            <img [src]="companyForm.get('brandLogo')?.value" alt="Logo aziendale" />
+                            <div class="logo-actions">
+                                <button 
+                                    type="button" 
+                                    class="btn-change"
+                                    (click)="logoInput.click()"
+                                    title="Cambia logo"
+                                >
+                                    <i class="fa fa-sync-alt"></i> Cambia
+                                </button>
+                                <button 
+                                    type="button" 
+                                    class="btn-remove"
+                                    (click)="removeLogo()"
+                                    title="Rimuovi logo"
+                                >
+                                    <i class="fa fa-trash-alt"></i> Rimuovi
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button 
+                            type="button" 
+                            class="btn-upload"
+                            (click)="logoInput.click()"
+                            *ngIf="!companyForm.get('brandLogo')?.value"
+                        >
+                            <i class="fa fa-cloud-upload-alt"></i> Carica Logo
+                        </button>
+                    </div>
+                    <small class="hint">Formato consigliato: PNG o SVG trasparente, dimensione max 2MB</small>
+                </div>
+
+                <div class="form-group col-50">
+                    <label>Font Principale</label>
+                    <select formControlName="brandPrimaryFont">
+                        <option value="">Seleziona font</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Open Sans">Open Sans</option>
+                        <option value="Lato">Lato</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Poppins">Poppins</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-50">
+                    <label>Font Secondario</label>
+                    <select formControlName="brandSecondaryFont">
+                        <option value="">Seleziona font</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Open Sans">Open Sans</option>
+                        <option value="Lato">Lato</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Poppins">Poppins</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-100">
+                    <label>Colori Brand</label>
+                    <div class="color-picker-grid">
+                        <div class="color-item">
+                            <label>Primario</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" formControlName="brandPrimaryColor" />
+                                <input type="text" formControlName="brandPrimaryColor" placeholder="#000000" />
+                            </div>
+                        </div>
+                        <div class="color-item">
+                            <label>Secondario</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" formControlName="brandSecondaryColor" />
+                                <input type="text" formControlName="brandSecondaryColor" placeholder="#FFFFFF" />
+                            </div>
+                        </div>
+                        <div class="color-item">
+                            <label>Accent</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" formControlName="brandAccentColor" />
+                                <input type="text" formControlName="brandAccentColor" placeholder="#FF5733" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-100">
+                    <h4 class="section-title"><i class="fa fa-lightbulb"></i> Valori Aziendali</h4>
+                </div>
+
+                <div class="form-group col-100">
+                    <label>Mission</label>
+                    <textarea formControlName="brandMission" rows="4" placeholder="La mission aziendale descrive lo scopo e gli obiettivi principali dell'azienda..."></textarea>
+                    <small class="hint">Descrivi lo scopo e gli obiettivi principali della tua azienda</small>
+                </div>
+
+                <div class="form-group col-100">
+                    <label>Vision</label>
+                    <textarea formControlName="brandVision" rows="4" placeholder="La vision descrive dove l'azienda vuole arrivare nel futuro..."></textarea>
+                    <small class="hint">Descrivi dove vuoi portare la tua azienda nel futuro</small>
+                </div>
+
+                <div class="form-group col-100">
+                    <label>Etica Aziendale</label>
+                    <textarea formControlName="brandEthics" rows="5" placeholder="I principi etici e i valori che guidano l'azienda..."></textarea>
+                    <small class="hint">Descrivi i principi etici e i valori fondamentali che guidano il tuo business</small>
                 </div>
             </div>
         </div>

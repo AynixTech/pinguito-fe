@@ -13,6 +13,8 @@ import { LeaderboardComponent } from '../../components/leaderboard/leaderboard.c
 import { ConfirmationDialogComponent } from '../../components/confirmation-dialog/confirmation-dialog.component';
 import { LogsComponent } from './logs/logs.component';
 import { EmailTestComponent } from './email-test/email-test.component';
+import { ChatAiComponent } from '../../components/chat-ai/chat-ai.component';
+import { Nl2brPipe } from '../../components/chat-ai/nl2br.pipe';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { EmailTestComponent } from './email-test/email-test.component';
     LogsComponent,
     EmailTestComponent,
     PageNotFoundComponent,
+    ChatAiComponent,
+    Nl2brPipe,
   ],
   imports: [
     HighchartsChartModule,
