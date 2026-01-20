@@ -430,3 +430,230 @@
     transform: translateX(0);
   }
 }
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .auth-container {
+    .auth-card {
+      max-width: 800px;
+
+      .left-panel {
+        padding: 40px 30px;
+
+        .logo-container .logo {
+          width: 100px;
+        }
+
+        h3 {
+          font-size: 1.1rem;
+        }
+      }
+
+      .right-panel {
+        padding: 40px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 15px;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+
+    .auth-card {
+      flex-direction: column;
+      max-width: 500px;
+
+      .left-panel {
+        padding: 30px 20px;
+        min-height: auto;
+
+        &::before {
+          width: 300px;
+          height: 300px;
+        }
+
+        .logo-container {
+          margin-bottom: 1rem;
+
+          .logo {
+            width: 80px;
+          }
+
+          span {
+            font-size: 1.5rem;
+          }
+        }
+
+        .pinguino-img {
+          width: 200px;
+        }
+
+        h3 {
+          font-size: 1rem;
+          margin-top: 1rem;
+        }
+      }
+
+      .right-panel {
+        padding: 30px 25px;
+
+        form {
+          .form-group {
+            margin-bottom: 1.25rem;
+
+            label {
+              font-size: 13px;
+            }
+
+            input[type="password"],
+            input[type="email"] {
+              padding: 10px 14px;
+              font-size: 15px;
+            }
+          }
+        }
+
+        button {
+          padding: 12px;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 10px;
+
+    .auth-card {
+      border-radius: 16px;
+
+      .left-panel {
+        padding: 20px 15px;
+
+        .logo-container {
+          margin-bottom: 0.5rem;
+
+          .logo {
+            width: 60px;
+          }
+
+          span {
+            font-size: 1.25rem;
+          }
+        }
+
+        .pinguino-img {
+          width: 150px;
+        }
+
+        h3 {
+          font-size: 0.9rem;
+          margin-top: 0.75rem;
+          br {
+            display: none;
+          }
+        }
+      }
+
+      .right-panel {
+        padding: 25px 20px;
+
+        form {
+          .form-group {
+            margin-bottom: 1rem;
+
+            label {
+              font-size: 12px;
+              margin-bottom: 0.4rem;
+            }
+
+            input[type="password"],
+            input[type="email"] {
+              padding: 10px 12px;
+              font-size: 14px;
+              border-radius: 6px;
+            }
+
+            .remember-me {
+              margin-top: 10px;
+
+              label {
+                font-size: 12px;
+              }
+
+              input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+              }
+            }
+          }
+
+          .alternative-login {
+            margin-top: 1.25rem;
+
+            .or-text {
+              font-size: 12px;
+              margin-bottom: 0.75rem;
+            }
+
+            .social-icons {
+              flex-direction: column;
+              gap: 8px;
+
+              .social-icon {
+                padding: 10px;
+                font-size: 13px;
+                width: 100%;
+              }
+            }
+          }
+
+          .create-account {
+            margin-top: 1.25rem;
+            font-size: 13px;
+          }
+        }
+
+        button {
+          padding: 11px;
+          font-size: 14px;
+          border-radius: 6px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-container {
+    .auth-card {
+      .left-panel {
+        padding: 15px 10px;
+
+        .logo-container .logo {
+          width: 50px;
+        }
+
+        h3 {
+          font-size: 0.85rem;
+        }
+      }
+
+      .right-panel {
+        padding: 20px 15px;
+
+        form .form-group {
+          margin-bottom: 0.875rem;
+        }
+      }
+    }
+  }
+}

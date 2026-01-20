@@ -75,7 +75,15 @@
 
          <div class="form-group col-50">
             <label for="targetAudience">Target</label>
-            <input type="text" id="targetAudience" formControlName="targetAudience" placeholder="es. Giovani adulti 18-25" />
+            <select id="targetAudience" formControlName="targetAudience">
+                <option value="">Seleziona fascia d'età</option>
+                <option value="13-17">13-17 anni</option>
+                <option value="18-24">18-24 anni</option>
+                <option value="25-34">25-34 anni</option>
+                <option value="35-44">35-44 anni</option>
+                <option value="45-54">45-54 anni</option>
+                <option value="55+">55+ anni</option>
+            </select>
         </div>
 
         <div class="form-group col-100">
